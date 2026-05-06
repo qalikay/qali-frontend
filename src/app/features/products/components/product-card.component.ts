@@ -2,7 +2,7 @@ import { CurrencyPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { ProductSummary } from '../models/product.models';
+import { Insumo } from '../models/product.models';
 import { BadgeComponent } from '../../../shared/components/badge/badge.component';
 import { IconComponent } from '../../../shared/icons/icon.component';
 
@@ -17,10 +17,10 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       class="card overflow-hidden flex flex-col transition-shadow hover:shadow-sm"
     >
       <div class="relative aspect-[4/3] bg-[var(--color-surface-muted)]">
-        @if (product().imageUrl) {
+        @if (product().imagenUrl) {
           <img
-            [src]="product().imageUrl"
-            [alt]="product().name"
+            [src]="product().imagenUrl"
+            [alt]="product().nombre"
             loading="lazy"
             class="h-full w-full object-cover"
           />
@@ -31,10 +31,12 @@ import { IconComponent } from '../../../shared/icons/icon.component';
             <app-icon name="package" [size]="48" />
           </div>
         }
-        <div class="absolute top-2 left-2 flex gap-1">
-          <app-badge tone="brand">{{ humanType() }}</app-badge>
-        </div>
-        @if (product().stock <= 0) {
+        @if (product().tipo) {
+          <div class="absolute top-2 left-2 flex gap-1">
+            <app-badge tone="brand">{{ humanType() }}</app-badge>
+          </div>
+        }
+        @if (esAgotado()) {
           <div class="absolute top-2 right-2">
             <app-badge tone="warning">Agotado</app-badge>
           </div>
@@ -43,11 +45,13 @@ import { IconComponent } from '../../../shared/icons/icon.component';
 
       <div class="flex-1 p-4">
         <h3 class="text-base font-semibold text-[var(--color-ink-900)] line-clamp-2">
-          {{ product().name }}
+          {{ product().nombre }}
         </h3>
-        <p class="mt-1 text-sm text-[var(--color-ink-500)] line-clamp-2">
-          {{ product().shortDescription }}
-        </p>
+        @if (product().descripcion) {
+          <p class="mt-1 text-sm text-[var(--color-ink-500)] line-clamp-2">
+            {{ product().descripcion }}
+          </p>
+        }
       </div>
 
       <div
@@ -55,20 +59,35 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       >
         <div class="text-[var(--color-ink-500)] truncate flex items-center gap-1.5">
           <app-icon name="user" [size]="14" />
-          <span class="truncate">{{ product().sellerFullName }}</span>
+          <span class="truncate">{{ sellerName() }}</span>
         </div>
         <span class="font-semibold text-[var(--color-ink-900)]">
-          {{ product().price | currency: 'PEN' : 'symbol-narrow' : '1.2-2' : 'es-PE' }}
+          @if ((product().precio ?? 0) > 0) {
+            {{ product().precio | currency: 'PEN' : 'symbol-narrow' : '1.2-2' : 'es-PE' }}
+          } @else {
+            <span class="text-[var(--color-brand-700)]">Consultar</span>
+          }
         </span>
       </div>
     </a>
   `,
 })
 export class ProductCardComponent {
-  readonly product = input.required<ProductSummary>();
+  readonly product = input.required<Insumo>();
 
   protected readonly humanType = computed(() => {
-    const t = this.product().type;
+    const t = this.product().tipo;
     return t ? t.charAt(0) + t.slice(1).toLowerCase() : '';
+  });
+
+  protected readonly esAgotado = computed(() => {
+    const p = this.product();
+    return p.estado === 'AGOTADO' || (p.stock !== undefined && p.stock <= 0);
+  });
+
+  protected readonly sellerName = computed(() => {
+    const e = this.product().experto;
+    if (!e) return 'Experto QaliKay';
+    return `${e.nombres ?? ''} ${e.apellidos ?? ''}`.trim() || 'Experto QaliKay';
   });
 }

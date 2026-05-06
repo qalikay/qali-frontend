@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
 
-const ACCESS_TOKEN_KEY = 'qalikay.accessToken';
-const REFRESH_TOKEN_KEY = 'qalikay.refreshToken';
+const ACCESS_TOKEN_KEY = 'qalikay.jwt';
 const USER_KEY = 'qalikay.user';
 
 @Injectable({ providedIn: 'root' })
 export class TokenStorageService {
   getAccessToken(): string | null {
     return this.safeGet(ACCESS_TOKEN_KEY);
-  }
-
-  getRefreshToken(): string | null {
-    return this.safeGet(REFRESH_TOKEN_KEY);
   }
 
   getUser<T>(): T | null {
@@ -24,19 +19,13 @@ export class TokenStorageService {
     }
   }
 
-  saveSession(accessToken: string, refreshToken: string, user: unknown): void {
-    this.safeSet(ACCESS_TOKEN_KEY, accessToken);
-    this.safeSet(REFRESH_TOKEN_KEY, refreshToken);
+  saveSession(jwt: string, user: unknown): void {
+    this.safeSet(ACCESS_TOKEN_KEY, jwt);
     this.safeSet(USER_KEY, JSON.stringify(user));
-  }
-
-  updateAccessToken(accessToken: string): void {
-    this.safeSet(ACCESS_TOKEN_KEY, accessToken);
   }
 
   clear(): void {
     this.safeRemove(ACCESS_TOKEN_KEY);
-    this.safeRemove(REFRESH_TOKEN_KEY);
     this.safeRemove(USER_KEY);
   }
 

@@ -3,46 +3,43 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
-import { PageResponse } from '../../../core/models/api.models';
-import {
-  ProductRequest,
-  ProductResponse,
-  ProductSearchParams,
-  ProductSummary,
-} from '../models/product.models';
+import { CrearInsumoRequest, Insumo, ProductSearchParams } from '../models/product.models';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiUrl}/products`;
+  private readonly baseUrl = environment.apiUrl;
 
-  list(params: ProductSearchParams = {}): Observable<PageResponse<ProductSummary>> {
+  /** Lista publica de insumos. */
+  list(params: ProductSearchParams = {}): Observable<Insumo[]> {
     let httpParams = new HttpParams();
-    if (params.categoryId !== undefined)
-      httpParams = httpParams.set('categoryId', params.categoryId);
-    if (params.type) httpParams = httpParams.set('type', params.type);
-    if (params.q) httpParams = httpParams.set('q', params.q);
-    if (params.minPrice !== undefined) httpParams = httpParams.set('minPrice', params.minPrice);
-    if (params.maxPrice !== undefined) httpParams = httpParams.set('maxPrice', params.maxPrice);
-    if (params.page !== undefined) httpParams = httpParams.set('page', params.page);
-    if (params.size !== undefined) httpParams = httpParams.set('size', params.size);
-    if (params.sort) httpParams = httpParams.set('sort', params.sort);
-    return this.http.get<PageResponse<ProductSummary>>(this.baseUrl, { params: httpParams });
+    if (params.categoriaId !== undefined && params.categoriaId !== null) {
+      httpParams = httpParams.set('categoriaId', params.categoriaId);
+    }
+    if (params.tipo) httpParams = httpParams.set('tipo', params.tipo);
+    if (params.q && params.q.trim()) httpParams = httpParams.set('q', params.q.trim());
+    return this.http.get<Insumo[]>(`${this.baseUrl}/insumos`, { params: httpParams });
   }
 
-  getById(id: number): Observable<ProductResponse> {
-    return this.http.get<ProductResponse>(`${this.baseUrl}/${id}`);
+  getById(id: number): Observable<Insumo> {
+    return this.http.get<Insumo>(`${this.baseUrl}/insumos/${id}`);
   }
 
-  create(payload: ProductRequest): Observable<ProductResponse> {
-    return this.http.post<ProductResponse>(this.baseUrl, payload);
+  // ---- ENDPOINTS DEL EXPERTO ----
+
+  listMine(): Observable<Insumo[]> {
+    return this.http.get<Insumo[]>(`${this.baseUrl}/experto/insumos`);
   }
 
-  update(id: number, payload: ProductRequest): Observable<ProductResponse> {
-    return this.http.put<ProductResponse>(`${this.baseUrl}/${id}`, payload);
+  create(payload: CrearInsumoRequest): Observable<Insumo> {
+    return this.http.post<Insumo>(`${this.baseUrl}/experto/insumos`, payload);
+  }
+
+  update(id: number, payload: CrearInsumoRequest): Observable<Insumo> {
+    return this.http.put<Insumo>(`${this.baseUrl}/experto/insumos/${id}`, payload);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/experto/insumos/${id}`);
   }
 }

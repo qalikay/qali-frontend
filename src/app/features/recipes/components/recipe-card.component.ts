@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-import { RecipeSummary } from '../models/recipe.models';
+import { Receta } from '../models/recipe.models';
 import { BadgeComponent } from '../../../shared/components/badge/badge.component';
 import { IconComponent } from '../../../shared/icons/icon.component';
 
@@ -17,10 +17,10 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       class="card overflow-hidden flex flex-col transition-shadow hover:shadow-sm"
     >
       <div class="relative aspect-[4/3] bg-[var(--color-surface-muted)]">
-        @if (recipe().imageUrl) {
+        @if (recipe().imagenUrl) {
           <img
-            [src]="recipe().imageUrl"
-            [alt]="recipe().title"
+            [src]="recipe().imagenUrl"
+            [alt]="recipe().titulo"
             loading="lazy"
             class="h-full w-full object-cover"
           />
@@ -31,17 +31,24 @@ import { IconComponent } from '../../../shared/icons/icon.component';
             <app-icon name="leaf" [size]="48" />
           </div>
         }
-        <div class="absolute top-2 left-2">
-          <app-badge tone="brand">{{ humanCategory() }}</app-badge>
-        </div>
+        @if (categoria()) {
+          <div class="absolute top-2 left-2">
+            <app-badge tone="brand">{{ categoria() }}</app-badge>
+          </div>
+        }
+        @if (esBorrador()) {
+          <div class="absolute top-2 right-2">
+            <app-badge tone="warning">Borrador</app-badge>
+          </div>
+        }
       </div>
 
       <div class="flex-1 p-4">
         <h3 class="text-base font-semibold text-[var(--color-ink-900)] line-clamp-2">
-          {{ recipe().title }}
+          {{ recipe().titulo }}
         </h3>
         <p class="mt-1 text-sm text-[var(--color-ink-500)] line-clamp-2">
-          {{ recipe().shortDescription }}
+          {{ recipe().descripcion }}
         </p>
       </div>
 
@@ -50,16 +57,12 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       >
         <div class="text-[var(--color-ink-500)] truncate flex items-center gap-1.5">
           <app-icon name="user" [size]="14" />
-          <span class="truncate">{{ recipe().authorFullName }}</span>
+          <span class="truncate">{{ autorNombre() }}</span>
         </div>
-        <div class="flex items-center gap-3">
-          <span class="inline-flex items-center gap-1 text-[var(--color-ink-500)] text-xs">
-            <app-icon name="eye" [size]="13" />
-            {{ recipe().views }}
-          </span>
+        <div>
           <span class="font-semibold text-[var(--color-ink-900)]">
-            @if (recipe().price > 0) {
-              {{ recipe().price | currency: 'PEN' : 'symbol-narrow' : '1.2-2' : 'es-PE' }}
+            @if ((recipe().precio ?? 0) > 0) {
+              {{ recipe().precio | currency: 'PEN' : 'symbol-narrow' : '1.2-2' : 'es-PE' }}
             } @else {
               <span class="text-[var(--color-brand-700)]">Gratis</span>
             }
@@ -70,10 +73,13 @@ import { IconComponent } from '../../../shared/icons/icon.component';
   `,
 })
 export class RecipeCardComponent {
-  readonly recipe = input.required<RecipeSummary>();
+  readonly recipe = input.required<Receta>();
 
-  protected readonly humanCategory = computed(() => {
-    const name = this.recipe().categoryName ?? '';
-    return name ? name.charAt(0) + name.slice(1).toLowerCase() : '';
+  protected readonly categoria = computed(() => this.recipe().categoria?.nombre ?? '');
+  protected readonly autorNombre = computed(() => {
+    const e = this.recipe().experto;
+    if (!e) return 'Experto QaliKay';
+    return `${e.nombres ?? ''} ${e.apellidos ?? ''}`.trim() || 'Experto QaliKay';
   });
+  protected readonly esBorrador = computed(() => this.recipe().estado === 'BORRADOR');
 }

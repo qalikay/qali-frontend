@@ -1,80 +1,45 @@
-export type TipoInsumo =
-  | 'HOJAS'
-  | 'RAIZ'
-  | 'FLOR'
-  | 'FRUTO'
-  | 'SEMILLA'
-  | 'CORTEZA'
-  | 'ACEITE'
-  | 'MIEL'
-  | 'EXTRACTO'
-  | 'POLVO'
-  | 'OTRO';
+import { Categoria } from '../../../core/models/catalog.models';
 
-export type EstadoInsumo = 'DISPONIBLE' | 'AGOTADO' | 'DESCONTINUADO';
+export type TipoInsumo = 'HIERBA' | 'ACEITE' | 'EXTRACTO' | 'POLVO' | 'OTRO';
+export type EstadoInsumo = 'DISPONIBLE' | 'AGOTADO';
 
-export interface ProductRequest {
-  name: string;
-  shortDescription: string;
-  description?: string;
-  imageUrl?: string;
-  price: number;
-  stock: number;
-  unit?: string;
-  type: TipoInsumo;
-  categoryId: number;
+export interface InsumoExpertoMini {
+  id: number;
+  nombres: string;
+  apellidos: string;
+  username?: string;
 }
 
-export interface ProductSellerDto {
+export interface Insumo {
   id: number;
-  firstName: string;
-  lastName: string;
-  specialty?: string;
+  nombre: string;
+  descripcion?: string;
+  precio?: number;
+  stock?: number;
+  unidad?: string;
+  tipo?: TipoInsumo | string;
+  imagenUrl?: string;
+  estado?: EstadoInsumo;
+  categoria?: Categoria;
+  experto?: InsumoExpertoMini;
 }
 
-export interface ProductCategoryDto {
-  id: number;
-  name: string;
-  icon?: string;
-}
-
-export interface ProductResponse {
-  id: number;
-  name: string;
-  shortDescription: string;
-  description?: string;
-  imageUrl?: string;
-  price: number;
-  stock: number;
-  unit?: string;
-  type: TipoInsumo;
-  status: EstadoInsumo;
-  createdAt: string;
-  updatedAt: string;
-  seller: ProductSellerDto;
-  category: ProductCategoryDto;
-}
-
-export interface ProductSummary {
-  id: number;
-  name: string;
-  shortDescription: string;
-  imageUrl?: string;
-  price: number;
-  stock: number;
-  type: TipoInsumo;
-  unit?: string;
-  categoryName: string;
-  sellerFullName: string;
+export interface CrearInsumoRequest {
+  nombre: string;
+  descripcion?: string;
+  precio?: number;
+  stock?: number;
+  unidad?: string;
+  tipo?: TipoInsumo | string;
+  imagenUrl?: string;
+  categoriaId?: number;
 }
 
 export interface ProductSearchParams {
-  categoryId?: number;
-  type?: TipoInsumo;
+  categoriaId?: number;
+  tipo?: string;
   q?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  page?: number;
-  size?: number;
-  sort?: string;
 }
+
+/** Tipos disponibles para los selectores del UI */
+export const TIPOS_INSUMO: TipoInsumo[] = ['HIERBA', 'ACEITE', 'EXTRACTO', 'POLVO', 'OTRO'];

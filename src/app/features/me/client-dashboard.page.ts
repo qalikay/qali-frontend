@@ -56,45 +56,27 @@ export class ClientDashboardPage {
 
   protected readonly greeting = computed(() => {
     const u = this.auth.user();
-    return u ? `Hola, ${u.firstName}` : 'Mi panel';
+    return u ? `Hola, ${u.username}` : 'Mi panel';
   });
 
   protected readonly tiles: DashTile[] = [
     {
-      title: 'Mis consultas',
-      description: 'Mensajes y orientaciones con tus expertos.',
-      link: '/me/consultations',
-      icon: 'message-circle',
-    },
-    {
-      title: 'Mis compras',
-      description: 'Historial de transacciones y comprobantes.',
-      link: '/me/purchases',
-      icon: 'shopping-bag',
-    },
-    {
-      title: 'Recetas guardadas',
-      description: 'Recetas favoritas para acceder rápido.',
-      link: '/me/saved',
+      title: 'Explorar recetas',
+      description: 'Descubre recetas naturales recomendadas por nuestros expertos.',
+      link: '/recipes',
       icon: 'book-open',
     },
     {
-      title: 'Mis reseñas',
-      description: 'Tus opiniones sobre recetas e insumos.',
-      link: '/me/reviews',
-      icon: 'star',
+      title: 'Insumos',
+      description: 'Hierbas, aceites y extractos disponibles en el catalogo.',
+      link: '/products',
+      icon: 'package',
     },
     {
-      title: 'Editar perfil',
-      description: 'Actualiza tus datos personales y foto.',
-      link: '/me/profile',
-      icon: 'user',
-    },
-    {
-      title: 'Seguridad',
-      description: 'Cambia tu contraseña y revisa accesos.',
-      link: '/me/security',
-      icon: 'lock',
+      title: 'Mis consultas',
+      description: 'Mensajes con expertos de la comunidad.',
+      link: '/me/consultations',
+      icon: 'message-circle',
     },
   ];
 }

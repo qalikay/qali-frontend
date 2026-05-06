@@ -67,28 +67,28 @@ export const routes: Routes = [
       },
       {
         path: 'expert',
-        canActivate: [authGuard, roleGuard(['EXPERTO'])],
+        canActivate: [authGuard, roleGuard(['ROLE_EXPERTO'])],
         loadComponent: () =>
           import('./features/expert/expert-dashboard.page').then((m) => m.ExpertDashboardPage),
         title: 'Panel del experto · QaliKay',
       },
       {
         path: 'expert/recipes',
-        canActivate: [authGuard, roleGuard(['EXPERTO'])],
+        canActivate: [authGuard, roleGuard(['ROLE_EXPERTO'])],
         loadComponent: () =>
           import('./features/expert/pages/my-recipes.page').then((m) => m.MyRecipesPage),
         title: 'Mis recetas · QaliKay',
       },
       {
         path: 'expert/recipes/new',
-        canActivate: [authGuard, roleGuard(['EXPERTO'])],
+        canActivate: [authGuard, roleGuard(['ROLE_EXPERTO'])],
         loadComponent: () =>
           import('./features/expert/pages/recipe-form.page').then((m) => m.RecipeFormPage),
         title: 'Nueva receta · QaliKay',
       },
       {
         path: 'expert/recipes/:id/edit',
-        canActivate: [authGuard, roleGuard(['EXPERTO'])],
+        canActivate: [authGuard, roleGuard(['ROLE_EXPERTO'])],
         loadComponent: () =>
           import('./features/expert/pages/recipe-form.page').then((m) => m.RecipeFormPage),
         title: 'Editar receta · QaliKay',

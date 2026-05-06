@@ -11,11 +11,14 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
-        auth.logout();
+      if (error.status === 401 || error.status === 403) {
+        // Solo cerramos sesion si era una request autenticada (con token previo)
+        if (auth.isAuthenticated()) {
+          auth.logout();
+        }
         const onAuthRoute =
           router.url.startsWith('/login') || router.url.startsWith('/register');
-        if (!onAuthRoute) {
+        if (!onAuthRoute && error.status === 401) {
           router.navigate(['/login'], { queryParams: { returnUrl: router.url } });
         }
       }

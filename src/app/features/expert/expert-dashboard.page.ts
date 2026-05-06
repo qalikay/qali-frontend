@@ -59,13 +59,13 @@ export class ExpertDashboardPage {
 
   protected readonly greeting = computed(() => {
     const u = this.auth.user();
-    return u ? `Hola, ${u.firstName}` : 'Panel del experto';
+    return u ? `Hola, ${u.username}` : 'Panel del experto';
   });
 
   protected readonly tiles: DashTile[] = [
     {
       title: 'Mis recetas',
-      description: 'Crea, edita, publica o archiva tus recetas.',
+      description: 'Crea, edita y publica tus recetas para la comunidad.',
       link: '/expert/recipes',
       icon: 'book-open',
     },
@@ -80,24 +80,6 @@ export class ExpertDashboardPage {
       description: 'Mensajes con tus clientes y solicitudes pendientes.',
       link: '/expert/consultations',
       icon: 'message-circle',
-    },
-    {
-      title: 'Ventas',
-      description: 'Historial de transacciones de tus contenidos.',
-      link: '/expert/sales',
-      icon: 'shopping-bag',
-    },
-    {
-      title: 'Mi perfil público',
-      description: 'Edita tu trayectoria y especialidad.',
-      link: '/expert/profile',
-      icon: 'user',
-    },
-    {
-      title: 'Estadísticas',
-      description: 'Reseñas, vistas y crecimiento de tu cuenta.',
-      link: '/expert/stats',
-      icon: 'sparkles',
     },
   ];
 }

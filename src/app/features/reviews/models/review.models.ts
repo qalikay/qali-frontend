@@ -1,22 +1,18 @@
-import { TipoItem } from '../../transactions/models/transaction.models';
+export type TipoItemResena = 'RECETA' | 'INSUMO' | 'EXPERTO';
 
-export interface ReviewRequest {
-  rating: number;
-  comment: string;
+export interface CrearResenaRequest {
+  calificacion: number;
+  comentario?: string;
+  tipoItem: TipoItemResena;
+  itemId: number;
 }
 
-export interface ReviewResponse {
+export interface Resena {
   id: number;
-  type: TipoItem;
-  refId: number;
-  rating: number;
-  comment: string;
-  clientId: number;
-  clientName: string;
-  createdAt: string;
-}
-
-export interface ReviewSummary {
-  averageRating: number;
-  totalReviews: number;
+  calificacion: number;
+  comentario?: string;
+  tipoItem: TipoItemResena;
+  itemId: number;
+  fechaCreacion?: string;
+  cliente?: { id: number; nombres: string; apellidos: string; username?: string };
 }

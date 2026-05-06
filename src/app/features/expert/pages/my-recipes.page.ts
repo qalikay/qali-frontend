@@ -2,7 +2,6 @@ import { CurrencyPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   DestroyRef,
   inject,
   OnInit,
@@ -12,8 +11,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { catchError, of } from 'rxjs';
 
-import { PageResponse } from '../../../core/models/api.models';
-import { EstadoReceta, RecipeSummary } from '../../recipes/models/recipe.models';
+import { EstadoReceta, Receta } from '../../recipes/models/recipe.models';
 import { RecipeService } from '../../recipes/services/recipe.service';
 import { BadgeComponent, BadgeTone } from '../../../shared/components/badge/badge.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
@@ -26,13 +24,11 @@ import { ToastService } from '../../../shared/services/toast.service';
 const STATUS_LABEL: Record<EstadoReceta, string> = {
   BORRADOR: 'Borrador',
   PUBLICADA: 'Publicada',
-  ARCHIVADA: 'Archivada',
 };
 
 const STATUS_TONE: Record<EstadoReceta, BadgeTone> = {
   BORRADOR: 'warning',
   PUBLICADA: 'success',
-  ARCHIVADA: 'info',
 };
 
 @Component({
@@ -53,7 +49,7 @@ const STATUS_TONE: Record<EstadoReceta, BadgeTone> = {
     <app-page-header
       eyebrow="Panel del experto"
       title="Mis recetas"
-      description="Crea, publica y archiva las recetas que comparte con la comunidad."
+      description="Crea, publica y administra las recetas que comparte con la comunidad."
     >
       <ng-container actions>
         <a routerLink="/expert">
@@ -95,7 +91,7 @@ const STATUS_TONE: Record<EstadoReceta, BadgeTone> = {
       } @else if (items().length === 0) {
         <app-empty-state
           icon="book-open"
-          title="Aún no tienes recetas"
+          title="Aun no tienes recetas"
           description="Empieza compartiendo una receta con la comunidad QaliKay."
         >
           <a routerLink="/expert/recipes/new">
@@ -113,10 +109,10 @@ const STATUS_TONE: Record<EstadoReceta, BadgeTone> = {
                 [routerLink]="['/expert/recipes', r.id, 'edit']"
                 class="block w-full sm:w-32 shrink-0 aspect-[4/3] rounded-lg overflow-hidden bg-[var(--color-surface-muted)]"
               >
-                @if (r.imageUrl) {
+                @if (r.imagenUrl) {
                   <img
-                    [src]="r.imageUrl"
-                    [alt]="r.title"
+                    [src]="r.imagenUrl"
+                    [alt]="r.titulo"
                     class="h-full w-full object-cover"
                   />
                 } @else {
@@ -130,25 +126,23 @@ const STATUS_TONE: Record<EstadoReceta, BadgeTone> = {
 
               <div class="flex-1 min-w-0">
                 <div class="flex flex-wrap items-center gap-2 text-xs">
-                  @if (r.status) {
-                    <app-badge [tone]="statusTone(r.status)">{{ statusLabel(r.status) }}</app-badge>
+                  <app-badge [tone]="statusTone(r.estado)">{{ statusLabel(r.estado) }}</app-badge>
+                  @if (r.categoria?.nombre) {
+                    <span class="text-[var(--color-ink-500)]">{{ r.categoria!.nombre }}</span>
                   }
-                  <span class="text-[var(--color-ink-500)]">{{ humanCategory(r.categoryName) }}</span>
                 </div>
                 <h3 class="mt-1 text-base font-semibold text-[var(--color-ink-900)] truncate">
-                  {{ r.title }}
+                  {{ r.titulo }}
                 </h3>
-                <p class="mt-1 text-sm text-[var(--color-ink-500)] line-clamp-2">
-                  {{ r.shortDescription }}
-                </p>
+                @if (r.descripcion) {
+                  <p class="mt-1 text-sm text-[var(--color-ink-500)] line-clamp-2">
+                    {{ r.descripcion }}
+                  </p>
+                }
                 <div class="mt-2 flex items-center gap-4 text-xs text-[var(--color-ink-500)]">
-                  <span class="inline-flex items-center gap-1">
-                    <app-icon name="eye" [size]="12" />
-                    {{ r.views }} vistas
-                  </span>
                   <span class="font-medium text-[var(--color-ink-700)]">
-                    @if (r.price > 0) {
-                      {{ r.price | currency: 'PEN' : 'symbol-narrow' : '1.2-2' : 'es-PE' }}
+                    @if ((r.precio ?? 0) > 0) {
+                      {{ r.precio | currency: 'PEN' : 'symbol-narrow' : '1.2-2' : 'es-PE' }}
                     } @else {
                       Gratis
                     }
@@ -160,7 +154,7 @@ const STATUS_TONE: Record<EstadoReceta, BadgeTone> = {
                 <a [routerLink]="['/expert/recipes', r.id, 'edit']">
                   <app-button variant="outline" size="sm">Editar</app-button>
                 </a>
-                @if (r.status === 'BORRADOR' || r.status === 'ARCHIVADA') {
+                @if (r.estado === 'BORRADOR') {
                   <app-button
                     variant="primary"
                     size="sm"
@@ -171,14 +165,14 @@ const STATUS_TONE: Record<EstadoReceta, BadgeTone> = {
                     Publicar
                   </app-button>
                 }
-                @if (r.status === 'PUBLICADA') {
+                @if (r.estado === 'PUBLICADA') {
                   <app-button
                     variant="outline"
                     size="sm"
                     [loading]="busyId() === r.id && busyAction() === 'archive'"
                     (click)="archive(r.id)"
                   >
-                    Archivar
+                    Despublicar
                   </app-button>
                 }
                 <app-button
@@ -194,35 +188,6 @@ const STATUS_TONE: Record<EstadoReceta, BadgeTone> = {
             </article>
           }
         </div>
-
-        @if ((page()?.totalPages ?? 0) > 1) {
-          <nav
-            class="mt-6 flex items-center justify-between border-t border-[var(--color-border)] pt-5"
-            aria-label="Paginación"
-          >
-            <app-button
-              variant="outline"
-              size="sm"
-              [disabled]="page()!.first"
-              (click)="goPrev()"
-            >
-              <app-icon name="arrow-left" [size]="14" />
-              Anterior
-            </app-button>
-            <span class="text-sm text-[var(--color-ink-500)]">
-              Página {{ page()!.number + 1 }} de {{ page()!.totalPages }}
-            </span>
-            <app-button
-              variant="outline"
-              size="sm"
-              [disabled]="page()!.last"
-              (click)="goNext()"
-            >
-              Siguiente
-              <app-icon name="arrow-right" [size]="14" />
-            </app-button>
-          </nav>
-        }
       }
     </section>
   `,
@@ -232,15 +197,11 @@ export class MyRecipesPage implements OnInit {
   private readonly toast = inject(ToastService);
   private readonly destroyRef = inject(DestroyRef);
 
-  protected readonly page = signal<PageResponse<RecipeSummary> | null>(null);
+  protected readonly items = signal<Receta[]>([]);
   protected readonly loading = signal<boolean>(true);
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly busyId = signal<number | null>(null);
   protected readonly busyAction = signal<'publish' | 'archive' | 'delete' | null>(null);
-
-  protected readonly items = computed(() => this.page()?.content ?? []);
-
-  private currentPage = 0;
 
   ngOnInit(): void {
     this.fetch();
@@ -250,27 +211,12 @@ export class MyRecipesPage implements OnInit {
     this.fetch();
   }
 
-  protected goPrev(): void {
-    this.currentPage = Math.max(0, this.currentPage - 1);
-    this.fetch();
-  }
-
-  protected goNext(): void {
-    this.currentPage += 1;
-    this.fetch();
-  }
-
   protected statusLabel(status: EstadoReceta): string {
-    return STATUS_LABEL[status];
+    return STATUS_LABEL[status] ?? status;
   }
 
   protected statusTone(status: EstadoReceta): BadgeTone {
-    return STATUS_TONE[status];
-  }
-
-  protected humanCategory(name: string): string {
-    if (!name) return '';
-    return name.charAt(0) + name.slice(1).toLowerCase();
+    return STATUS_TONE[status] ?? 'neutral';
   }
 
   protected publish(id: number): void {
@@ -281,7 +227,7 @@ export class MyRecipesPage implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
-          this.toast.success('Receta publicada', 'Ya es visible en el catálogo público.');
+          this.toast.success('Receta publicada', 'Ya es visible en el catalogo publico.');
           this.busyId.set(null);
           this.busyAction.set(null);
           this.fetch();
@@ -302,7 +248,7 @@ export class MyRecipesPage implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
-          this.toast.success('Receta archivada', 'Dejó de ser visible para los clientes.');
+          this.toast.success('Receta despublicada', 'Vuelve a estar como borrador.');
           this.busyId.set(null);
           this.busyAction.set(null);
           this.fetch();
@@ -310,14 +256,16 @@ export class MyRecipesPage implements OnInit {
         error: (err) => {
           this.busyId.set(null);
           this.busyAction.set(null);
-          this.toast.error('No se pudo archivar', this.extractMessage(err));
+          this.toast.error('No se pudo despublicar', this.extractMessage(err));
         },
       });
   }
 
-  protected confirmDelete(r: RecipeSummary): void {
+  protected confirmDelete(r: Receta): void {
     if (typeof window === 'undefined') return;
-    const ok = window.confirm(`¿Seguro que deseas eliminar "${r.title}"? Esta acción no se puede deshacer.`);
+    const ok = window.confirm(
+      `Seguro que deseas eliminar "${r.titulo}"? Esta accion no se puede deshacer.`,
+    );
     if (!ok) return;
     this.busyId.set(r.id);
     this.busyAction.set('delete');
@@ -343,22 +291,22 @@ export class MyRecipesPage implements OnInit {
     this.loading.set(true);
     this.errorMessage.set(null);
     this.recipeService
-      .listMine({ page: this.currentPage, size: 12, sort: 'createdAt,desc' })
+      .listMine()
       .pipe(
         catchError((err) => {
           const status = (err as { status?: number })?.status;
           this.errorMessage.set(
             status === 0
-              ? 'No se pudo conectar al servidor. ¿El backend está corriendo?'
-              : 'Ocurrió un error al cargar tus recetas.',
+              ? 'No se pudo conectar al servidor. El backend esta corriendo?'
+              : 'Ocurrio un error al cargar tus recetas.',
           );
           this.loading.set(false);
           return of(null);
         }),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe((page) => {
-        if (page) this.page.set(page);
+      .subscribe((data) => {
+        if (data) this.items.set(data);
         this.loading.set(false);
       });
   }
@@ -368,6 +316,6 @@ export class MyRecipesPage implements OnInit {
       const body = (err as { error?: { message?: string } }).error;
       if (body?.message) return body.message;
     }
-    return 'Inténtalo de nuevo en unos segundos.';
+    return 'Intentalo de nuevo en unos segundos.';
   }
 }

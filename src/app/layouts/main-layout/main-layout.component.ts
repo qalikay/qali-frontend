@@ -57,7 +57,7 @@ import { ToastHostComponent } from '../../shared/components/toast-host/toast-hos
                   {{ initials() }}
                 </span>
                 <span class="hidden sm:inline text-sm font-medium text-[var(--color-ink-700)]">
-                  {{ auth.user()?.firstName }}
+                  {{ auth.user()?.username }}
                 </span>
                 <app-icon name="chevron-down" [size]="14" />
               </button>
@@ -70,17 +70,14 @@ import { ToastHostComponent } from '../../shared/components/toast-host/toast-hos
                 >
                   <div class="px-3 py-2 border-b border-[var(--color-border)]">
                     <div class="font-medium text-[var(--color-ink-900)] truncate">
-                      {{ auth.user()?.firstName }} {{ auth.user()?.lastName }}
-                    </div>
-                    <div class="text-xs text-[var(--color-ink-500)] truncate">
-                      {{ auth.user()?.email }}
+                      {{ auth.user()?.username }}
                     </div>
                     <div class="mt-1 flex gap-1 flex-wrap">
                       @for (role of auth.roles(); track role) {
                         <span
                           class="inline-flex items-center rounded-full border border-[var(--color-brand-200)] bg-[var(--color-brand-50)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[var(--color-brand-800)]"
                         >
-                          {{ role }}
+                          {{ roleLabel(role) }}
                         </span>
                       }
                     </div>
@@ -109,7 +106,7 @@ import { ToastHostComponent } from '../../shared/components/toast-host/toast-hos
                     (click)="logout()"
                     role="menuitem"
                   >
-                    <app-icon name="log-out" [size]="16" /> Cerrar sesión
+                    <app-icon name="log-out" [size]="16" /> Cerrar sesion
                   </button>
                 </div>
               }
@@ -143,17 +140,16 @@ import { ToastHostComponent } from '../../shared/components/toast-host/toast-hos
             <ul class="mt-3 space-y-2">
               <li><a class="hover:text-[var(--color-ink-900)]" routerLink="/recipes">Recetas</a></li>
               <li><a class="hover:text-[var(--color-ink-900)]" routerLink="/products">Insumos</a></li>
-              <li><a class="hover:text-[var(--color-ink-900)]" routerLink="/experts">Expertos</a></li>
             </ul>
           </div>
           <div class="text-sm">
             <h4 class="text-xs font-semibold uppercase tracking-wider text-[var(--color-ink-500)]">
-              Compañía
+              Compania
             </h4>
             <ul class="mt-3 space-y-2">
-              <li><a class="hover:text-[var(--color-ink-900)]" routerLink="/about">Sobre nosotros</a></li>
-              <li><a class="hover:text-[var(--color-ink-900)]" routerLink="/privacy">Privacidad</a></li>
-              <li><a class="hover:text-[var(--color-ink-900)]" routerLink="/terms">Términos</a></li>
+              <li><span class="text-[var(--color-ink-500)]">Sobre nosotros</span></li>
+              <li><span class="text-[var(--color-ink-500)]">Privacidad</span></li>
+              <li><span class="text-[var(--color-ink-500)]">Terminos</span></li>
             </ul>
           </div>
         </div>
@@ -162,7 +158,7 @@ import { ToastHostComponent } from '../../shared/components/toast-host/toast-hos
             class="mx-auto max-w-6xl px-4 py-4 text-xs text-[var(--color-ink-500)] flex items-center justify-between"
           >
             <span>&copy; {{ year }} QaliKay. Todos los derechos reservados.</span>
-            <span>Hecho en Perú.</span>
+            <span>Hecho en Peru.</span>
           </div>
         </div>
       </footer>
@@ -178,7 +174,6 @@ export class MainLayoutComponent {
   protected readonly navLinks = [
     { path: '/recipes', label: 'Recetas' },
     { path: '/products', label: 'Insumos' },
-    { path: '/experts', label: 'Expertos' },
   ];
   protected readonly year = new Date().getFullYear();
   protected readonly menuOpen = signal(false);
@@ -186,10 +181,12 @@ export class MainLayoutComponent {
   protected readonly initials = computed(() => {
     const u = this.auth.user();
     if (!u) return '';
-    const f = u.firstName?.[0] ?? '';
-    const l = u.lastName?.[0] ?? '';
-    return (f + l).toUpperCase() || u.email[0].toUpperCase();
+    return (u.username[0] || '?').toUpperCase();
   });
+
+  protected roleLabel(role: string): string {
+    return role.replace('ROLE_', '');
+  }
 
   toggleMenu(): void {
     this.menuOpen.update((v) => !v);

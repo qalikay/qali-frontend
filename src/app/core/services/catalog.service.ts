@@ -3,35 +3,31 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, shareReplay } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { CategoryResponse, Especialidad, Rol } from '../models/catalog.models';
+import { Categoria, Especialidad } from '../models/catalog.models';
 
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiUrl}/catalogs`;
+  private readonly baseUrl = environment.apiUrl;
 
-  private categoriesCache$?: Observable<CategoryResponse[]>;
-  private specialtiesCache$?: Observable<Especialidad[]>;
+  private categoriasCache$?: Observable<Categoria[]>;
+  private especialidadesCache$?: Observable<Especialidad[]>;
 
-  getCategories(): Observable<CategoryResponse[]> {
-    if (!this.categoriesCache$) {
-      this.categoriesCache$ = this.http
-        .get<CategoryResponse[]>(`${this.baseUrl}/categories`)
+  getCategorias(): Observable<Categoria[]> {
+    if (!this.categoriasCache$) {
+      this.categoriasCache$ = this.http
+        .get<Categoria[]>(`${this.baseUrl}/categorias`)
         .pipe(shareReplay({ bufferSize: 1, refCount: false }));
     }
-    return this.categoriesCache$;
+    return this.categoriasCache$;
   }
 
-  getSpecialties(): Observable<Especialidad[]> {
-    if (!this.specialtiesCache$) {
-      this.specialtiesCache$ = this.http
+  getEspecialidades(): Observable<Especialidad[]> {
+    if (!this.especialidadesCache$) {
+      this.especialidadesCache$ = this.http
         .get<Especialidad[]>(`${this.baseUrl}/especialidades`)
         .pipe(shareReplay({ bufferSize: 1, refCount: false }));
     }
-    return this.specialtiesCache$;
-  }
-
-  getRoles(): Observable<Rol[]> {
-    return this.http.get<Rol[]>(`${this.baseUrl}/roles`);
+    return this.especialidadesCache$;
   }
 }

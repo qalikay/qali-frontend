@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
-import { RolNombre } from '../models/auth.models';
+import { Rol } from '../models/auth.models';
 
 export const authGuard: CanActivateFn = (_route, state) => {
   const auth = inject(AuthService);
@@ -14,7 +14,7 @@ export const authGuard: CanActivateFn = (_route, state) => {
   return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
 };
 
-export const roleGuard = (allowed: RolNombre[]): CanActivateFn => {
+export const roleGuard = (allowed: Rol[]): CanActivateFn => {
   return (_route, state) => {
     const auth = inject(AuthService);
     const router = inject(Router);

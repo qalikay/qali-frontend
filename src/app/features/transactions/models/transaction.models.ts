@@ -1,38 +1,28 @@
 export type TipoItem = 'RECETA' | 'INSUMO';
+export type EstadoOrden = 'PENDIENTE' | 'PAGADA' | 'CANCELADA';
+export type MetodoPago = 'TARJETA' | 'YAPE' | 'PLIN' | 'EFECTIVO';
 
-export type EstadoTransaccion = 'PENDIENTE' | 'PAGADA' | 'CANCELADA' | 'REEMBOLSADA';
-
-export type MetodoPago = 'TARJETA' | 'YAPE' | 'PLIN' | 'EFECTIVO_TIENDA';
-
-export interface PurchaseItem {
-  type: TipoItem;
-  refId: number;
-  quantity: number;
+export interface DetalleOrden {
+  id?: number;
+  tipoItem: TipoItem;
+  itemId: number;
+  descripcion?: string;
+  cantidad: number;
+  precioUnitario?: number;
+  subtotal?: number;
 }
 
-export interface PurchaseRequest {
-  items: PurchaseItem[];
-  paymentMethod: MetodoPago;
+export interface CrearOrdenRequest {
+  metodoPago: MetodoPago;
+  detalles: DetalleOrden[];
 }
 
-export interface TransactionDetailResponse {
+export interface Orden {
   id: number;
-  type: TipoItem;
-  refId: number;
-  itemName: string;
-  quantity: number;
-  unitPrice: number;
-  subtotal: number;
-}
-
-export interface TransactionResponse {
-  id: number;
-  total: number;
-  status: EstadoTransaccion;
-  paymentMethod: MetodoPago;
-  details: TransactionDetailResponse[];
-  clientId: number;
-  clientName: string;
-  createdAt: string;
-  paidAt?: string;
+  fecha: string;
+  total?: number;
+  estado: EstadoOrden;
+  metodoPago?: MetodoPago;
+  cliente?: { id: number; nombres: string; apellidos: string; username?: string };
+  detalles: DetalleOrden[];
 }

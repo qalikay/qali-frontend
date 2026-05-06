@@ -1,54 +1,40 @@
-export type EstadoConsulta =
-  | 'SOLICITADA'
-  | 'ACEPTADA'
-  | 'RECHAZADA'
-  | 'COMPLETADA'
-  | 'CANCELADA';
+export type EstadoConsulta = 'ABIERTA' | 'CERRADA';
+export type RemitenteMensaje = 'CLIENTE' | 'EXPERTO';
 
-export interface ConsultationParticipant {
+export interface MensajeDTO {
   id: number;
-  firstName: string;
-  lastName: string;
-  specialty?: string;
+  contenido: string;
+  remitente: RemitenteMensaje;
+  fechaEnvio: string;
 }
 
-export interface MessageRequest {
-  content: string;
-}
-
-export interface MessageResponse {
+export interface ClienteMini {
   id: number;
-  content: string;
-  senderId: number;
-  senderName: string;
-  sentAt: string;
+  nombres: string;
+  apellidos: string;
+  username?: string;
 }
 
-export interface ConsultationCreateRequest {
-  expertId: number;
-  subject: string;
-  initialMessage: string;
-}
-
-export interface ConsultationResponse {
+export interface ExpertoMini {
   id: number;
-  subject: string;
-  status: EstadoConsulta;
-  client: ConsultationParticipant;
-  expert: ConsultationParticipant;
-  messages: MessageResponse[];
-  createdAt: string;
-  updatedAt: string;
+  nombres: string;
+  apellidos: string;
+  username?: string;
+  especialidad?: { id: number; nombre: string };
 }
 
-export interface ConsultationSummary {
+export interface Consulta {
   id: number;
-  subject: string;
-  status: EstadoConsulta;
-  client: ConsultationParticipant;
-  expert: ConsultationParticipant;
-  lastMessageAt?: string;
-  lastMessagePreview?: string;
-  unreadCount?: number;
-  createdAt: string;
+  asunto: string;
+  estado: EstadoConsulta;
+  fechaCreacion?: string;
+  cliente?: ClienteMini;
+  experto?: ExpertoMini;
+  mensajes?: MensajeDTO[];
+}
+
+export interface CrearConsultaRequest {
+  asunto: string;
+  expertoId: number;
+  mensajeInicial?: string;
 }

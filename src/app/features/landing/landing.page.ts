@@ -3,9 +3,9 @@ import { RouterLink } from '@angular/router';
 import { catchError, of } from 'rxjs';
 
 import { CatalogService } from '../../core/services/catalog.service';
-import { CategoryResponse } from '../../core/models/catalog.models';
+import { Categoria } from '../../core/models/catalog.models';
 import { RecipeService } from '../recipes/services/recipe.service';
-import { RecipeSummary } from '../recipes/models/recipe.models';
+import { Receta } from '../recipes/models/recipe.models';
 import { BadgeComponent } from '../../shared/components/badge/badge.component';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { IconComponent } from '../../shared/icons/icon.component';
@@ -37,11 +37,11 @@ import { RecipeCardComponent } from '../recipes/components/recipe-card.component
             Plataforma certificada
           </app-badge>
           <h1 class="mt-4 text-4xl md:text-5xl leading-[1.1] tracking-tight">
-            Sabiduría andina,
+            Sabiduria andina,
             <span class="text-[var(--color-brand-700)]">bienestar moderno.</span>
           </h1>
           <p class="mt-5 text-base md:text-lg text-[var(--color-ink-500)] max-w-xl">
-            Recetas, insumos y consultas con expertos en medicina natural del Perú. Conocimiento
+            Recetas, insumos y consultas con expertos en medicina natural del Peru. Conocimiento
             ancestral, validado y al alcance de un click.
           </p>
           <div class="mt-7 flex flex-wrap items-center gap-3">
@@ -71,7 +71,7 @@ import { RecipeCardComponent } from '../recipes/components/recipe-card.component
         </div>
 
         <div class="grid grid-cols-2 gap-3">
-          @if (loadingCategories()) {
+          @if (loadingCategorias()) {
             @for (i of [1, 2, 3, 4]; track i) {
               <div class="card p-5 space-y-2">
                 <app-skeleton width="40%" height="0.75rem" />
@@ -80,22 +80,19 @@ import { RecipeCardComponent } from '../recipes/components/recipe-card.component
               </div>
             }
           } @else {
-            @for (cat of featuredCategories(); track cat.id) {
+            @for (cat of featuredCategorias(); track cat.id) {
               <a
                 [routerLink]="['/recipes']"
-                [queryParams]="{ categoryId: cat.id }"
+                [queryParams]="{ categoriaId: cat.id }"
                 class="card p-5 hover:border-[var(--color-brand-300)] transition-colors group"
               >
                 <div
                   class="text-xs font-semibold uppercase tracking-wider text-[var(--color-brand-700)]"
                 >
-                  {{ cat.name }}
+                  {{ cat.nombre }}
                 </div>
-                <div class="mt-1 font-semibold text-[var(--color-ink-900)]">
-                  {{ humanLabel(cat.name) }}
-                </div>
-                <p class="mt-1 text-sm text-[var(--color-ink-500)] line-clamp-2">
-                  {{ cat.description ?? 'Categoría disponible en QaliKay.' }}
+                <p class="mt-2 text-sm text-[var(--color-ink-500)] line-clamp-2">
+                  {{ cat.descripcion ?? 'Categoria disponible en QaliKay.' }}
                 </p>
                 <div
                   class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-[var(--color-brand-700)] opacity-0 group-hover:opacity-100 transition"
@@ -114,7 +111,7 @@ import { RecipeCardComponent } from '../recipes/components/recipe-card.component
         <div>
           <h2 class="text-2xl md:text-3xl">Recetas destacadas</h2>
           <p class="mt-1 text-[var(--color-ink-500)]">
-            Selección de recetas publicadas por expertos verificados.
+            Seleccion de recetas publicadas por expertos verificados.
           </p>
         </div>
         <a
@@ -146,7 +143,7 @@ import { RecipeCardComponent } from '../recipes/components/recipe-card.component
                   No pudimos cargar las recetas
                 </div>
                 <p class="text-sm text-[var(--color-ink-500)]">
-                  Verifica que el backend esté disponible en
+                  Verifica que el backend este disponible en
                   <code class="rounded bg-[var(--color-surface-muted)] px-1.5 py-0.5 text-xs">
                     localhost:8080
                   </code>
@@ -159,7 +156,7 @@ import { RecipeCardComponent } from '../recipes/components/recipe-card.component
           <div class="col-span-full">
             <div class="card p-8 text-center">
               <p class="text-[var(--color-ink-500)]">
-                Aún no hay recetas publicadas. ¡Vuelve pronto!
+                Aun no hay recetas publicadas. Vuelve pronto!
               </p>
             </div>
           </div>
@@ -171,11 +168,9 @@ import { RecipeCardComponent } from '../recipes/components/recipe-card.component
       </div>
     </section>
 
-    <section
-      class="border-y border-[var(--color-border)] bg-[var(--color-surface-muted)]"
-    >
+    <section class="border-y border-[var(--color-border)] bg-[var(--color-surface-muted)]">
       <div class="mx-auto max-w-6xl px-4 py-16">
-        <h2 class="text-2xl md:text-3xl">Por qué QaliKay</h2>
+        <h2 class="text-2xl md:text-3xl">Por que QaliKay</h2>
         <p class="mt-2 text-[var(--color-ink-500)] max-w-2xl">
           Tres pilares que definen una experiencia profesional, segura y cercana.
         </p>
@@ -196,7 +191,7 @@ import { RecipeCardComponent } from '../recipes/components/recipe-card.component
     </section>
 
     <section class="mx-auto max-w-6xl px-4 py-16 text-center">
-      <h2 class="text-2xl md:text-3xl">¿Listo para comenzar tu camino?</h2>
+      <h2 class="text-2xl md:text-3xl">Listo para comenzar tu camino?</h2>
       <p class="mt-2 text-[var(--color-ink-500)]">
         Crea tu cuenta gratis y descubre recetas con respaldo de expertos.
       </p>
@@ -215,19 +210,19 @@ export class LandingPage implements OnInit {
   private readonly catalogService = inject(CatalogService);
   private readonly recipeService = inject(RecipeService);
 
-  protected readonly categories = signal<CategoryResponse[]>([]);
-  protected readonly loadingCategories = signal<boolean>(true);
+  protected readonly categorias = signal<Categoria[]>([]);
+  protected readonly loadingCategorias = signal<boolean>(true);
 
-  protected readonly recipes = signal<RecipeSummary[]>([]);
+  protected readonly recipes = signal<Receta[]>([]);
   protected readonly loadingRecipes = signal<boolean>(true);
   protected readonly errorRecipes = signal<boolean>(false);
 
-  protected readonly featuredCategories = computed(() => this.categories().slice(0, 4));
+  protected readonly featuredCategorias = computed(() => this.categorias().slice(0, 4));
 
   protected readonly kpis = [
     { label: 'Recetas', value: '+50' },
     { label: 'Expertos', value: '+12' },
-    { label: 'Categorías', value: '8' },
+    { label: 'Categorias', value: '8' },
   ];
 
   protected readonly values = [
@@ -235,47 +230,42 @@ export class LandingPage implements OnInit {
       icon: 'shield-check' as const,
       title: 'Expertos certificados',
       description:
-        'Cada experto pasa por un proceso de validación de trayectoria y especialidad.',
+        'Cada experto pasa por un proceso de validacion de trayectoria y especialidad.',
     },
     {
       icon: 'book-open' as const,
       title: 'Recetas con respaldo',
       description:
-        'Cada receta detalla ingredientes, preparación, uso y advertencias. Reseñas reales.',
+        'Cada receta detalla ingredientes, preparacion, uso y advertencias.',
     },
     {
       icon: 'message-circle' as const,
       title: 'Consultas privadas',
       description:
-        'Conversa de forma directa con un experto y recibe orientación personalizada.',
+        'Conversa de forma directa con un experto y recibe orientacion personalizada.',
     },
   ];
 
   ngOnInit(): void {
     this.catalogService
-      .getCategories()
-      .pipe(catchError(() => of([] as CategoryResponse[])))
+      .getCategorias()
+      .pipe(catchError(() => of([] as Categoria[])))
       .subscribe((data) => {
-        this.categories.set(data);
-        this.loadingCategories.set(false);
+        this.categorias.set(data);
+        this.loadingCategorias.set(false);
       });
 
     this.recipeService
-      .list({ size: 6, sort: 'createdAt,desc' })
+      .list()
       .pipe(
         catchError(() => {
           this.errorRecipes.set(true);
           return of(null);
         }),
       )
-      .subscribe((page) => {
-        if (page) this.recipes.set(page.content);
+      .subscribe((data) => {
+        if (data) this.recipes.set(data.slice(0, 6));
         this.loadingRecipes.set(false);
       });
-  }
-
-  protected humanLabel(name: string): string {
-    if (!name) return '';
-    return name.charAt(0) + name.slice(1).toLowerCase();
   }
 }

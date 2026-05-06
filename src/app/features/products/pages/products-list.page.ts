@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   DestroyRef,
   inject,
   OnInit,
@@ -13,30 +12,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, debounceTime, distinctUntilChanged, of } from 'rxjs';
 
 import { CatalogService } from '../../../core/services/catalog.service';
-import { CategoryResponse } from '../../../core/models/catalog.models';
-import { PageResponse } from '../../../core/models/api.models';
+import { Categoria } from '../../../core/models/catalog.models';
 import { ProductService } from '../services/product.service';
-import { ProductSummary, TipoInsumo } from '../models/product.models';
+import { Insumo, TipoInsumo, TIPOS_INSUMO } from '../models/product.models';
 import { ProductCardComponent } from '../components/product-card.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { IconComponent } from '../../../shared/icons/icon.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
-
-const TYPE_OPTIONS: TipoInsumo[] = [
-  'HOJAS',
-  'RAIZ',
-  'FLOR',
-  'FRUTO',
-  'SEMILLA',
-  'CORTEZA',
-  'ACEITE',
-  'MIEL',
-  'EXTRACTO',
-  'POLVO',
-  'OTRO',
-];
 
 @Component({
   selector: 'app-products-list',
@@ -53,9 +37,9 @@ const TYPE_OPTIONS: TipoInsumo[] = [
   ],
   template: `
     <app-page-header
-      eyebrow="Catálogo"
+      eyebrow="Catalogo"
       title="Insumos naturales"
-      description="Hojas, raíces, mieles y aceites cosechados con respeto por la tradición."
+      description="Hierbas, aceites, extractos y polvos seleccionados por nuestros expertos."
     />
 
     <section class="mx-auto max-w-6xl px-4 py-8">
@@ -74,7 +58,7 @@ const TYPE_OPTIONS: TipoInsumo[] = [
                   id="prod-search"
                   class="input pl-9"
                   type="search"
-                  placeholder="Muña, kion, aceite..."
+                  placeholder="Muna, kion, aceite..."
                   formControlName="q"
                   autocomplete="off"
                 />
@@ -82,26 +66,26 @@ const TYPE_OPTIONS: TipoInsumo[] = [
             </div>
 
             <fieldset>
-              <legend class="label">Categoría</legend>
+              <legend class="label">Categoria</legend>
               <div class="flex flex-col gap-1">
                 <label class="inline-flex items-center gap-2 text-sm cursor-pointer">
                   <input
                     type="radio"
-                    formControlName="categoryId"
+                    formControlName="categoriaId"
                     [value]="null"
                     class="accent-[var(--color-brand-600)]"
                   />
                   Todas
                 </label>
-                @for (cat of categories(); track cat.id) {
+                @for (cat of categorias(); track cat.id) {
                   <label class="inline-flex items-center gap-2 text-sm cursor-pointer">
                     <input
                       type="radio"
-                      formControlName="categoryId"
+                      formControlName="categoriaId"
                       [value]="cat.id"
                       class="accent-[var(--color-brand-600)]"
                     />
-                    {{ humanLabel(cat.name) }}
+                    {{ cat.nombre }}
                   </label>
                 }
               </div>
@@ -110,34 +94,34 @@ const TYPE_OPTIONS: TipoInsumo[] = [
             <fieldset>
               <legend class="label">Tipo</legend>
               <div class="flex flex-wrap gap-1.5">
-                @for (t of types; track t) {
+                @for (t of tipos; track t) {
                   <label
                     class="inline-flex items-center cursor-pointer text-xs font-medium rounded-full border px-2.5 py-1 transition-colors"
                     [style.backgroundColor]="
-                      form.controls.type.value === t
+                      form.controls.tipo.value === t
                         ? 'var(--color-brand-50)'
                         : 'transparent'
                     "
                     [style.borderColor]="
-                      form.controls.type.value === t
+                      form.controls.tipo.value === t
                         ? 'var(--color-brand-300)'
                         : 'var(--color-border)'
                     "
                     [style.color]="
-                      form.controls.type.value === t
+                      form.controls.tipo.value === t
                         ? 'var(--color-brand-800)'
                         : 'var(--color-ink-700)'
                     "
                   >
-                    <input type="radio" formControlName="type" [value]="t" class="hidden" />
+                    <input type="radio" formControlName="tipo" [value]="t" class="hidden" />
                     {{ humanLabel(t) }}
                   </label>
                 }
-                @if (form.controls.type.value) {
+                @if (form.controls.tipo.value) {
                   <button
                     type="button"
                     class="text-xs text-[var(--color-ink-500)] underline"
-                    (click)="clearType()"
+                    (click)="clearTipo()"
                   >
                     Limpiar
                   </button>
@@ -150,9 +134,7 @@ const TYPE_OPTIONS: TipoInsumo[] = [
         <main>
           <div class="flex items-center justify-between mb-4 text-sm">
             <span class="text-[var(--color-ink-500)]">
-              @if (page()) {
-                {{ page()!.totalElements }} resultados
-              }
+              {{ insumos().length }} resultados
             </span>
           </div>
 
@@ -174,47 +156,18 @@ const TYPE_OPTIONS: TipoInsumo[] = [
             >
               <app-button variant="outline" (click)="reload()">Reintentar</app-button>
             </app-empty-state>
-          } @else if ((page()?.content?.length ?? 0) === 0) {
+          } @else if (insumos().length === 0) {
             <app-empty-state
               icon="search"
               title="Sin resultados"
-              description="Ajusta los filtros o intenta con otra categoría."
+              description="Ajusta los filtros o intenta con otra categoria."
             />
           } @else {
             <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
-              @for (p of page()!.content; track p.id) {
+              @for (p of insumos(); track p.id) {
                 <app-product-card [product]="p" />
               }
             </div>
-
-            @if ((page()?.totalPages ?? 0) > 1) {
-              <nav
-                class="mt-8 flex items-center justify-between border-t border-[var(--color-border)] pt-5"
-                aria-label="Paginación"
-              >
-                <app-button
-                  variant="outline"
-                  size="sm"
-                  [disabled]="page()!.first"
-                  (click)="goPrev()"
-                >
-                  <app-icon name="arrow-left" [size]="14" />
-                  Anterior
-                </app-button>
-                <span class="text-sm text-[var(--color-ink-500)]">
-                  Página {{ page()!.number + 1 }} de {{ page()!.totalPages }}
-                </span>
-                <app-button
-                  variant="outline"
-                  size="sm"
-                  [disabled]="page()!.last"
-                  (click)="goNext()"
-                >
-                  Siguiente
-                  <app-icon name="arrow-right" [size]="14" />
-                </app-button>
-              </nav>
-            }
           }
         </main>
       </div>
@@ -231,70 +184,59 @@ export class ProductsListPage implements OnInit {
 
   protected readonly form = this.fb.nonNullable.group({
     q: [''],
-    categoryId: this.fb.control<number | null>(null),
-    type: this.fb.control<TipoInsumo | null>(null),
+    categoriaId: this.fb.control<number | null>(null),
+    tipo: this.fb.control<TipoInsumo | null>(null),
   });
 
-  protected readonly categories = signal<CategoryResponse[]>([]);
-  protected readonly page = signal<PageResponse<ProductSummary> | null>(null);
+  protected readonly categorias = signal<Categoria[]>([]);
+  protected readonly insumos = signal<Insumo[]>([]);
   protected readonly loading = signal<boolean>(true);
   protected readonly errorMessage = signal<string | null>(null);
-  private readonly currentPage = signal<number>(0);
 
-  protected readonly types = TYPE_OPTIONS;
+  protected readonly tipos = TIPOS_INSUMO;
 
   ngOnInit(): void {
     this.catalogService
-      .getCategories()
-      .pipe(catchError(() => of([] as CategoryResponse[])))
-      .subscribe((data) => this.categories.set(data));
+      .getCategorias()
+      .pipe(catchError(() => of([] as Categoria[])))
+      .subscribe((data) => this.categorias.set(data));
 
     this.route.queryParamMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((qp) => {
-        const cat = qp.get('categoryId');
-        const type = qp.get('type') as TipoInsumo | null;
+        const cat = qp.get('categoriaId');
+        const tipo = qp.get('tipo') as TipoInsumo | null;
         const q = qp.get('q') ?? '';
-        const pageParam = qp.get('page');
         this.form.patchValue(
           {
             q,
-            categoryId: cat ? Number(cat) : null,
-            type,
+            categoriaId: cat ? Number(cat) : null,
+            tipo,
           },
           { emitEvent: false },
         );
-        this.currentPage.set(pageParam ? Number(pageParam) : 0);
         this.fetch();
       });
 
     this.form.controls.q.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
-      .subscribe((q) => this.applyFilters({ q: q || undefined, page: 0 }));
+      .subscribe((q) => this.applyFilters({ q: q || undefined }));
 
-    this.form.controls.categoryId.valueChanges
+    this.form.controls.categoriaId.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((id) => this.applyFilters({ categoryId: id ?? undefined, page: 0 }));
+      .subscribe((id) => this.applyFilters({ categoriaId: id ?? undefined }));
 
-    this.form.controls.type.valueChanges
+    this.form.controls.tipo.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((t) => this.applyFilters({ type: t ?? undefined, page: 0 }));
+      .subscribe((t) => this.applyFilters({ tipo: t ?? undefined }));
   }
 
   protected reload(): void {
     this.fetch();
   }
 
-  protected clearType(): void {
-    this.form.controls.type.setValue(null);
-  }
-
-  protected goPrev(): void {
-    this.applyFilters({ page: Math.max(0, this.currentPage() - 1) });
-  }
-
-  protected goNext(): void {
-    this.applyFilters({ page: this.currentPage() + 1 });
+  protected clearTipo(): void {
+    this.form.controls.tipo.setValue(null);
   }
 
   protected humanLabel(name: string): string {
@@ -302,26 +244,21 @@ export class ProductsListPage implements OnInit {
     return name.charAt(0) + name.slice(1).toLowerCase();
   }
 
-  private applyFilters(patch: {
-    q?: string;
-    categoryId?: number;
-    type?: TipoInsumo;
-    page?: number;
-  }): void {
+  private applyFilters(patch: { q?: string; categoriaId?: number; tipo?: TipoInsumo }): void {
     const current = this.route.snapshot.queryParamMap;
     const q = patch.q !== undefined ? patch.q : (current.get('q') ?? undefined);
-    const categoryId =
-      patch.categoryId !== undefined ? patch.categoryId : current.get('categoryId') ?? undefined;
-    const type = patch.type !== undefined ? patch.type : current.get('type') ?? undefined;
-    const page = patch.page ?? 0;
+    const categoriaId =
+      patch.categoriaId !== undefined
+        ? patch.categoriaId
+        : (current.get('categoriaId') ?? undefined);
+    const tipo = patch.tipo !== undefined ? patch.tipo : (current.get('tipo') ?? undefined);
 
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
         q: q || null,
-        categoryId: categoryId || null,
-        type: type || null,
-        page: page > 0 ? page : null,
+        categoriaId: categoriaId || null,
+        tipo: tipo || null,
       },
       queryParamsHandling: 'merge',
     });
@@ -330,32 +267,29 @@ export class ProductsListPage implements OnInit {
   private fetch(): void {
     this.loading.set(true);
     this.errorMessage.set(null);
-    const { q, categoryId, type } = this.form.getRawValue();
+    const { q, categoriaId, tipo } = this.form.getRawValue();
 
     this.productService
       .list({
         q: q || undefined,
-        categoryId: categoryId ?? undefined,
-        type: type ?? undefined,
-        page: this.currentPage(),
-        size: 9,
-        sort: 'createdAt,desc',
+        categoriaId: categoriaId ?? undefined,
+        tipo: tipo ?? undefined,
       })
       .pipe(
         catchError((err) => {
           const status = (err as { status?: number })?.status;
           this.errorMessage.set(
             status === 0
-              ? 'No se pudo conectar al servidor. ¿El backend está corriendo?'
-              : 'Ocurrió un error al cargar los insumos. Intenta nuevamente.',
+              ? 'No se pudo conectar al servidor. El backend esta corriendo?'
+              : 'Ocurrio un error al cargar los insumos. Intenta nuevamente.',
           );
           this.loading.set(false);
           return of(null);
         }),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe((page) => {
-        if (page) this.page.set(page);
+      .subscribe((data) => {
+        if (data) this.insumos.set(data);
         this.loading.set(false);
       });
   }

@@ -21,39 +21,31 @@ import { LogoComponent } from '../../shared/components/logo/logo.component';
       <div class="card p-6 md:p-8">
         <h1 class="text-2xl">Bienvenido de vuelta</h1>
         <p class="mt-1 text-sm text-[var(--color-ink-500)]">
-          Inicia sesión para continuar tu camino con QaliKay.
+          Inicia sesion para continuar tu camino con QaliKay.
         </p>
 
         <form [formGroup]="form" (ngSubmit)="submit()" class="mt-6 space-y-4" novalidate>
           <div>
-            <label class="label" for="login-email">Correo</label>
+            <label class="label" for="login-username">Usuario</label>
             <div class="relative">
               <span
                 class="absolute inset-y-0 left-3 flex items-center text-[var(--color-ink-300)]"
               >
-                <app-icon name="mail" [size]="16" />
+                <app-icon name="user" [size]="16" />
               </span>
               <input
-                id="login-email"
-                type="email"
-                autocomplete="email"
+                id="login-username"
+                type="text"
+                autocomplete="username"
                 class="input pl-9"
-                formControlName="email"
-                placeholder="tunombre@correo.com"
+                formControlName="username"
+                placeholder="tu_usuario"
               />
             </div>
           </div>
 
           <div>
-            <div class="flex items-center justify-between">
-              <label class="label" for="login-password">Contraseña</label>
-              <a
-                routerLink="/forgot-password"
-                class="text-xs text-[var(--color-brand-700)] hover:text-[var(--color-brand-800)]"
-              >
-                ¿Olvidaste tu contraseña?
-              </a>
-            </div>
+            <label class="label" for="login-password">Contrasena</label>
             <div class="relative">
               <span
                 class="absolute inset-y-0 left-3 flex items-center text-[var(--color-ink-300)]"
@@ -72,7 +64,7 @@ import { LogoComponent } from '../../shared/components/logo/logo.component';
                 type="button"
                 class="absolute inset-y-0 right-3 flex items-center text-[var(--color-ink-500)] hover:text-[var(--color-ink-900)]"
                 (click)="togglePassword()"
-                [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+                [attr.aria-label]="showPassword() ? 'Ocultar contrasena' : 'Mostrar contrasena'"
               >
                 <app-icon name="eye" [size]="16" />
               </button>
@@ -95,10 +87,19 @@ import { LogoComponent } from '../../shared/components/logo/logo.component';
         </form>
 
         <div class="mt-6 text-center text-sm text-[var(--color-ink-500)]">
-          ¿Aún no tienes cuenta?
+          Aun no tienes cuenta?
           <a routerLink="/register/cliente" class="text-[var(--color-brand-700)] font-medium">
             Crear cuenta
           </a>
+        </div>
+
+        <div class="mt-6 rounded-lg bg-[var(--color-surface-muted)] p-3 text-xs text-[var(--color-ink-500)]">
+          <strong class="text-[var(--color-ink-700)]">Cuentas demo:</strong>
+          <ul class="mt-1 space-y-0.5">
+            <li>cliente / cliente123</li>
+            <li>experto / experto123</li>
+            <li>admin / admin123</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -116,8 +117,8 @@ export class LoginPage {
   protected readonly showPassword = signal(false);
 
   protected readonly form = this.fb.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
+    username: ['', [Validators.required, Validators.minLength(3)]],
+    password: ['', [Validators.required, Validators.minLength(4)]],
   });
 
   togglePassword(): void {
@@ -134,7 +135,7 @@ export class LoginPage {
     this.auth.login(this.form.getRawValue()).subscribe({
       next: (response) => {
         this.loading.set(false);
-        this.toast.success('Bienvenido', `Hola, ${response.user.firstName}`);
+        this.toast.success('Bienvenido', `Hola, ${response.username}`);
         this.router.navigateByUrl(returnUrl);
       },
       error: (err) => {
@@ -142,10 +143,10 @@ export class LoginPage {
         const status = (err as { status?: number })?.status;
         if (status === 0) {
           this.errorMessage.set(
-            'No pudimos contactar al servidor. ¿El backend está corriendo en localhost:8080?',
+            'No pudimos contactar al servidor. El backend esta corriendo en localhost:8080?',
           );
-        } else if (status === 401) {
-          this.errorMessage.set('Credenciales incorrectas. Verifica tu correo y contraseña.');
+        } else if (status === 401 || status === 403) {
+          this.errorMessage.set('Credenciales incorrectas. Verifica tu usuario y contrasena.');
         } else {
           this.errorMessage.set(this.extractMessage(err));
         }
@@ -155,9 +156,12 @@ export class LoginPage {
 
   private extractMessage(err: unknown): string {
     if (err && typeof err === 'object' && 'error' in err) {
-      const body = (err as { error?: { message?: string } }).error;
-      if (body?.message) return body.message;
+      const body = (err as { error?: { message?: string } | string }).error;
+      if (typeof body === 'string' && body.length) return body;
+      if (body && typeof body === 'object' && 'message' in body && body.message) {
+        return body.message as string;
+      }
     }
-    return 'No se pudo iniciar sesión. Inténtalo de nuevo.';
+    return 'No se pudo iniciar sesion. Intentalo de nuevo.';
   }
 }

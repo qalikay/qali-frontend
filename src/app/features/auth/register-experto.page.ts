@@ -11,8 +11,6 @@ import { IconComponent } from '../../shared/icons/icon.component';
 import { LogoComponent } from '../../shared/components/logo/logo.component';
 import { ToastService } from '../../shared/services/toast.service';
 
-const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-
 @Component({
   selector: 'app-register-experto-page',
   standalone: true,
@@ -31,10 +29,10 @@ const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
             <app-icon name="shield-check" [size]="20" />
           </span>
           <div>
-            <h1 class="text-2xl">Postula como experto</h1>
+            <h1 class="text-2xl">Registrate como experto</h1>
             <p class="mt-1 text-sm text-[var(--color-ink-500)]">
-              Comparte tu sabiduría con la comunidad QaliKay. Tu cuenta queda en revisión
-              hasta ser verificada por nuestro equipo.
+              Comparte tu sabiduria con la comunidad QaliKay y comienza a publicar recetas e
+              insumos.
             </p>
           </div>
         </div>
@@ -42,50 +40,50 @@ const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
         <form [formGroup]="form" (ngSubmit)="submit()" class="mt-6 space-y-5" novalidate>
           <fieldset class="grid sm:grid-cols-2 gap-3">
             <div>
-              <label class="label" for="exp-first">Nombres</label>
+              <label class="label" for="exp-nombres">Nombres</label>
               <input
-                id="exp-first"
+                id="exp-nombres"
                 class="input"
                 autocomplete="given-name"
-                formControlName="firstName"
+                formControlName="nombres"
               />
             </div>
             <div>
-              <label class="label" for="exp-last">Apellidos</label>
+              <label class="label" for="exp-apellidos">Apellidos</label>
               <input
-                id="exp-last"
+                id="exp-apellidos"
                 class="input"
                 autocomplete="family-name"
-                formControlName="lastName"
+                formControlName="apellidos"
               />
             </div>
           </fieldset>
 
           <fieldset class="grid sm:grid-cols-2 gap-3">
             <div>
-              <label class="label" for="exp-email">Correo</label>
+              <label class="label" for="exp-username">Usuario</label>
               <input
-                id="exp-email"
-                type="email"
+                id="exp-username"
                 class="input"
-                autocomplete="email"
-                formControlName="email"
+                autocomplete="username"
+                formControlName="username"
+                placeholder="usuario"
               />
             </div>
             <div>
-              <label class="label" for="exp-phone">Teléfono</label>
+              <label class="label" for="exp-phone">Telefono</label>
               <input
                 id="exp-phone"
                 class="input"
                 autocomplete="tel"
                 placeholder="+51999999999"
-                formControlName="phone"
+                formControlName="telefono"
               />
             </div>
           </fieldset>
 
           <div>
-            <label class="label" for="exp-pass">Contraseña</label>
+            <label class="label" for="exp-pass">Contrasena</label>
             <input
               id="exp-pass"
               type="password"
@@ -93,31 +91,29 @@ const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
               autocomplete="new-password"
               formControlName="password"
             />
-            <p class="mt-1 text-xs text-[var(--color-ink-500)]">
-              Mínimo 8 caracteres con una mayúscula, una minúscula y un número.
-            </p>
+            <p class="mt-1 text-xs text-[var(--color-ink-500)]">Minimo 4 caracteres.</p>
           </div>
 
           <div class="grid sm:grid-cols-[2fr_1fr] gap-3">
             <div>
               <label class="label" for="exp-spec">Especialidad</label>
-              <select id="exp-spec" class="input" formControlName="specialtyId">
+              <select id="exp-spec" class="input" formControlName="especialidadId">
                 <option [ngValue]="null" disabled>
-                  {{ loadingSpecialties() ? 'Cargando...' : 'Selecciona una especialidad' }}
+                  {{ loadingEspecialidades() ? 'Cargando...' : 'Selecciona una especialidad' }}
                 </option>
-                @for (esp of specialties(); track esp.id) {
+                @for (esp of especialidades(); track esp.id) {
                   <option [ngValue]="esp.id">{{ esp.nombre }}</option>
                 }
               </select>
             </div>
             <div>
-              <label class="label" for="exp-years">Años de experiencia</label>
+              <label class="label" for="exp-years">Anos de experiencia</label>
               <input
                 id="exp-years"
                 type="number"
                 min="0"
                 class="input"
-                formControlName="yearsOfExperience"
+                formControlName="anosExperiencia"
               />
             </div>
           </div>
@@ -128,25 +124,8 @@ const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
               id="exp-traj"
               class="input min-h-28"
               rows="4"
-              formControlName="trajectory"
-              placeholder="Cuéntanos tu experiencia, formación y zonas en las que has trabajado..."
-            ></textarea>
-            <p class="mt-1 text-xs text-[var(--color-ink-500)]">
-              Entre 30 y 1000 caracteres.
-              <span [class.text-red-700]="trajectoryLengthExceeded()">
-                {{ trajectoryLength() }} / 1000
-              </span>
-            </p>
-          </div>
-
-          <div>
-            <label class="label" for="exp-bio">Biografía (opcional)</label>
-            <textarea
-              id="exp-bio"
-              class="input min-h-20"
-              rows="3"
-              formControlName="biography"
-              placeholder="Información adicional, certificaciones, especializaciones..."
+              formControlName="trayectoria"
+              placeholder="Cuentanos tu experiencia, formacion y zonas en las que has trabajado..."
             ></textarea>
           </div>
 
@@ -160,13 +139,13 @@ const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
           }
 
           <app-button type="submit" [fullWidth]="true" [loading]="loading()">
-            Enviar postulación
+            Crear cuenta de experto
           </app-button>
 
           <div
             class="text-sm text-[var(--color-ink-500)] border-t border-[var(--color-border)] pt-4"
           >
-            ¿Solo deseas comprar y consultar?
+            Solo deseas comprar y consultar?
             <a routerLink="/register/cliente" class="text-[var(--color-brand-700)] font-medium">
               Crea cuenta de cliente
             </a>
@@ -185,40 +164,31 @@ export class RegisterExpertoPage implements OnInit {
 
   protected readonly loading = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
-  protected readonly specialties = signal<Especialidad[]>([]);
-  protected readonly loadingSpecialties = signal<boolean>(true);
+  protected readonly especialidades = signal<Especialidad[]>([]);
+  protected readonly loadingEspecialidades = signal<boolean>(true);
 
   protected readonly form = this.fb.nonNullable.group({
-    firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
-    lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
-    email: ['', [Validators.required, Validators.email, Validators.maxLength(120)]],
-    phone: ['', [Validators.pattern(/^$|^\+?[0-9]{7,15}$/)]],
-    password: [
+    nombres: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
+    apellidos: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
+    username: [
       '',
-      [Validators.required, Validators.minLength(8), Validators.pattern(PASSWORD_PATTERN)],
+      [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z0-9_.-]+$/)],
     ],
-    specialtyId: this.fb.control<number | null>(null, [Validators.required]),
-    trajectory: ['', [Validators.required, Validators.minLength(30), Validators.maxLength(1000)]],
-    biography: ['', [Validators.maxLength(2000)]],
-    yearsOfExperience: this.fb.control<number | null>(null, [Validators.required, Validators.min(0)]),
+    telefono: ['', [Validators.pattern(/^$|^\+?[0-9]{7,15}$/)]],
+    password: ['', [Validators.required, Validators.minLength(4)]],
+    especialidadId: this.fb.control<number | null>(null),
+    trayectoria: ['', [Validators.maxLength(1000)]],
+    anosExperiencia: this.fb.control<number | null>(null, [Validators.min(0)]),
   });
 
   ngOnInit(): void {
     this.catalogService
-      .getSpecialties()
+      .getEspecialidades()
       .pipe(catchError(() => of([] as Especialidad[])))
       .subscribe((data) => {
-        this.specialties.set(data);
-        this.loadingSpecialties.set(false);
+        this.especialidades.set(data);
+        this.loadingEspecialidades.set(false);
       });
-  }
-
-  protected trajectoryLength(): number {
-    return this.form.controls.trajectory.value?.length ?? 0;
-  }
-
-  protected trajectoryLengthExceeded(): boolean {
-    return this.trajectoryLength() > 1000;
   }
 
   submit(): void {
@@ -229,20 +199,19 @@ export class RegisterExpertoPage implements OnInit {
     const raw = this.form.getRawValue();
     this.auth
       .registerExperto({
-        firstName: raw.firstName,
-        lastName: raw.lastName,
-        email: raw.email,
-        phone: raw.phone || undefined,
+        username: raw.username,
         password: raw.password,
-        specialtyId: raw.specialtyId!,
-        trajectory: raw.trajectory,
-        biography: raw.biography || undefined,
-        yearsOfExperience: raw.yearsOfExperience!,
+        nombres: raw.nombres,
+        apellidos: raw.apellidos,
+        telefono: raw.telefono || undefined,
+        especialidadId: raw.especialidadId ?? undefined,
+        trayectoria: raw.trayectoria || undefined,
+        anosExperiencia: raw.anosExperiencia ?? undefined,
       })
       .subscribe({
         next: (response) => {
           this.loading.set(false);
-          this.toast.success('Postulación enviada', `Bienvenido, ${response.user.firstName}.`);
+          this.toast.success('Cuenta creada', `Bienvenido, ${response.username}.`);
           this.router.navigate(['/']);
         },
         error: (err) => {
@@ -254,17 +223,15 @@ export class RegisterExpertoPage implements OnInit {
 
   private extractMessage(err: unknown): string {
     if (err && typeof err === 'object' && 'status' in err) {
-      const e = err as { status?: number; error?: { message?: string; details?: Record<string, string> } };
+      const e = err as { status?: number; error?: { message?: string } | string };
       if (e.status === 0)
-        return 'No pudimos contactar al servidor. ¿El backend está corriendo en localhost:8080?';
-      if (e.status === 409) return 'Ese correo ya está registrado. Intenta iniciar sesión.';
-      if (e.status === 404) return 'La especialidad seleccionada no existe.';
-      if (e.error?.details) {
-        const first = Object.values(e.error.details)[0];
-        if (first) return first;
+        return 'No pudimos contactar al servidor. El backend esta corriendo en localhost:8080?';
+      if (e.status === 409) return 'Ese usuario ya esta registrado. Intenta iniciar sesion.';
+      if (typeof e.error === 'string' && e.error) return e.error;
+      if (e.error && typeof e.error === 'object' && 'message' in e.error && e.error.message) {
+        return e.error.message as string;
       }
-      if (e.error?.message) return e.error.message;
     }
-    return 'No se pudo enviar la postulación. Revisa los datos e inténtalo de nuevo.';
+    return 'No se pudo crear la cuenta. Revisa los datos e intentalo de nuevo.';
   }
 }

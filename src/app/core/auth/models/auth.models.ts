@@ -1,56 +1,59 @@
-export type RolNombre = 'CLIENTE' | 'EXPERTO' | 'ADMIN';
-
-export interface RegisterClienteRequest {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  phone?: string;
-}
-
-export interface RegisterExpertoRequest extends RegisterClienteRequest {
-  specialtyId: number;
-  trajectory: string;
-  biography?: string;
-  yearsOfExperience: number;
-}
+export type Rol = 'ROLE_ADMIN' | 'ROLE_CLIENTE' | 'ROLE_EXPERTO';
 
 export interface LoginRequest {
-  email: string;
+  username: string;
   password: string;
 }
 
-export interface RefreshTokenRequest {
-  refreshToken: string;
+export interface RegistroClienteRequest {
+  username: string;
+  password: string;
+  nombres: string;
+  apellidos: string;
+  telefono?: string;
 }
 
-export interface UserResponse {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone?: string;
-  photoUrl?: string;
-  emailVerified?: boolean;
-  roles: RolNombre[];
+export interface RegistroExpertoRequest {
+  username: string;
+  password: string;
+  nombres: string;
+  apellidos: string;
+  telefono?: string;
+  especialidadId?: number;
+  trayectoria?: string;
+  anosExperiencia?: number;
 }
 
+/** Respuesta del backend en POST /api/authenticate */
 export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
-  tokenType: string;
-  expiresIn: number;
-  user: UserResponse;
+  jwt: string;
+  username: string;
+  roles: Rol[];
 }
 
-export interface UpdateUserRequest {
-  firstName?: string;
-  lastName?: string;
-  phone?: string;
-  photoUrl?: string;
+/** Sesion del usuario que persistimos en localStorage */
+export interface SessionUser {
+  username: string;
+  roles: Rol[];
 }
 
-export interface ChangePasswordRequest {
-  currentPassword: string;
-  newPassword: string;
+/** Perfil del cliente (GET /api/cliente/me) */
+export interface ClienteResponse {
+  id: number;
+  nombres: string;
+  apellidos: string;
+  telefono?: string;
+  username: string;
+}
+
+/** Perfil del experto (GET /api/experto/me) */
+export interface ExpertoResponse {
+  id: number;
+  nombres: string;
+  apellidos: string;
+  telefono?: string;
+  trayectoria?: string;
+  anosExperiencia?: number;
+  especialidad?: { id: number; nombre: string; descripcion?: string };
+  username: string;
 }

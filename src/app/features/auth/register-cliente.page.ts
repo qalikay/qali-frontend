@@ -8,8 +8,6 @@ import { IconComponent } from '../../shared/icons/icon.component';
 import { LogoComponent } from '../../shared/components/logo/logo.component';
 import { ToastService } from '../../shared/services/toast.service';
 
-const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-
 @Component({
   selector: 'app-register-cliente-page',
   standalone: true,
@@ -23,51 +21,54 @@ const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
       <div class="card p-6 md:p-8">
         <h1 class="text-2xl">Crear cuenta</h1>
         <p class="mt-1 text-sm text-[var(--color-ink-500)]">
-          Regístrate gratis para descubrir recetas y reservar consultas.
+          Registrate gratis para descubrir recetas y reservar consultas.
         </p>
 
         <form [formGroup]="form" (ngSubmit)="submit()" class="mt-6 space-y-4" novalidate>
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="label" for="reg-first">Nombres</label>
+              <label class="label" for="reg-nombres">Nombres</label>
               <input
-                id="reg-first"
+                id="reg-nombres"
                 class="input"
                 autocomplete="given-name"
-                formControlName="firstName"
+                formControlName="nombres"
               />
             </div>
             <div>
-              <label class="label" for="reg-last">Apellidos</label>
+              <label class="label" for="reg-apellidos">Apellidos</label>
               <input
-                id="reg-last"
+                id="reg-apellidos"
                 class="input"
                 autocomplete="family-name"
-                formControlName="lastName"
+                formControlName="apellidos"
               />
             </div>
           </div>
 
           <div>
-            <label class="label" for="reg-email">Correo</label>
+            <label class="label" for="reg-username">Usuario</label>
             <div class="relative">
               <span
                 class="absolute inset-y-0 left-3 flex items-center text-[var(--color-ink-300)]"
               >
-                <app-icon name="mail" [size]="16" />
+                <app-icon name="user" [size]="16" />
               </span>
               <input
-                id="reg-email"
-                type="email"
+                id="reg-username"
                 class="input pl-9"
-                autocomplete="email"
-                formControlName="email"
+                autocomplete="username"
+                formControlName="username"
+                placeholder="elige_tu_usuario"
               />
             </div>
+            <p class="mt-1 text-xs text-[var(--color-ink-500)]">
+              Sin espacios. Sera tu identificador para iniciar sesion.
+            </p>
           </div>
 
           <div>
-            <label class="label" for="reg-phone">Teléfono (opcional)</label>
+            <label class="label" for="reg-phone">Telefono (opcional)</label>
             <div class="relative">
               <span
                 class="absolute inset-y-0 left-3 flex items-center text-[var(--color-ink-300)]"
@@ -79,13 +80,13 @@ const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
                 class="input pl-9"
                 autocomplete="tel"
                 placeholder="+51999999999"
-                formControlName="phone"
+                formControlName="telefono"
               />
             </div>
           </div>
 
           <div>
-            <label class="label" for="reg-pass">Contraseña</label>
+            <label class="label" for="reg-pass">Contrasena</label>
             <div class="relative">
               <span
                 class="absolute inset-y-0 left-3 flex items-center text-[var(--color-ink-300)]"
@@ -100,9 +101,7 @@ const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
                 formControlName="password"
               />
             </div>
-            <p class="mt-1 text-xs text-[var(--color-ink-500)]">
-              Mínimo 8 caracteres con una mayúscula, una minúscula y un número.
-            </p>
+            <p class="mt-1 text-xs text-[var(--color-ink-500)]">Minimo 4 caracteres.</p>
           </div>
 
           @if (errorMessage()) {
@@ -118,16 +117,10 @@ const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
             Crear cuenta
           </app-button>
 
-          <p class="text-xs text-[var(--color-ink-500)]">
-            Al registrarte aceptas los
-            <a routerLink="/terms" class="underline">términos</a> y la
-            <a routerLink="/privacy" class="underline">política de privacidad</a>.
-          </p>
-
           <div class="text-sm text-[var(--color-ink-500)] border-t border-[var(--color-border)] pt-4">
-            ¿Eres profesional de la medicina natural?
+            Eres profesional de la medicina natural?
             <a routerLink="/register/experto" class="text-[var(--color-brand-700)] font-medium">
-              Regístrate como experto
+              Registrate como experto
             </a>
           </div>
         </form>
@@ -145,14 +138,14 @@ export class RegisterClientePage {
   protected readonly errorMessage = signal<string | null>(null);
 
   protected readonly form = this.fb.nonNullable.group({
-    firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
-    lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
-    email: ['', [Validators.required, Validators.email, Validators.maxLength(120)]],
-    phone: ['', [Validators.pattern(/^$|^\+?[0-9]{7,15}$/)]],
-    password: [
+    nombres: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
+    apellidos: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
+    username: [
       '',
-      [Validators.required, Validators.minLength(8), Validators.pattern(PASSWORD_PATTERN)],
+      [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z0-9_.-]+$/)],
     ],
+    telefono: ['', [Validators.pattern(/^$|^\+?[0-9]{7,15}$/)]],
+    password: ['', [Validators.required, Validators.minLength(4)]],
   });
 
   submit(): void {
@@ -163,7 +156,7 @@ export class RegisterClientePage {
     this.auth.registerCliente(this.form.getRawValue()).subscribe({
       next: (response) => {
         this.loading.set(false);
-        this.toast.success('Cuenta creada', `¡Bienvenido, ${response.user.firstName}!`);
+        this.toast.success('Cuenta creada', `Bienvenido, ${response.username}!`);
         this.router.navigate(['/']);
       },
       error: (err) => {
@@ -175,16 +168,15 @@ export class RegisterClientePage {
 
   private extractMessage(err: unknown): string {
     if (err && typeof err === 'object' && 'status' in err) {
-      const e = err as { status?: number; error?: { message?: string; details?: Record<string, string> } };
+      const e = err as { status?: number; error?: { message?: string } | string };
       if (e.status === 0)
-        return 'No pudimos contactar al servidor. ¿El backend está corriendo en localhost:8080?';
-      if (e.status === 409) return 'Ese correo ya está registrado. Intenta iniciar sesión.';
-      if (e.error?.details) {
-        const first = Object.values(e.error.details)[0];
-        if (first) return first;
+        return 'No pudimos contactar al servidor. El backend esta corriendo en localhost:8080?';
+      if (e.status === 409) return 'Ese usuario ya esta registrado. Intenta iniciar sesion.';
+      if (typeof e.error === 'string' && e.error) return e.error;
+      if (e.error && typeof e.error === 'object' && 'message' in e.error && e.error.message) {
+        return e.error.message as string;
       }
-      if (e.error?.message) return e.error.message;
     }
-    return 'No se pudo crear la cuenta. Revisa los datos e inténtalo de nuevo.';
+    return 'No se pudo crear la cuenta. Revisa los datos e intentalo de nuevo.';
   }
 }
