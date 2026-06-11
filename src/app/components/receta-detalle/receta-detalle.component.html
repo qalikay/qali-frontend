@@ -1,7 +1,9 @@
-<a mat-button routerLink="/recetas">Volver a recetas</a>
+<a mat-button routerLink="/recetas">&larr; Volver a recetas</a>
 
 @if (cargando) {
-  <mat-spinner></mat-spinner>
+  <div class="loading-center">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
 }
 
 @if (mensaje) {
@@ -9,23 +11,41 @@
 }
 
 @if (receta) {
-  <mat-card>
-    <mat-card-title>{{ receta.titulo }}</mat-card-title>
-    <mat-card-subtitle>
-      {{ receta.categoria?.nombre }} · {{ receta.precio | currency: 'PEN':'symbol':'1.2-2' }}
-    </mat-card-subtitle>
+  <mat-card class="page-card" style="margin-top: 16px">
+    <mat-card-header>
+      <mat-card-title>{{ receta.titulo }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ receta.categoria?.nombre }} &middot;
+        {{ receta.precio | currency: 'PEN':'symbol':'1.2-2' }} &middot;
+        {{ receta.minutosPreparacion }} min
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
     <mat-card-content>
       <p>{{ receta.descripcion }}</p>
-      <h3>Ingredientes</h3>
-      <p>{{ receta.ingredientes }}</p>
-      <h3>Preparacion</h3>
-      <p>{{ receta.preparacion }}</p>
+
+      <div class="detalle-seccion">
+        <h3>Ingredientes</h3>
+        <p>{{ receta.ingredientes }}</p>
+      </div>
+
+      <div class="detalle-seccion">
+        <h3>Preparacion</h3>
+        <p>{{ receta.preparacion }}</p>
+      </div>
+
       @if (receta.advertencias) {
-        <h3>Advertencias</h3>
-        <p>{{ receta.advertencias }}</p>
+        <div class="detalle-seccion">
+          <h3>Advertencias</h3>
+          <p>{{ receta.advertencias }}</p>
+        </div>
       }
-      <p><small>Tiempo: {{ receta.minutosPreparacion }} min</small></p>
-      <p><small>Experto: {{ receta.experto?.nombres }} {{ receta.experto?.apellidos }}</small></p>
+
+      <p class="link-footer">
+        Experto: {{ receta.experto?.nombres }} {{ receta.experto?.apellidos }}
+      </p>
     </mat-card-content>
   </mat-card>
 }

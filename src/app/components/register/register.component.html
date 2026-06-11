@@ -1,29 +1,32 @@
-<h2>Crear cuenta (Cliente)</h2>
+<div class="page-header centro">
+  <h2>Crear cuenta</h2>
+  <p>Registrate como cliente de QaliKay</p>
+</div>
 
-<mat-card>
+<mat-card class="page-card form-card">
   <mat-card-content>
     <form [formGroup]="form" (ngSubmit)="registrar()" class="form-container">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Usuario</mat-label>
         <input matInput formControlName="username" required />
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Contrasena</mat-label>
         <input matInput type="password" formControlName="password" required />
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Nombres</mat-label>
         <input matInput formControlName="nombres" required />
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Apellidos</mat-label>
         <input matInput formControlName="apellidos" required />
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Telefono</mat-label>
         <input matInput formControlName="telefono" required />
       </mat-form-field>
@@ -37,9 +40,8 @@
       <p class="error-msg">{{ mensaje }}</p>
     }
 
-    <p class="link-registro">
-      Ya tienes cuenta?
-      <a routerLink="/login">Ingresar</a>
+    <p class="link-footer">
+      Ya tienes cuenta? <a routerLink="/login">Ingresar</a>
     </p>
   </mat-card-content>
 </mat-card>

@@ -1,19 +1,26 @@
-<mat-toolbar color="primary">
-  <span>QaliKay</span>
+<mat-toolbar color="primary" class="toolbar">
+  <a mat-button class="logo" routerLink="/home">QaliKay</a>
   <span class="spacer"></span>
-  <a mat-button routerLink="/home" routerLinkActive="active">Inicio</a>
-  <a mat-button routerLink="/recetas" routerLinkActive="active">Recetas</a>
-  <a mat-button routerLink="/insumos" routerLinkActive="active">Insumos</a>
+  <nav class="nav-links">
+    <a mat-button routerLink="/home" routerLinkActive="active">Inicio</a>
+    <a mat-button routerLink="/recetas" routerLinkActive="active">Recetas</a>
+    <a mat-button routerLink="/insumos" routerLinkActive="active">Insumos</a>
+  </nav>
 
   @if (auth.estaLogueado()) {
     <span class="usuario">Hola, {{ auth.getUsername() }}</span>
-    <button mat-button (click)="logout()">Salir</button>
+    <button mat-stroked-button class="btn-salir" (click)="logout()">Salir</button>
   } @else {
     <a mat-button routerLink="/login">Ingresar</a>
-    <a mat-button routerLink="/register">Registrarse</a>
+    <a mat-raised-button color="accent" routerLink="/register">Registrarse</a>
   }
 </mat-toolbar>
 
 <main class="container">
   <router-outlet></router-outlet>
 </main>
+
+<footer class="app-footer">
+  <span>QaliKay — Medicina natural andina</span>
+  <span>Proyecto SI705 · UPC</span>
+</footer>

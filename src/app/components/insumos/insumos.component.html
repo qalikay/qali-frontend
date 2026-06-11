@@ -1,8 +1,12 @@
-<h2>Insumos disponibles</h2>
-<p>Productos cargados desde el backend (import.sql al iniciar).</p>
+<div class="page-header">
+  <h2>Insumos disponibles</h2>
+  <p>Listado obtenido del backend (GET /api/insumos)</p>
+</div>
 
 @if (cargando) {
-  <mat-spinner></mat-spinner>
+  <div class="loading-center">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
 }
 
 @if (mensaje) {
@@ -10,24 +14,44 @@
 }
 
 @if (!cargando && insumos.length === 0 && !mensaje) {
-  <p>No hay insumos.</p>
+  <p class="info-msg">No hay insumos disponibles.</p>
 }
 
-<div class="card-list">
-  @for (insumo of insumos; track insumo.id) {
-    <mat-card>
-      <mat-card-title>{{ insumo.nombre }}</mat-card-title>
-      <mat-card-subtitle>
-        {{ insumo.categoria?.nombre }} · {{ insumo.precio | currency: 'PEN':'symbol':'1.2-2' }} ·
-        Stock: {{ insumo.stock }} {{ insumo.unidad }}
-      </mat-card-subtitle>
-      <mat-card-content>
-        <p>{{ insumo.descripcion }}</p>
-        <p><small>Estado: {{ insumo.estado }}</small></p>
-      </mat-card-content>
-      <mat-card-actions>
-        <a mat-button color="primary" [routerLink]="['/insumos', insumo.id]">Ver detalle</a>
-      </mat-card-actions>
-    </mat-card>
-  }
-</div>
+@if (!cargando && insumos.length > 0) {
+  <table mat-table [dataSource]="insumos" class="tabla-datos">
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let i">{{ i.nombre }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="categoria">
+      <th mat-header-cell *matHeaderCellDef>Categoria</th>
+      <td mat-cell *matCellDef="let i">{{ i.categoria?.nombre }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="precio">
+      <th mat-header-cell *matHeaderCellDef>Precio</th>
+      <td mat-cell *matCellDef="let i">{{ i.precio | currency: 'PEN':'symbol':'1.2-2' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="stock">
+      <th mat-header-cell *matHeaderCellDef>Stock</th>
+      <td mat-cell *matCellDef="let i">{{ i.stock }} {{ i.unidad }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let i">{{ i.estado }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="accion">
+      <th mat-header-cell *matHeaderCellDef>Accion</th>
+      <td mat-cell *matCellDef="let i">
+        <a mat-button color="primary" [routerLink]="['/insumos', i.id]">Ver</a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+  </table>
+}

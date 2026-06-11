@@ -1,17 +1,72 @@
-<h1>QaliKay</h1>
-<p>Plataforma de medicina natural andina. Conecta con expertos, recetas e insumos.</p>
+<!-- Hero informativo -->
+<section class="hero">
+  <h1>QaliKay</h1>
+  <p class="hero-eslogan">Sabiduria andina, bienestar moderno</p>
+  <p class="hero-texto">
+    Plataforma peruana que conecta a personas con expertos certificados en medicina
+    natural. Explora recetas tradicionales, insumos naturales y consulta con especialistas.
+  </p>
+  <div class="hero-botones">
+    <a mat-raised-button color="accent" routerLink="/recetas">Explorar recetas</a>
+    <a mat-stroked-button class="btn-hero-outline" routerLink="/insumos">Ver insumos</a>
+    <a mat-button class="btn-hero-link" routerLink="/login">Ingresar</a>
+  </div>
+</section>
 
-<mat-card>
-  <mat-card-title>Bienvenido</mat-card-title>
+<!-- Que ofrece la plataforma -->
+<section class="info-seccion">
+  <h2>Que puedes hacer aqui</h2>
+  <div class="info-cards">
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>Recetas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Infusiones, jarabes, pomadas y preparaciones andinas publicadas por expertos.
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/recetas">Ir a recetas</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>Insumos</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Plantas medicinales, aceites y productos naturales disponibles en la tienda.
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/insumos">Ir a insumos</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>Expertos</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Curanderos y herbolarios andinos que comparten su conocimiento ancestral.
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/register">Crear cuenta</a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</section>
+
+<!-- Nota tecnica + demo (para el profesor) -->
+<mat-card class="page-card nota-card">
   <mat-card-content>
+    <p class="nota-titulo">Nota para desarrollo</p>
     <p>
-      Al levantar el backend, los datos de prueba (recetas, insumos, expertos) se cargan
-      automaticamente. Solo navega y consulta.
+      Al levantar el backend, los datos de prueba se cargan automaticamente desde
+      <code>import.sql</code>. No necesitas crear registros manualmente.
     </p>
-    <p>Cuentas demo: <strong>cliente / cliente123</strong> o <strong>experto / experto123</strong></p>
+    <div class="demo-box">
+      <strong>Cuentas demo:</strong>
+      Cliente: <code>cliente</code> / <code>cliente123</code> &nbsp;|&nbsp;
+      Experto: <code>experto</code> / <code>experto123</code>
+    </div>
   </mat-card-content>
-  <mat-card-actions>
-    <a mat-raised-button color="primary" routerLink="/recetas">Ver recetas</a>
-    <a mat-raised-button color="accent" routerLink="/insumos">Ver insumos</a>
-  </mat-card-actions>
 </mat-card>

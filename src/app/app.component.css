@@ -1,17 +1,42 @@
+.toolbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
 .spacer {
   flex: 1 1 auto;
 }
 
+.nav-links a {
+  margin-right: 4px;
+}
+
+.nav-links a.active {
+  background: rgba(255, 255, 255, 0.15);
+  font-weight: 500;
+}
+
 .usuario {
-  margin-right: 8px;
-  font-size: 14px;
+  margin-right: 12px;
+  font-size: 0.9rem;
 }
 
-a.active {
-  font-weight: bold;
+.btn-salir {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.6);
 }
 
-main.container {
-  padding-top: 24px;
-  padding-bottom: 24px;
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background: #fff;
+  border-top: 1px solid #cfd8dc;
+  font-size: 0.8rem;
+  color: #78909c;
 }

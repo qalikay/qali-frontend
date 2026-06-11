@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CurrencyPipe } from '@angular/common';
 
@@ -10,7 +11,14 @@ import { RecetaService } from '../../services/receta.service';
 @Component({
   selector: 'app-receta-detalle',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatProgressSpinnerModule, CurrencyPipe],
+  imports: [
+    RouterLink,
+    MatCardModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+    CurrencyPipe,
+  ],
   templateUrl: './receta-detalle.component.html',
   styleUrl: './receta-detalle.component.css',
 })

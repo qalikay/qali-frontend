@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
 import { CurrencyPipe } from '@angular/common';
 
 import { RecetaService } from '../../services/receta.service';
@@ -10,7 +10,7 @@ import { RecetaService } from '../../services/receta.service';
 @Component({
   selector: 'app-recetas',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatProgressSpinnerModule, CurrencyPipe],
+  imports: [RouterLink, MatButtonModule, MatProgressSpinnerModule, MatTableModule, CurrencyPipe],
   templateUrl: './recetas.component.html',
   styleUrl: './recetas.component.css',
 })
@@ -18,6 +18,7 @@ export class RecetasComponent implements OnInit {
   recetas: any[] = [];
   cargando = true;
   mensaje = '';
+  columnas = ['titulo', 'categoria', 'precio', 'experto', 'accion'];
 
   constructor(private recetaService: RecetaService) {}
 
@@ -29,7 +30,8 @@ export class RecetasComponent implements OnInit {
       },
       error: () => {
         this.cargando = false;
-        this.mensaje = 'No se pudieron cargar las recetas. ¿El backend esta corriendo en localhost:8080?';
+        this.mensaje =
+          'No se pudieron cargar las recetas. Verifica que el backend este corriendo en localhost:8080.';
       },
     });
   }
