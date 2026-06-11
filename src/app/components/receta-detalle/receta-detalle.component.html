@@ -1,0 +1,31 @@
+<a mat-button routerLink="/recetas">Volver a recetas</a>
+
+@if (cargando) {
+  <mat-spinner></mat-spinner>
+}
+
+@if (mensaje) {
+  <p class="error-msg">{{ mensaje }}</p>
+}
+
+@if (receta) {
+  <mat-card>
+    <mat-card-title>{{ receta.titulo }}</mat-card-title>
+    <mat-card-subtitle>
+      {{ receta.categoria?.nombre }} · {{ receta.precio | currency: 'PEN':'symbol':'1.2-2' }}
+    </mat-card-subtitle>
+    <mat-card-content>
+      <p>{{ receta.descripcion }}</p>
+      <h3>Ingredientes</h3>
+      <p>{{ receta.ingredientes }}</p>
+      <h3>Preparacion</h3>
+      <p>{{ receta.preparacion }}</p>
+      @if (receta.advertencias) {
+        <h3>Advertencias</h3>
+        <p>{{ receta.advertencias }}</p>
+      }
+      <p><small>Tiempo: {{ receta.minutosPreparacion }} min</small></p>
+      <p><small>Experto: {{ receta.experto?.nombres }} {{ receta.experto?.apellidos }}</small></p>
+    </mat-card-content>
+  </mat-card>
+}

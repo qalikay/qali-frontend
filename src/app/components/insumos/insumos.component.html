@@ -1,0 +1,33 @@
+<h2>Insumos disponibles</h2>
+<p>Productos cargados desde el backend (import.sql al iniciar).</p>
+
+@if (cargando) {
+  <mat-spinner></mat-spinner>
+}
+
+@if (mensaje) {
+  <p class="error-msg">{{ mensaje }}</p>
+}
+
+@if (!cargando && insumos.length === 0 && !mensaje) {
+  <p>No hay insumos.</p>
+}
+
+<div class="card-list">
+  @for (insumo of insumos; track insumo.id) {
+    <mat-card>
+      <mat-card-title>{{ insumo.nombre }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ insumo.categoria?.nombre }} · {{ insumo.precio | currency: 'PEN':'symbol':'1.2-2' }} ·
+        Stock: {{ insumo.stock }} {{ insumo.unidad }}
+      </mat-card-subtitle>
+      <mat-card-content>
+        <p>{{ insumo.descripcion }}</p>
+        <p><small>Estado: {{ insumo.estado }}</small></p>
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" [routerLink]="['/insumos', insumo.id]">Ver detalle</a>
+      </mat-card-actions>
+    </mat-card>
+  }
+</div>

@@ -1,0 +1,17 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.usuario {
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+a.active {
+  font-weight: bold;
+}
+
+main.container {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}

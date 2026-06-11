@@ -1,0 +1,25 @@
+<a mat-button routerLink="/insumos">Volver a insumos</a>
+
+@if (cargando) {
+  <mat-spinner></mat-spinner>
+}
+
+@if (mensaje) {
+  <p class="error-msg">{{ mensaje }}</p>
+}
+
+@if (insumo) {
+  <mat-card>
+    <mat-card-title>{{ insumo.nombre }}</mat-card-title>
+    <mat-card-subtitle>
+      {{ insumo.categoria?.nombre }} · {{ insumo.precio | currency: 'PEN':'symbol':'1.2-2' }}
+    </mat-card-subtitle>
+    <mat-card-content>
+      <p>{{ insumo.descripcion }}</p>
+      <p>Tipo: {{ insumo.tipo }}</p>
+      <p>Stock: {{ insumo.stock }} {{ insumo.unidad }}</p>
+      <p>Estado: {{ insumo.estado }}</p>
+      <p><small>Vendedor: {{ insumo.experto?.nombres }} {{ insumo.experto?.apellidos }}</small></p>
+    </mat-card-content>
+  </mat-card>
+}

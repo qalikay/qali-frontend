@@ -1,0 +1,32 @@
+<h2>Recetas publicadas</h2>
+<p>Datos cargados desde el backend (import.sql al iniciar).</p>
+
+@if (cargando) {
+  <mat-spinner></mat-spinner>
+}
+
+@if (mensaje) {
+  <p class="error-msg">{{ mensaje }}</p>
+}
+
+@if (!cargando && recetas.length === 0 && !mensaje) {
+  <p>No hay recetas publicadas.</p>
+}
+
+<div class="card-list">
+  @for (receta of recetas; track receta.id) {
+    <mat-card>
+      <mat-card-title>{{ receta.titulo }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ receta.categoria?.nombre }} · {{ receta.precio | currency: 'PEN':'symbol':'1.2-2' }}
+      </mat-card-subtitle>
+      <mat-card-content>
+        <p>{{ receta.descripcion }}</p>
+        <p><small>Experto: {{ receta.experto?.nombres }} {{ receta.experto?.apellidos }}</small></p>
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" [routerLink]="['/recetas', receta.id]">Ver detalle</a>
+      </mat-card-actions>
+    </mat-card>
+  }
+</div>

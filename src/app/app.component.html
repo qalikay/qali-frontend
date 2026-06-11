@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <span>QaliKay</span>
+  <span class="spacer"></span>
+  <a mat-button routerLink="/home" routerLinkActive="active">Inicio</a>
+  <a mat-button routerLink="/recetas" routerLinkActive="active">Recetas</a>
+  <a mat-button routerLink="/insumos" routerLinkActive="active">Insumos</a>
+
+  @if (auth.estaLogueado()) {
+    <span class="usuario">Hola, {{ auth.getUsername() }}</span>
+    <button mat-button (click)="logout()">Salir</button>
+  } @else {
+    <a mat-button routerLink="/login">Ingresar</a>
+    <a mat-button routerLink="/register">Registrarse</a>
+  }
+</mat-toolbar>
+
+<main class="container">
+  <router-outlet></router-outlet>
+</main>
