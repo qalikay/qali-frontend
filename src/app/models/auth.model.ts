@@ -24,6 +24,18 @@ export interface RegistroClienteRequest {
   telefono: string;
 }
 
+/** RegistroExpertoDTO */
+export interface RegistroExpertoRequest {
+  username: string;
+  password: string;
+  nombres: string;
+  apellidos: string;
+  telefono: string;
+  especialidadId: number;
+  trayectoria: string;
+  anosExperiencia: number;
+}
+
 /** Datos guardados en localStorage */
 export interface SessionUser {
   username: string;

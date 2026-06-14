@@ -6,6 +6,7 @@ import { MatTableModule } from '@angular/material/table';
 import { CurrencyPipe } from '@angular/common';
 
 import { RecetaService } from '../../services/receta.service';
+import { AuthService } from '../../services/auth.service';
 import { Receta } from '../../models/receta.model';
 
 @Component({
@@ -21,7 +22,10 @@ export class RecetasComponent implements OnInit {
   mensaje = '';
   columnas = ['titulo', 'categoria', 'precio', 'experto', 'accion'];
 
-  constructor(private recetaService: RecetaService) {}
+  constructor(
+    private recetaService: RecetaService,
+    public auth: AuthService,
+  ) {}
 
   ngOnInit(): void {
     this.recetaService.getRecetas().subscribe({

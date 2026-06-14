@@ -17,3 +17,16 @@ export interface Receta {
   categoria?: Categoria;
   experto?: Experto;
 }
+
+/** CrearRecetaDTO del backend */
+export interface CrearRecetaRequest {
+  titulo: string;
+  descripcion?: string;
+  ingredientes?: string;
+  preparacion?: string;
+  advertencias?: string;
+  minutosPreparacion?: number;
+  precio?: number;
+  imagenUrl?: string;
+  categoriaId?: number;
+}

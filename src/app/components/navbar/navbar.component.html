@@ -1,0 +1,33 @@
+<mat-toolbar color="primary" class="toolbar">
+  <a mat-button class="logo" routerLink="/home">QaliKay</a>
+
+  <nav class="nav-links">
+    <a mat-button routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      Inicio
+    </a>
+    <a mat-button routerLink="/recetas" routerLinkActive="active">Recetas</a>
+    <a mat-button routerLink="/insumos" routerLinkActive="active">Insumos</a>
+
+    @if (auth.esCliente()) {
+      <a mat-button routerLink="/cliente/inicio" routerLinkActive="active">Mi panel</a>
+    }
+
+    @if (auth.esExperto()) {
+      <a mat-button routerLink="/experto/inicio" routerLinkActive="active">Mi panel</a>
+      <a mat-button routerLink="/experto/recetas" routerLinkActive="active">Mis recetas</a>
+    }
+  </nav>
+
+  <span class="spacer"></span>
+
+  @if (auth.estaLogueado()) {
+    <span class="usuario">
+      Hola, {{ auth.getUsername() }}
+      <span class="rol-chip">{{ auth.getRolEtiqueta() }}</span>
+    </span>
+    <button mat-stroked-button class="btn-salir" (click)="logout()">Salir</button>
+  } @else {
+    <a mat-button routerLink="/login">Ingresar</a>
+    <a mat-raised-button color="accent" routerLink="/register">Registrarse</a>
+  }
+</mat-toolbar>

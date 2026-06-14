@@ -1,7 +1,14 @@
 <div class="page-header">
   <h2>Recetas publicadas</h2>
-  <p>Listado obtenido del backend (GET /api/recetas)</p>
+  <p>Catalogo publico de recetas de medicina natural</p>
 </div>
+
+@if (auth.esExperto()) {
+  <div class="acciones-superiores">
+    <a mat-raised-button color="primary" routerLink="/experto/receta-nuevo">Nueva receta</a>
+    <a mat-button routerLink="/experto/recetas">Mis recetas</a>
+  </div>
+}
 
 @if (cargando) {
   <div class="loading-center">

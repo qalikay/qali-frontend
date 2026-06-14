@@ -2,6 +2,12 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { RegisterSeleccionComponent } from './components/register-seleccion/register-seleccion.component';
+import { RegisterExpertoComponent } from './components/register-experto/register-experto.component';
+import { ClienteInicioComponent } from './components/cliente-inicio/cliente-inicio.component';
+import { ExpertoInicioComponent } from './components/experto-inicio/experto-inicio.component';
+import { ExpertoRecetasComponent } from './components/experto-recetas/experto-recetas.component';
+import { ExpertoRecetaFormComponent } from './components/experto-receta-form/experto-receta-form.component';
 import { RecetasComponent } from './components/recetas/recetas.component';
 import { RecetaDetalleComponent } from './components/receta-detalle/receta-detalle.component';
 import { InsumosComponent } from './components/insumos/insumos.component';
@@ -11,7 +17,14 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'register', component: RegisterSeleccionComponent },
+  { path: 'register/cliente', component: RegisterComponent },
+  { path: 'register/experto', component: RegisterExpertoComponent },
+  { path: 'cliente/inicio', component: ClienteInicioComponent },
+  { path: 'experto/inicio', component: ExpertoInicioComponent },
+  { path: 'experto/recetas', component: ExpertoRecetasComponent },
+  { path: 'experto/receta-nuevo', component: ExpertoRecetaFormComponent },
+  { path: 'experto/receta-nuevo/:id', component: ExpertoRecetaFormComponent },
   { path: 'recetas', component: RecetasComponent },
   { path: 'recetas/:id', component: RecetaDetalleComponent },
   { path: 'insumos', component: InsumosComponent },

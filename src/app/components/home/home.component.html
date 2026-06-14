@@ -1,4 +1,3 @@
-<!-- Hero informativo -->
 <section class="hero">
   <h1>QaliKay</h1>
   <p class="hero-eslogan">Sabiduria andina, bienestar moderno</p>
@@ -9,17 +8,17 @@
   <div class="hero-botones">
     <a mat-raised-button color="accent" routerLink="/recetas">Explorar recetas</a>
     <a mat-stroked-button class="btn-hero-outline" routerLink="/insumos">Ver insumos</a>
-    <a mat-button class="btn-hero-link" routerLink="/login">Ingresar</a>
+    <a mat-stroked-button class="btn-hero-outline" routerLink="/register">Crear cuenta</a>
   </div>
 </section>
 
-<!-- Que ofrece la plataforma -->
 <section class="info-seccion">
   <h2>Que puedes hacer aqui</h2>
   <div class="info-cards">
-    <mat-card class="info-card">
+    <mat-card class="info-card mat-elevation-z2">
       <mat-card-header>
         <mat-card-title>Recetas</mat-card-title>
+        <mat-card-subtitle>Para todos</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         Infusiones, jarabes, pomadas y preparaciones andinas publicadas por expertos.
@@ -29,9 +28,10 @@
       </mat-card-actions>
     </mat-card>
 
-    <mat-card class="info-card">
+    <mat-card class="info-card mat-elevation-z2">
       <mat-card-header>
         <mat-card-title>Insumos</mat-card-title>
+        <mat-card-subtitle>Para todos</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         Plantas medicinales, aceites y productos naturales disponibles en la tienda.
@@ -41,32 +41,30 @@
       </mat-card-actions>
     </mat-card>
 
-    <mat-card class="info-card">
+    <mat-card class="info-card mat-elevation-z2">
       <mat-card-header>
-        <mat-card-title>Expertos</mat-card-title>
+        <mat-card-title>Soy cliente</mat-card-title>
+        <mat-card-subtitle>Busco orientacion</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        Curanderos y herbolarios andinos que comparten su conocimiento ancestral.
+        Registrate para consultar expertos, comprar insumos y dejar reseñas.
       </mat-card-content>
       <mat-card-actions>
-        <a mat-button color="primary" routerLink="/register">Crear cuenta</a>
+        <a mat-button color="primary" routerLink="/register/cliente">Registrarme</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="info-card mat-elevation-z2">
+      <mat-card-header>
+        <mat-card-title>Soy experto</mat-card-title>
+        <mat-card-subtitle>Comparto conocimiento</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        Publica recetas e insumos, y atiende consultas de clientes interesados.
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="accent" routerLink="/register/experto">Registrarme</a>
       </mat-card-actions>
     </mat-card>
   </div>
 </section>
-
-<!-- Nota tecnica + demo (para el profesor) -->
-<mat-card class="page-card nota-card">
-  <mat-card-content>
-    <p class="nota-titulo">Nota para desarrollo</p>
-    <p>
-      Al levantar el backend, los datos de prueba se cargan automaticamente desde
-      <code>import.sql</code>. No necesitas crear registros manualmente.
-    </p>
-    <div class="demo-box">
-      <strong>Cuentas demo:</strong>
-      Cliente: <code>cliente</code> / <code>cliente123</code> &nbsp;|&nbsp;
-      Experto: <code>experto</code> / <code>experto123</code>
-    </div>
-  </mat-card-content>
-</mat-card>

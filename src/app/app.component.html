@@ -1,20 +1,4 @@
-<mat-toolbar color="primary" class="toolbar">
-  <a mat-button class="logo" routerLink="/home">QaliKay</a>
-  <span class="spacer"></span>
-  <nav class="nav-links">
-    <a mat-button routerLink="/home" routerLinkActive="active">Inicio</a>
-    <a mat-button routerLink="/recetas" routerLinkActive="active">Recetas</a>
-    <a mat-button routerLink="/insumos" routerLinkActive="active">Insumos</a>
-  </nav>
-
-  @if (auth.estaLogueado()) {
-    <span class="usuario">Hola, {{ auth.getUsername() }}</span>
-    <button mat-stroked-button class="btn-salir" (click)="logout()">Salir</button>
-  } @else {
-    <a mat-button routerLink="/login">Ingresar</a>
-    <a mat-raised-button color="accent" routerLink="/register">Registrarse</a>
-  }
-</mat-toolbar>
+<app-navbar></app-navbar>
 
 <main class="container">
   <router-outlet></router-outlet>

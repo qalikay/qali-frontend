@@ -1,0 +1,20 @@
+.acciones-superiores {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.estado-chip {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.estado-chip.publicada {
+  background: #e8f5e9;
+  color: #2e7d32;
+}

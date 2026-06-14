@@ -1,0 +1,60 @@
+.panel-hero {
+  border-radius: 8px;
+  padding: 32px;
+  margin-bottom: 28px;
+  color: #fff;
+}
+
+.panel-experto {
+  background: linear-gradient(135deg, #2e7d32 0%, #388e3c 60%, #66bb6a 100%);
+}
+
+.panel-etiqueta {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.85;
+}
+
+.panel-hero h1 {
+  margin: 0 0 10px;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.panel-hero p {
+  margin: 0;
+  opacity: 0.92;
+  line-height: 1.5;
+}
+
+.panel-acciones h2 {
+  margin: 0 0 16px;
+  color: #1b5e20;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.acciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.accion-card mat-card-content {
+  min-height: 56px;
+  color: #546e7a;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.badge-prox {
+  display: inline-block;
+  background: #fff3e0;
+  color: #e65100;
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin: 8px 0 0 8px;
+}

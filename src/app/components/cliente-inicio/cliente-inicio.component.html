@@ -1,0 +1,50 @@
+<section class="panel-hero panel-cliente">
+  <p class="panel-etiqueta">Panel del cliente</p>
+  <h1>Bienvenido, {{ auth.getUsername() }}</h1>
+  <p>Explora recetas naturales, compra insumos y consulta con expertos certificados.</p>
+</section>
+
+<section class="panel-acciones">
+  <h2>Accesos rapidos</h2>
+  <div class="acciones-grid">
+    <mat-card class="accion-card">
+      <mat-card-header>
+        <mat-card-title>Recetas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Consulta preparaciones andinas publicadas por expertos.</mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/recetas">Ver recetas</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="accion-card">
+      <mat-card-header>
+        <mat-card-title>Insumos</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Plantas medicinales y productos naturales disponibles.</mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/insumos">Ver insumos</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="accion-card proximamente">
+      <mat-card-header>
+        <mat-card-title>Mis consultas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Chatea con expertos para orientacion personalizada.</mat-card-content>
+      <mat-card-actions>
+        <span class="badge-prox">Proximamente</span>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="accion-card proximamente">
+      <mat-card-header>
+        <mat-card-title>Mis ordenes</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Revisa el historial de tus compras en la plataforma.</mat-card-content>
+      <mat-card-actions>
+        <span class="badge-prox">Proximamente</span>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</section>

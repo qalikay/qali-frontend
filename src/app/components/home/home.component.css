@@ -1,33 +1,33 @@
-/* ===== Hero ===== */
 .hero {
-  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #43a047 100%);
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 55%, #43a047 100%);
   color: #fff;
-  padding: 40px 32px;
-  border-radius: 4px;
-  margin-bottom: 28px;
+  padding: 48px 40px;
+  border-radius: 8px;
+  margin-bottom: 32px;
   text-align: center;
+  box-shadow: 0 4px 12px rgba(27, 94, 32, 0.25);
 }
 
 .hero h1 {
   margin: 0 0 8px;
-  font-size: 2.4rem;
-  font-weight: 600;
+  font-size: 2.6rem;
+  font-weight: 700;
   color: #fff;
   letter-spacing: 1px;
 }
 
 .hero-eslogan {
   margin: 0 0 16px;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-style: italic;
-  opacity: 0.9;
+  opacity: 0.92;
 }
 
 .hero-texto {
-  margin: 0 auto 24px;
-  max-width: 600px;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  margin: 0 auto 28px;
+  max-width: 640px;
+  font-size: 1rem;
+  line-height: 1.65;
   opacity: 0.92;
 }
 
@@ -40,60 +40,33 @@
 
 .btn-hero-outline {
   color: #fff !important;
-  border-color: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
 }
 
-.btn-hero-link {
-  color: #c8e6c9 !important;
-}
-
-/* ===== Seccion informativa ===== */
 .info-seccion {
-  margin-bottom: 24px;
+  margin-bottom: 8px;
 }
 
 .info-seccion h2 {
-  margin: 0 0 16px;
-  font-size: 1.2rem;
+  margin: 0 0 20px;
+  font-size: 1.3rem;
   font-weight: 500;
   color: #1b5e20;
 }
 
 .info-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.info-card {
+  border-radius: 8px;
 }
 
 .info-card mat-card-content {
   font-size: 0.9rem;
-  line-height: 1.5;
+  line-height: 1.55;
   color: #546e7a;
-  min-height: 60px;
-}
-
-/* ===== Nota desarrollo ===== */
-.nota-card {
-  margin-top: 8px;
-}
-
-.nota-titulo {
-  margin: 0 0 6px;
-  font-weight: 500;
-  color: #37474f;
-  font-size: 0.9rem;
-}
-
-.nota-card p {
-  margin: 0 0 10px;
-  font-size: 0.85rem;
-  color: #607d8b;
-  line-height: 1.5;
-}
-
-code {
-  background: #e8f5e9;
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-size: 0.82rem;
+  min-height: 64px;
 }

@@ -52,7 +52,7 @@ export class LoginComponent {
       next: (resp) => {
         this.auth.guardarSesion(resp);
         this.snackBar.open('Bienvenido ' + resp.username, 'Cerrar', { duration: 3000 });
-        this.router.navigate(['/home']);
+        this.router.navigate([this.auth.getRutaInicio()]);
       },
       error: () => {
         this.mensaje = 'Credenciales incorrectas o backend apagado.';
