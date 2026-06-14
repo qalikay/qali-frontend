@@ -8,6 +8,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 
 import { AuthService } from '../../services/auth.service';
+import { LoginRequest } from '../../models/auth.model';
 
 @Component({
   selector: 'app-login',
@@ -45,9 +46,9 @@ export class LoginComponent {
       return;
     }
 
-    const { username, password } = this.form.value;
+    const credenciales: LoginRequest = this.form.value;
 
-    this.auth.login(username, password).subscribe({
+    this.auth.login(credenciales).subscribe({
       next: (resp) => {
         this.auth.guardarSesion(resp);
         this.snackBar.open('Bienvenido ' + resp.username, 'Cerrar', { duration: 3000 });

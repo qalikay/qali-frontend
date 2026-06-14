@@ -8,6 +8,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 
 import { AuthService } from '../../services/auth.service';
+import { LoginRequest, RegistroClienteRequest } from '../../models/auth.model';
 
 @Component({
   selector: 'app-register',
@@ -48,11 +49,12 @@ export class RegisterComponent {
       return;
     }
 
-    const datos = this.form.value;
+    const datos: RegistroClienteRequest = this.form.value;
 
     this.auth.registerCliente(datos).subscribe({
       next: () => {
-        this.auth.login(datos.username, datos.password).subscribe({
+        const login: LoginRequest = { username: datos.username, password: datos.password };
+        this.auth.login(login).subscribe({
           next: (resp) => {
             this.auth.guardarSesion(resp);
             this.snackBar.open('Cuenta creada', 'Cerrar', { duration: 3000 });

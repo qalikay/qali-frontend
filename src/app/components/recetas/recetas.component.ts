@@ -6,6 +6,7 @@ import { MatTableModule } from '@angular/material/table';
 import { CurrencyPipe } from '@angular/common';
 
 import { RecetaService } from '../../services/receta.service';
+import { Receta } from '../../models/receta.model';
 
 @Component({
   selector: 'app-recetas',
@@ -15,7 +16,7 @@ import { RecetaService } from '../../services/receta.service';
   styleUrl: './recetas.component.css',
 })
 export class RecetasComponent implements OnInit {
-  recetas: any[] = [];
+  recetas: Receta[] = [];
   cargando = true;
   mensaje = '';
   columnas = ['titulo', 'categoria', 'precio', 'experto', 'accion'];

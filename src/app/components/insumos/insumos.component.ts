@@ -6,6 +6,7 @@ import { MatTableModule } from '@angular/material/table';
 import { CurrencyPipe } from '@angular/common';
 
 import { InsumoService } from '../../services/insumo.service';
+import { Insumo } from '../../models/insumo.model';
 
 @Component({
   selector: 'app-insumos',
@@ -15,7 +16,7 @@ import { InsumoService } from '../../services/insumo.service';
   styleUrl: './insumos.component.css',
 })
 export class InsumosComponent implements OnInit {
-  insumos: any[] = [];
+  insumos: Insumo[] = [];
   cargando = true;
   mensaje = '';
   columnas = ['nombre', 'categoria', 'precio', 'stock', 'estado', 'accion'];

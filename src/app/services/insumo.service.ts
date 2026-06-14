@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+import { Insumo } from '../models/insumo.model';
 
 @Injectable({ providedIn: 'root' })
 export class InsumoService {
@@ -10,12 +11,11 @@ export class InsumoService {
 
   constructor(private http: HttpClient) {}
 
-  /** Lista publica de insumos (datos del import.sql al levantar el backend) */
-  getInsumos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/insumos`);
+  getInsumos(): Observable<Insumo[]> {
+    return this.http.get<Insumo[]>(`${this.apiUrl}/insumos`);
   }
 
-  getInsumo(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/insumos/${id}`);
+  getInsumo(id: number): Observable<Insumo> {
+    return this.http.get<Insumo>(`${this.apiUrl}/insumos/${id}`);
   }
 }

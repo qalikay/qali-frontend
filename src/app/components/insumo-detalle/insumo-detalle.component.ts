@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CurrencyPipe } from '@angular/common';
 
 import { InsumoService } from '../../services/insumo.service';
+import { Insumo } from '../../models/insumo.model';
 
 @Component({
   selector: 'app-insumo-detalle',
@@ -23,7 +24,7 @@ import { InsumoService } from '../../services/insumo.service';
   styleUrl: './insumo-detalle.component.css',
 })
 export class InsumoDetalleComponent implements OnInit {
-  insumo: any = null;
+  insumo: Insumo | null = null;
   cargando = true;
   mensaje = '';
 

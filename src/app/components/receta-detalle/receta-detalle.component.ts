@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CurrencyPipe } from '@angular/common';
 
 import { RecetaService } from '../../services/receta.service';
+import { Receta } from '../../models/receta.model';
 
 @Component({
   selector: 'app-receta-detalle',
@@ -23,7 +24,7 @@ import { RecetaService } from '../../services/receta.service';
   styleUrl: './receta-detalle.component.css',
 })
 export class RecetaDetalleComponent implements OnInit {
-  receta: any = null;
+  receta: Receta | null = null;
   cargando = true;
   mensaje = '';
 

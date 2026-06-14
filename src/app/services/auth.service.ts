@@ -3,6 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+import {
+  AuthResponse,
+  LoginRequest,
+  RegistroClienteRequest,
+} from '../models/auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -10,15 +15,15 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/authenticate`, { username, password });
+  login(credenciales: LoginRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/authenticate`, credenciales);
   }
 
-  registerCliente(datos: any): Observable<any> {
+  registerCliente(datos: RegistroClienteRequest): Observable<string> {
     return this.http.post(`${this.apiUrl}/registro/cliente`, datos, { responseType: 'text' });
   }
 
-  guardarSesion(resp: any): void {
+  guardarSesion(resp: AuthResponse): void {
     localStorage.setItem('token', resp.jwt);
     localStorage.setItem('username', resp.username);
     localStorage.setItem('roles', JSON.stringify(resp.roles ?? []));
@@ -42,7 +47,6 @@ export class AuthService {
     localStorage.removeItem('roles');
   }
 
-  /** Headers con JWT para peticiones protegidas */
   getAuthHeaders(): { [key: string]: string } {
     const token = this.getToken();
     if (token) {
