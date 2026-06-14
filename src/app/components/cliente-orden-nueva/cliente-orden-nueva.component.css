@@ -1,0 +1,3 @@
+.form-card-wide { max-width: 560px; }
+.form-botones { display: flex; gap: 12px; margin-top: 8px; }
+.centro { text-align: center; }

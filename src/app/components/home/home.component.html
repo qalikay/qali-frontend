@@ -8,7 +8,12 @@
   <div class="hero-botones">
     <a mat-raised-button color="accent" routerLink="/recetas">Explorar recetas</a>
     <a mat-stroked-button class="btn-hero-outline" routerLink="/insumos">Ver insumos</a>
-    <a mat-stroked-button class="btn-hero-outline" routerLink="/register">Crear cuenta</a>
+    <a mat-stroked-button class="btn-hero-outline" routerLink="/expertos">Ver expertos</a>
+    @if (!auth.estaLogueado()) {
+      <a mat-stroked-button class="btn-hero-outline" routerLink="/register">Crear cuenta</a>
+    } @else {
+      <a mat-stroked-button class="btn-hero-outline" [routerLink]="auth.getRutaInicio()">Ir a mi panel</a>
+    }
   </div>
 </section>
 
@@ -41,30 +46,51 @@
       </mat-card-actions>
     </mat-card>
 
-    <mat-card class="info-card mat-elevation-z2">
-      <mat-card-header>
-        <mat-card-title>Soy cliente</mat-card-title>
-        <mat-card-subtitle>Busco orientacion</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        Registrate para consultar expertos, comprar insumos y dejar reseñas.
-      </mat-card-content>
-      <mat-card-actions>
-        <a mat-button color="primary" routerLink="/register/cliente">Registrarme</a>
-      </mat-card-actions>
-    </mat-card>
+    @if (!auth.estaLogueado()) {
+      <mat-card class="info-card mat-elevation-z2">
+        <mat-card-header>
+          <mat-card-title>Soy cliente</mat-card-title>
+          <mat-card-subtitle>Busco orientacion</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          Registrate para consultar expertos, comprar insumos y dejar reseñas.
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-button color="primary" routerLink="/register/cliente">Registrarme</a>
+        </mat-card-actions>
+      </mat-card>
 
-    <mat-card class="info-card mat-elevation-z2">
-      <mat-card-header>
-        <mat-card-title>Soy experto</mat-card-title>
-        <mat-card-subtitle>Comparto conocimiento</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        Publica recetas e insumos, y atiende consultas de clientes interesados.
-      </mat-card-content>
-      <mat-card-actions>
-        <a mat-button color="accent" routerLink="/register/experto">Registrarme</a>
-      </mat-card-actions>
-    </mat-card>
+      <mat-card class="info-card mat-elevation-z2">
+        <mat-card-header>
+          <mat-card-title>Soy experto</mat-card-title>
+          <mat-card-subtitle>Comparto conocimiento</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          Publica recetas e insumos, y atiende consultas de clientes interesados.
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-button color="accent" routerLink="/register/experto">Registrarme</a>
+        </mat-card-actions>
+      </mat-card>
+    } @else {
+      <mat-card class="info-card mat-elevation-z2">
+        <mat-card-header>
+          <mat-card-title>Mi panel</mat-card-title>
+          <mat-card-subtitle>Sesion activa como {{ auth.getRolEtiqueta() }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          @if (auth.esExperto()) {
+            Gestiona tus recetas, insumos y consultas desde tu panel de experto.
+          } @else if (auth.esCliente()) {
+            Consulta expertos, revisa tus ordenes y deja reseñas desde tu panel.
+          } @else {
+            Accede a las funciones de tu cuenta desde el panel principal.
+          }
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-raised-button color="primary" [routerLink]="auth.getRutaInicio()">Ir a mi panel</a>
+        </mat-card-actions>
+      </mat-card>
+    }
   </div>
 </section>

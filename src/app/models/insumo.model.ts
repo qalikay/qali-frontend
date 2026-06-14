@@ -15,3 +15,14 @@ export interface Insumo {
   categoria?: Categoria;
   experto?: Experto;
 }
+
+export interface CrearInsumoRequest {
+  nombre: string;
+  descripcion?: string;
+  precio: number;
+  stock?: number;
+  unidad?: string;
+  tipo?: string;
+  imagenUrl?: string;
+  categoriaId: number;
+}

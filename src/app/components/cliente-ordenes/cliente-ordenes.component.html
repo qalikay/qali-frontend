@@ -1,0 +1,51 @@
+<div class="page-header">
+  <h2>Mis ordenes</h2>
+  <p>Historial de compras en la plataforma</p>
+</div>
+
+<div class="acciones-superiores">
+  <a mat-raised-button color="primary" routerLink="/cliente/orden-nueva">Nueva orden</a>
+  <a mat-button routerLink="/cliente/inicio">Volver al panel</a>
+</div>
+
+@if (cargando) { <div class="loading-center"><mat-spinner diameter="40"></mat-spinner></div> }
+@if (mensaje) { <p class="error-msg">{{ mensaje }}</p> }
+
+@if (!cargando && ordenes.length === 0 && !mensaje) {
+  <p class="info-msg">No tienes ordenes. Compra un insumo o receta desde el catalogo.</p>
+}
+
+@if (!cargando && ordenes.length > 0) {
+  <div class="tabla-scroll">
+  <table mat-table [dataSource]="ordenes" class="tabla-datos">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let o">{{ o.id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef>Fecha</th>
+      <td mat-cell *matCellDef="let o">{{ o.fecha | date: 'short' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef>Total</th>
+      <td mat-cell *matCellDef="let o">{{ o.total | currency: 'PEN':'symbol':'1.2-2' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let o">{{ o.estado }}</td>
+    </ng-container>
+    <ng-container matColumnDef="metodo">
+      <th mat-header-cell *matHeaderCellDef>Pago</th>
+      <td mat-cell *matCellDef="let o">{{ o.metodoPago }}</td>
+    </ng-container>
+    <ng-container matColumnDef="accion">
+      <th mat-header-cell *matHeaderCellDef>Accion</th>
+      <td mat-cell *matCellDef="let o">
+        <a mat-button color="primary" [routerLink]="['/ordenes', o.id]">Ver</a>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+  </table>
+  </div>
+}

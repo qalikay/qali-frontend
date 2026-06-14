@@ -23,6 +23,7 @@
 }
 
 @if (!cargando && recetas.length > 0) {
+  <div class="tabla-scroll">
   <table mat-table [dataSource]="recetas" class="tabla-datos">
     <ng-container matColumnDef="titulo">
       <th mat-header-cell *matHeaderCellDef>Titulo</th>
@@ -62,4 +63,5 @@
     <tr mat-header-row *matHeaderRowDef="columnas"></tr>
     <tr mat-row *matRowDef="let row; columns: columnas"></tr>
   </table>
+  </div>
 }

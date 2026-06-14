@@ -35,6 +35,44 @@
       <p class="link-footer">
         Vendedor: {{ insumo.experto?.nombres }} {{ insumo.experto?.apellidos }}
       </p>
+
+      @if (auth.esCliente() && insumo.estado !== 'AGOTADO') {
+        <div class="acciones-superiores">
+          <a mat-raised-button color="primary" [routerLink]="['/cliente/orden-nueva']" [queryParams]="{ tipo: 'INSUMO', id: insumo.id }">
+            Comprar insumo
+          </a>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="page-card" style="margin-top: 16px">
+    <mat-card-header>
+      <mat-card-title>Resenas</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (resenas.length === 0) {
+        <p>Sin resenas aun.</p>
+      }
+      @for (r of resenas; track r.id) {
+        <div class="detalle-seccion">
+          <p><strong>{{ r.calificacion }}/5</strong> — {{ r.cliente?.nombres }} ({{ r.fechaCreacion | date: 'short' }})</p>
+          <p>{{ r.comentario }}</p>
+        </div>
+      }
+      @if (auth.esCliente()) {
+        <form [formGroup]="formResena" (ngSubmit)="publicarResena()" class="form-container" style="margin-top: 12px">
+          <mat-form-field appearance="outline">
+            <mat-label>Calificacion (1-5)</mat-label>
+            <input matInput type="number" formControlName="calificacion" min="1" max="5" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Comentario</mat-label>
+            <textarea matInput formControlName="comentario" rows="2"></textarea>
+          </mat-form-field>
+          <button mat-raised-button color="accent" type="submit" [disabled]="formResena.invalid">Dejar resena</button>
+        </form>
+      }
     </mat-card-content>
   </mat-card>
 }

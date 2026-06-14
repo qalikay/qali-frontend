@@ -1,24 +1,132 @@
 @import '@angular/material/prebuilt-themes/azure-blue.css';
 
-/* ===== QaliKay - estilos globales (proyecto de curso) ===== */
+/* ===== QaliKay - estilos globales ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html,
 body {
   height: 100%;
   margin: 0;
+  overflow-x: hidden;
 }
 
 body {
-  font-family: Roboto, Arial, sans-serif;
-  background-color: #f5f7f8;
+  font-family: Roboto, 'Segoe UI', Arial, sans-serif;
+  background-color: #f0f4f3;
   color: #37474f;
+  line-height: 1.5;
 }
 
 /* Contenedor principal */
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 28px 20px 48px;
-  min-height: calc(100vh - 64px - 52px);
+  padding: 24px 20px 40px;
+  min-height: calc(100vh - 56px - 48px);
+  width: 100%;
+}
+
+/* ----- Paneles cliente / experto ----- */
+.panel-hero {
+  border-radius: 10px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.panel-experto {
+  background: linear-gradient(135deg, #2e7d32 0%, #388e3c 55%, #4caf50 100%);
+}
+
+.panel-cliente {
+  background: linear-gradient(135deg, #1565c0 0%, #1976d2 55%, #42a5f5 100%);
+}
+
+.panel-etiqueta {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  opacity: 0.9;
+}
+
+.panel-hero h1 {
+  margin: 0 0 8px;
+  font-size: 1.65rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.panel-hero p {
+  margin: 0;
+  opacity: 0.95;
+  font-size: 0.95rem;
+  max-width: 640px;
+}
+
+.panel-acciones h2 {
+  margin: 0 0 16px;
+  color: #1b5e20;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.acciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.accion-card {
+  border-radius: 10px !important;
+  border: 1px solid #e0e6e4;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+  transition: box-shadow 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.accion-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.accion-card mat-card-header {
+  padding: 16px 16px 0;
+}
+
+.accion-card mat-card-title {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: #1b5e20;
+}
+
+.accion-card mat-card-content {
+  flex: 1;
+  padding: 8px 16px 0 !important;
+  color: #607d8b;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  min-height: 48px;
+}
+
+.accion-card mat-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px 14px !important;
+  margin: 0 !important;
+}
+
+.accion-card mat-card-actions a,
+.accion-card mat-card-actions button {
+  margin: 0 !important;
+  font-size: 0.82rem;
 }
 
 /* Encabezado de cada pagina */
@@ -102,16 +210,36 @@ body {
 }
 
 /* Tabla de datos */
+.tabla-scroll {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  background: #fff;
+}
+
 .tabla-datos {
   width: 100%;
+  min-width: 520px;
   background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 .tabla-datos th {
   background: #e8f5e9;
   color: #1b5e20;
   font-weight: 500;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.tabla-datos td {
+  font-size: 0.88rem;
+  color: #455a64;
+}
+
+.tabla-datos td:last-child,
+.tabla-datos th:last-child {
+  white-space: nowrap;
 }
 
 /* Spinner centrado */
@@ -151,4 +279,53 @@ body {
 
 .link-footer a:hover {
   text-decoration: underline;
+}
+
+/* Barra de acciones superior en paginas */
+.acciones-superiores {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.estado-chip {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.estado-chip.publicada {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+/* Botones de tabla mas compactos */
+.tabla-datos .mat-mdc-button {
+  min-width: auto;
+  padding: 0 10px;
+  font-size: 0.82rem;
+}
+
+/* Material overrides suaves */
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-toolbar.mat-primary {
+  --mat-toolbar-container-background-color: #2e7d32;
+}
+
+@media (max-width: 640px) {
+  .acciones-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 16px 14px 32px;
+  }
 }

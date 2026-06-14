@@ -6,6 +6,7 @@ import { MatTableModule } from '@angular/material/table';
 import { CurrencyPipe } from '@angular/common';
 
 import { InsumoService } from '../../services/insumo.service';
+import { AuthService } from '../../services/auth.service';
 import { Insumo } from '../../models/insumo.model';
 
 @Component({
@@ -21,7 +22,10 @@ export class InsumosComponent implements OnInit {
   mensaje = '';
   columnas = ['nombre', 'categoria', 'precio', 'stock', 'estado', 'accion'];
 
-  constructor(private insumoService: InsumoService) {}
+  constructor(
+    private insumoService: InsumoService,
+    public auth: AuthService,
+  ) {}
 
   ngOnInit(): void {
     this.insumoService.getInsumos().subscribe({

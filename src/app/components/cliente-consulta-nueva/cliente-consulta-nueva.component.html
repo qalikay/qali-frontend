@@ -1,0 +1,32 @@
+<div class="page-header centro">
+  <h2>Nueva consulta</h2>
+  <p>Escribe tu pregunta a un experto certificado</p>
+</div>
+
+<mat-card class="page-card form-card form-card-wide">
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="enviar()" class="form-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Experto</mat-label>
+        <mat-select formControlName="expertoId" required>
+          @for (e of expertos; track e.id) {
+            <mat-option [value]="e.id">{{ e.nombres }} {{ e.apellidos }} — {{ e.especialidad?.nombre }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Asunto</mat-label>
+        <input matInput formControlName="asunto" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Mensaje inicial</mat-label>
+        <textarea matInput formControlName="mensajeInicial" rows="4" required></textarea>
+      </mat-form-field>
+      <div class="form-botones">
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Enviar consulta</button>
+        <a mat-button routerLink="/cliente/consultas">Cancelar</a>
+      </div>
+    </form>
+    @if (mensaje) { <p class="error-msg">{{ mensaje }}</p> }
+  </mat-card-content>
+</mat-card>

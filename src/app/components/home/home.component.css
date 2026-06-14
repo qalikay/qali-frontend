@@ -61,12 +61,36 @@
 }
 
 .info-card {
-  border-radius: 8px;
+  border-radius: 10px;
+  border: 1px solid #e0e6e4;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-card mat-card-header {
+  padding: 16px 16px 0;
+}
+
+.info-card mat-card-title {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: #1b5e20;
+}
+
+.info-card mat-card-subtitle {
+  font-size: 0.78rem !important;
 }
 
 .info-card mat-card-content {
-  font-size: 0.9rem;
+  flex: 1;
+  font-size: 0.88rem;
   line-height: 1.55;
-  color: #546e7a;
-  min-height: 64px;
+  color: #607d8b;
+  min-height: 56px;
+}
+
+.info-card mat-card-actions {
+  padding: 8px 12px 14px !important;
 }

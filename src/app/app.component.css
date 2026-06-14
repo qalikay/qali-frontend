@@ -1,9 +1,9 @@
 .app-footer {
   display: flex;
-  justify-content: space-between;
-  padding: 16px 24px;
+  justify-content: center;
+  padding: 14px 20px;
   background: #fff;
-  border-top: 1px solid #cfd8dc;
-  font-size: 0.8rem;
-  color: #78909c;
+  border-top: 1px solid #e0e6e4;
+  font-size: 0.78rem;
+  color: #90a4ae;
 }

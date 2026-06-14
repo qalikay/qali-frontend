@@ -1,7 +1,14 @@
 <div class="page-header">
   <h2>Insumos disponibles</h2>
-  <p>Listado obtenido del backend (GET /api/insumos)</p>
+  <p>Catalogo publico de plantas medicinales y productos naturales</p>
 </div>
+
+@if (auth.esExperto()) {
+  <div class="acciones-superiores">
+    <a mat-raised-button color="primary" routerLink="/experto/insumo-nuevo">Nuevo insumo</a>
+    <a mat-button routerLink="/experto/insumos">Mis insumos</a>
+  </div>
+}
 
 @if (cargando) {
   <div class="loading-center">
@@ -18,6 +25,7 @@
 }
 
 @if (!cargando && insumos.length > 0) {
+  <div class="tabla-scroll">
   <table mat-table [dataSource]="insumos" class="tabla-datos">
     <ng-container matColumnDef="nombre">
       <th mat-header-cell *matHeaderCellDef>Nombre</th>
@@ -54,4 +62,5 @@
     <tr mat-header-row *matHeaderRowDef="columnas"></tr>
     <tr mat-row *matRowDef="let row; columns: columnas"></tr>
   </table>
+  </div>
 }
