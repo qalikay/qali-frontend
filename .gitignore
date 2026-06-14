@@ -10,6 +10,7 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+pnpm-debug.log*
 
 # IDEs and editors
 .idea/
@@ -46,17 +47,5 @@ Desktop.ini
 
 # Logs
 *.log
-npm-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Entorno local / secretos
-.env
-.env.*
-!.env.example
-src/environments/environment.local.ts
-src/environments/environment.*.local.ts
-
-# Build / cache (refuerzo)
-.angular/
-dist/
+hs_err_pid*
+replay_pid*
