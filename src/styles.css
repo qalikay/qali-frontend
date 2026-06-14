@@ -47,6 +47,14 @@ body {
   background: linear-gradient(135deg, #1565c0 0%, #1976d2 55%, #42a5f5 100%);
 }
 
+.panel-admin {
+  background: linear-gradient(135deg, #4a148c 0%, #6a1b9a 55%, #8e24aa 100%);
+}
+
+.panel-acciones.panel-admin h2 {
+  color: #4a148c;
+}
+
 .panel-etiqueta {
   margin: 0 0 6px;
   font-size: 0.78rem;
@@ -288,6 +296,17 @@ body {
   margin-bottom: 20px;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.filtros-bar .filtro-input {
+  min-width: 200px;
+  flex: 1 1 200px;
+  max-width: 320px;
+}
+
+.filtros-bar .filtro-select {
+  min-width: 180px;
+  flex: 0 1 220px;
 }
 
 .estado-chip {

@@ -1,0 +1,62 @@
+<section class="panel-hero panel-admin">
+  <p class="panel-etiqueta">Panel de administracion</p>
+  <h1>Bienvenido, {{ auth.getUsername() }}</h1>
+  <p>Gestiona categorias, especialidades, clientes y el estado de las ordenes de la plataforma.</p>
+</section>
+
+<section class="panel-acciones panel-admin">
+  <h2>Administracion</h2>
+  <div class="acciones-grid">
+    <mat-card class="accion-card">
+      <mat-card-header>
+        <mat-card-title>Categorias</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Crear, editar y eliminar categorias de recetas e insumos.</mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/admin/categorias">Gestionar</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="accion-card">
+      <mat-card-header>
+        <mat-card-title>Especialidades</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Administrar las especialidades de los expertos.</mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/admin/especialidades">Gestionar</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="accion-card">
+      <mat-card-header>
+        <mat-card-title>Clientes</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Ver el listado de clientes registrados en la plataforma.</mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/admin/clientes">Ver clientes</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="accion-card">
+      <mat-card-header>
+        <mat-card-title>Ordenes</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Consultar y actualizar el estado de las ordenes de compra.</mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/admin/ordenes">Gestionar ordenes</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="accion-card">
+      <mat-card-header>
+        <mat-card-title>Catalogo publico</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Revisa recetas, insumos y expertos como los ve un visitante.</mat-card-content>
+      <mat-card-actions>
+        <a mat-button routerLink="/recetas">Recetas</a>
+        <a mat-button routerLink="/insumos">Insumos</a>
+        <a mat-button routerLink="/expertos">Expertos</a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</section>

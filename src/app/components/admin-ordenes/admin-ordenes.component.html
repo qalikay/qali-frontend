@@ -1,0 +1,22 @@
+<div class="page-header">
+  <h2>Gestion de ordenes</h2>
+  <p>Consulta una orden por ID y actualiza su estado (US42)</p>
+</div>
+
+<div class="acciones-superiores">
+  <a mat-button routerLink="/admin/inicio">Volver al panel</a>
+</div>
+
+<mat-card class="page-card buscar-card">
+  <mat-card-content>
+    <p>Ingresa el numero de orden para ver el detalle y marcarla como PAGADA o CANCELADA.</p>
+    <div class="buscar-fila">
+      <mat-form-field appearance="outline">
+        <mat-label>ID de orden</mat-label>
+        <input matInput type="number" [(ngModel)]="ordenId" (keyup.enter)="verOrden()" />
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="verOrden()" [disabled]="!ordenId">Ver orden</button>
+    </div>
+    <p class="hint">Tip: un cliente puede ver sus ordenes en su panel y compartir el ID con el administrador.</p>
+  </mat-card-content>
+</mat-card>

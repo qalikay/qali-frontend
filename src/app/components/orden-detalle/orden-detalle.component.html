@@ -7,6 +7,18 @@
     <p>{{ orden.fecha | date: 'medium' }} — Estado: {{ orden.estado }} — Pago: {{ orden.metodoPago }}</p>
   </div>
 
+  @if (auth.esAdmin()) {
+    <div class="acciones-superiores">
+      <button mat-raised-button color="primary" (click)="cambiarEstado('PAGADA')" [disabled]="cambiandoEstado || orden.estado === 'PAGADA'">
+        Marcar pagada
+      </button>
+      <button mat-stroked-button color="warn" (click)="cambiarEstado('CANCELADA')" [disabled]="cambiandoEstado || orden.estado === 'CANCELADA'">
+        Cancelar orden
+      </button>
+      <a mat-button routerLink="/admin/ordenes">Volver a ordenes</a>
+    </div>
+  }
+
   <mat-card class="page-card">
     <mat-card-content>
       <p><strong>Total:</strong> {{ orden.total | currency: 'PEN':'symbol':'1.2-2' }}</p>
@@ -41,5 +53,11 @@
     </mat-card-content>
   </mat-card>
 
-  <p class="link-footer"><a routerLink="/cliente/ordenes">Volver a mis ordenes</a></p>
+  <p class="link-footer">
+    @if (auth.esAdmin()) {
+      <a routerLink="/admin/inicio">Volver al panel admin</a>
+    } @else {
+      <a routerLink="/cliente/ordenes">Volver a mis ordenes</a>
+    }
+  </p>
 }

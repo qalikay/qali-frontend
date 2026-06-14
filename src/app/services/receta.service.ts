@@ -11,8 +11,11 @@ export class RecetaService {
 
   constructor(private http: HttpClient) {}
 
-  getRecetas(): Observable<Receta[]> {
-    return this.http.get<Receta[]>(`${this.apiUrl}/recetas`);
+  getRecetas(filtros?: { q?: string; categoriaId?: number }): Observable<Receta[]> {
+    const params: Record<string, string> = {};
+    if (filtros?.q?.trim()) params['q'] = filtros.q.trim();
+    if (filtros?.categoriaId != null) params['categoriaId'] = String(filtros.categoriaId);
+    return this.http.get<Receta[]>(`${this.apiUrl}/recetas`, { params });
   }
 
   getReceta(id: number): Observable<Receta> {

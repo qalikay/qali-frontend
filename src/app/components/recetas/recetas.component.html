@@ -3,6 +3,24 @@
   <p>Catalogo publico de recetas de medicina natural</p>
 </div>
 
+<div class="acciones-superiores filtros-bar">
+  <mat-form-field appearance="outline" class="filtro-input">
+    <mat-label>Buscar por titulo</mat-label>
+    <input matInput [(ngModel)]="filtroQ" (keyup.enter)="cargar()" />
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="filtro-select">
+    <mat-label>Categoria</mat-label>
+    <mat-select [(ngModel)]="filtroCategoria" (selectionChange)="cargar()">
+      <mat-option [value]="null">Todas</mat-option>
+      @for (cat of categorias; track cat.id) {
+        <mat-option [value]="cat.id">{{ cat.nombre }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="cargar()">Buscar</button>
+  <button mat-button (click)="limpiarFiltros()">Limpiar</button>
+</div>
+
 @if (auth.esExperto()) {
   <div class="acciones-superiores">
     <a mat-raised-button color="primary" routerLink="/experto/receta-nuevo">Nueva receta</a>

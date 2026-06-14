@@ -22,4 +22,8 @@ export class OrdenService {
   crear(datos: CrearOrdenRequest): Observable<Orden> {
     return this.http.post<Orden>(`${this.apiUrl}/ordenes`, datos);
   }
+
+  cambiarEstado(id: number, estado: string): Observable<Orden> {
+    return this.http.post<Orden>(`${this.apiUrl}/ordenes/${id}/estado`, { estado });
+  }
 }

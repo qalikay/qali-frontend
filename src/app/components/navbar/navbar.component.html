@@ -30,6 +30,9 @@
       @if (auth.esExperto()) {
         <a mat-button class="nav-link" routerLink="/experto/perfil">Perfil</a>
       }
+      @if (auth.esAdmin()) {
+        <a mat-button class="nav-link" routerLink="/admin/inicio">Admin</a>
+      }
       <button mat-stroked-button class="btn-salir" (click)="logout()">Salir</button>
     } @else {
       <a mat-button class="nav-link" routerLink="/login">Ingresar</a>

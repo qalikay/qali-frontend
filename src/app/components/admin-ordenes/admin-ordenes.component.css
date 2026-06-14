@@ -1,0 +1,16 @@
+.buscar-fila {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.buscar-fila mat-form-field {
+  flex: 0 1 200px;
+}
+
+.hint {
+  margin: 12px 0 0;
+  font-size: 0.85rem;
+  color: #607d8b;
+}

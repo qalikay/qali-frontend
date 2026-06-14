@@ -68,6 +68,7 @@ export class AuthService {
   }
 
   getRutaInicio(): string {
+    if (this.esAdmin()) return '/admin/inicio';
     if (this.esExperto()) return '/experto/inicio';
     if (this.esCliente()) return '/cliente/inicio';
     return '/home';

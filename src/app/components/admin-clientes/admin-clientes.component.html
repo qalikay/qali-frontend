@@ -1,0 +1,36 @@
+<div class="page-header">
+  <h2>Clientes registrados</h2>
+  <p>Listado de clientes de la plataforma (US49)</p>
+</div>
+
+<div class="acciones-superiores">
+  <a mat-button routerLink="/admin/inicio">Volver al panel</a>
+</div>
+
+@if (cargando) { <div class="loading-center"><mat-spinner diameter="40"></mat-spinner></div> }
+@if (mensaje) { <p class="error-msg">{{ mensaje }}</p> }
+
+@if (!cargando && clientes.length === 0 && !mensaje) {
+  <p class="info-msg">No hay clientes registrados.</p>
+}
+
+@if (!cargando && clientes.length > 0) {
+  <div class="tabla-scroll">
+  <table mat-table [dataSource]="clientes" class="tabla-datos">
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let c">{{ c.nombres }} {{ c.apellidos }}</td>
+    </ng-container>
+    <ng-container matColumnDef="telefono">
+      <th mat-header-cell *matHeaderCellDef>Telefono</th>
+      <td mat-cell *matCellDef="let c">{{ c.telefono || '-' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef>Usuario</th>
+      <td mat-cell *matCellDef="let c">{{ c.username || '-' }}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+  </table>
+  </div>
+}

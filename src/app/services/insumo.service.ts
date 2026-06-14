@@ -11,8 +11,12 @@ export class InsumoService {
 
   constructor(private http: HttpClient) {}
 
-  getInsumos(): Observable<Insumo[]> {
-    return this.http.get<Insumo[]>(`${this.apiUrl}/insumos`);
+  getInsumos(filtros?: { q?: string; categoriaId?: number; tipo?: string }): Observable<Insumo[]> {
+    const params: Record<string, string> = {};
+    if (filtros?.q?.trim()) params['q'] = filtros.q.trim();
+    if (filtros?.categoriaId != null) params['categoriaId'] = String(filtros.categoriaId);
+    if (filtros?.tipo?.trim()) params['tipo'] = filtros.tipo.trim();
+    return this.http.get<Insumo[]>(`${this.apiUrl}/insumos`, { params });
   }
 
   getInsumo(id: number): Observable<Insumo> {
