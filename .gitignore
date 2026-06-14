@@ -42,3 +42,21 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Entorno local / secretos
+.env
+.env.*
+!.env.example
+src/environments/environment.local.ts
+src/environments/environment.*.local.ts
+
+# Build / cache (refuerzo)
+.angular/
+dist/
