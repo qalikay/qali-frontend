@@ -5,6 +5,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 
 import { ExpertoService } from '../../services/experto.service';
@@ -18,7 +20,7 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [
     RouterLink, MatButtonModule, MatTableModule, MatProgressSpinnerModule,
-    MatFormFieldModule, MatSelectModule, FormsModule,
+    MatFormFieldModule, MatSelectModule, MatIconModule, MatCardModule, FormsModule,
   ],
   templateUrl: './expertos.component.html',
   styleUrl: './expertos.component.css',

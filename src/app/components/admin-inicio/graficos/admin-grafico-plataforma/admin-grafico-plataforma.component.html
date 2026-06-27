@@ -1,0 +1,26 @@
+<!-- PARTE 3 - Integrante 3: Grafico contenido de la plataforma -->
+<mat-card class="admin-grafico-card mat-elevation-z1">
+  <mat-card-header>
+    <mat-icon mat-card-avatar fontSet="material-icons-outlined">bar_chart</mat-icon>
+    <mat-card-title>Contenido de la plataforma</mat-card-title>
+    <mat-card-subtitle>Recursos registrados en QaliKay</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    @if (items.length === 0) {
+      <p class="admin-grafico-vacio">Sin datos.</p>
+    } @else {
+      <div class="admin-grafico-barras">
+        @for (item of items; track item.etiqueta) {
+          <div class="admin-barra-fila">
+            <div class="admin-barra-etiqueta">
+              <span>{{ item.etiqueta }}</span>
+              <span class="admin-barra-cantidad">{{ item.cantidad }}</span>
+            </div>
+            <mat-progress-bar mode="determinate" color="accent" [value]="item.porcentaje"></mat-progress-bar>
+          </div>
+        }
+      </div>
+    }
+    <!-- TODO Integrante 3: colores por tipo de recurso, animacion o iconos -->
+  </mat-card-content>
+</mat-card>

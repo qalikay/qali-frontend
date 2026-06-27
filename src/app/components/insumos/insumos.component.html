@@ -1,98 +1,152 @@
-<div class="page-header">
-  <h2>Insumos disponibles</h2>
-  <p>Catalogo publico de plantas medicinales y productos naturales</p>
+<div class="catalogo-page">
+  <header class="page-header page-header-catalogo">
+    <div class="page-header-icon page-header-icon-insumos">
+      <mat-icon fontSet="material-icons-outlined">local_florist</mat-icon>
+    </div>
+    <div>
+      <h2>Insumos disponibles</h2>
+      <p>Catalogo publico de plantas medicinales y productos naturales</p>
+    </div>
+  </header>
+
+  <mat-card class="filtros-card mat-elevation-z1">
+    <mat-card-content>
+      <div class="filtros-bar">
+        <mat-form-field appearance="outline" class="filtro-input">
+          <mat-label>Buscar por nombre</mat-label>
+          <mat-icon matPrefix fontSet="material-icons-outlined">search</mat-icon>
+          <input matInput [(ngModel)]="filtroQ" (keyup.enter)="cargar()" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="filtro-select">
+          <mat-label>Categoria</mat-label>
+          <mat-select [(ngModel)]="filtroCategoria" (selectionChange)="cargar()">
+            <mat-option [value]="null">Todas</mat-option>
+            @for (cat of categorias; track cat.id) {
+              <mat-option [value]="cat.id">{{ cat.nombre }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="filtro-select">
+          <mat-label>Tipo</mat-label>
+          <mat-select [(ngModel)]="filtroTipo" (selectionChange)="cargar()">
+            <mat-option [value]="null">Todos</mat-option>
+            @for (tipo of tipos; track tipo) {
+              <mat-option [value]="tipo">{{ tipo }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <div class="filtros-acciones">
+          <button mat-raised-button color="primary" (click)="cargar()">
+            <mat-icon fontSet="material-icons-outlined">search</mat-icon>
+            Buscar
+          </button>
+          <button mat-stroked-button (click)="limpiarFiltros()">
+            <mat-icon fontSet="material-icons-outlined">clear</mat-icon>
+            Limpiar
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <app-insumos-graficos-panel [insumos]="insumos" [cargando]="cargando"></app-insumos-graficos-panel>
+
+  @if (auth.esExperto()) {
+    <div class="acciones-experto">
+      <a mat-raised-button color="primary" routerLink="/experto/insumo-nuevo">
+        <mat-icon fontSet="material-icons-outlined">add</mat-icon>
+        Nuevo insumo
+      </a>
+      <a mat-stroked-button routerLink="/experto/insumos">Mis insumos</a>
+    </div>
+  }
+
+  @if (cargando) {
+    <div class="loading-center">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  }
+
+  @if (mensaje) {
+    <p class="error-msg">{{ mensaje }}</p>
+  }
+
+  @if (!cargando && insumos.length === 0 && !mensaje) {
+    <mat-card class="estado-vacio mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">local_florist</mat-icon>
+        <p>No hay insumos disponibles.</p>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (!cargando && insumos.length > 0) {
+    <mat-card class="tabla-card mat-elevation-z1">
+      <div class="tabla-scroll">
+        <table mat-table [dataSource]="insumos" class="tabla-datos">
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let i">
+              <span class="celda-principal">{{ i.nombre }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="categoria">
+            <th mat-header-cell *matHeaderCellDef>Categoria</th>
+            <td mat-cell *matCellDef="let i">
+              <span class="chip-categoria">{{ i.categoria?.nombre }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="tipo">
+            <th mat-header-cell *matHeaderCellDef>Tipo</th>
+            <td mat-cell *matCellDef="let i">
+              <span class="chip-tipo">{{ i.tipo }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="precio">
+            <th mat-header-cell *matHeaderCellDef>Precio</th>
+            <td mat-cell *matCellDef="let i" class="celda-precio">
+              {{ i.precio | currency: 'PEN':'symbol':'1.2-2' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="stock">
+            <th mat-header-cell *matHeaderCellDef>Stock</th>
+            <td mat-cell *matCellDef="let i">{{ i.stock }} {{ i.unidad }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef>Estado</th>
+            <td mat-cell *matCellDef="let i">
+              <span
+                class="estado-chip"
+                [class.disponible]="i.estado === 'DISPONIBLE'"
+                [class.agotado]="i.estado === 'AGOTADO'"
+              >
+                {{ i.estado }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="accion">
+            <th mat-header-cell *matHeaderCellDef>Accion</th>
+            <td mat-cell *matCellDef="let i">
+              <a mat-stroked-button color="primary" class="btn-ver" [routerLink]="['/insumos', i.id]">
+                <mat-icon fontSet="material-icons-outlined">visibility</mat-icon>
+                Ver
+              </a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnas" class="tabla-fila"></tr>
+        </table>
+      </div>
+      <div class="tabla-pie">
+        <span>{{ insumos.length }} insumo(s) encontrado(s)</span>
+      </div>
+    </mat-card>
+  }
 </div>
-
-<div class="acciones-superiores filtros-bar">
-  <mat-form-field appearance="outline" class="filtro-input">
-    <mat-label>Buscar por nombre</mat-label>
-    <input matInput [(ngModel)]="filtroQ" (keyup.enter)="cargar()" />
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="filtro-select">
-    <mat-label>Categoria</mat-label>
-    <mat-select [(ngModel)]="filtroCategoria" (selectionChange)="cargar()">
-      <mat-option [value]="null">Todas</mat-option>
-      @for (cat of categorias; track cat.id) {
-        <mat-option [value]="cat.id">{{ cat.nombre }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="filtro-select">
-    <mat-label>Tipo</mat-label>
-    <mat-select [(ngModel)]="filtroTipo" (selectionChange)="cargar()">
-      <mat-option [value]="null">Todos</mat-option>
-      @for (tipo of tipos; track tipo) {
-        <mat-option [value]="tipo">{{ tipo }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-  <button mat-raised-button color="primary" (click)="cargar()">Buscar</button>
-  <button mat-button (click)="limpiarFiltros()">Limpiar</button>
-</div>
-
-@if (auth.esExperto()) {
-  <div class="acciones-superiores">
-    <a mat-raised-button color="primary" routerLink="/experto/insumo-nuevo">Nuevo insumo</a>
-    <a mat-button routerLink="/experto/insumos">Mis insumos</a>
-  </div>
-}
-
-@if (cargando) {
-  <div class="loading-center">
-    <mat-spinner diameter="40"></mat-spinner>
-  </div>
-}
-
-@if (mensaje) {
-  <p class="error-msg">{{ mensaje }}</p>
-}
-
-@if (!cargando && insumos.length === 0 && !mensaje) {
-  <p class="info-msg">No hay insumos disponibles.</p>
-}
-
-@if (!cargando && insumos.length > 0) {
-  <div class="tabla-scroll">
-  <table mat-table [dataSource]="insumos" class="tabla-datos">
-    <ng-container matColumnDef="nombre">
-      <th mat-header-cell *matHeaderCellDef>Nombre</th>
-      <td mat-cell *matCellDef="let i">{{ i.nombre }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="categoria">
-      <th mat-header-cell *matHeaderCellDef>Categoria</th>
-      <td mat-cell *matCellDef="let i">{{ i.categoria?.nombre }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="tipo">
-      <th mat-header-cell *matHeaderCellDef>Tipo</th>
-      <td mat-cell *matCellDef="let i">{{ i.tipo }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="precio">
-      <th mat-header-cell *matHeaderCellDef>Precio</th>
-      <td mat-cell *matCellDef="let i">{{ i.precio | currency: 'PEN':'symbol':'1.2-2' }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="stock">
-      <th mat-header-cell *matHeaderCellDef>Stock</th>
-      <td mat-cell *matCellDef="let i">{{ i.stock }} {{ i.unidad }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="estado">
-      <th mat-header-cell *matHeaderCellDef>Estado</th>
-      <td mat-cell *matCellDef="let i">{{ i.estado }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="accion">
-      <th mat-header-cell *matHeaderCellDef>Accion</th>
-      <td mat-cell *matCellDef="let i">
-        <a mat-button color="primary" [routerLink]="['/insumos', i.id]">Ver</a>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-    <tr mat-row *matRowDef="let row; columns: columnas"></tr>
-  </table>
-  </div>
-}

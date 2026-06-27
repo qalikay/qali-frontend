@@ -1,0 +1,39 @@
+<!-- PARTE 4 - Integrante 4: Grafico ordenes por estado -->
+<mat-card class="admin-grafico-card mat-elevation-z1">
+  <mat-card-header>
+    <mat-icon mat-card-avatar fontSet="material-icons-outlined">donut_large</mat-icon>
+    <mat-card-title>Ordenes por estado</mat-card-title>
+    <mat-card-subtitle>PAGADA, PENDIENTE y otros estados</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    @if (items.length === 0) {
+      <p class="admin-grafico-vacio">No hay ordenes registradas.</p>
+    } @else {
+      <div class="admin-ordenes-visual">
+        @for (item of items; track item.etiqueta) {
+          <div class="admin-orden-item">
+            <div
+              class="admin-orden-anillo"
+              [class.pagada]="item.etiqueta === 'PAGADA'"
+              [class.pendiente]="item.etiqueta === 'PENDIENTE'"
+            >
+              <span>{{ item.porcentaje }}%</span>
+            </div>
+            <div class="admin-orden-info">
+              <span
+                class="estado-chip"
+                [class.disponible]="item.etiqueta === 'PAGADA'"
+                [class.agotado]="item.etiqueta === 'PENDIENTE'"
+              >
+                {{ item.etiqueta }}
+              </span>
+              <span class="admin-orden-cantidad">{{ item.cantidad }} orden(es)</span>
+              <mat-progress-bar mode="determinate" [value]="item.porcentaje"></mat-progress-bar>
+            </div>
+          </div>
+        }
+      </div>
+    }
+    <!-- TODO Integrante 4: agregar total PEN por estado o grafico de metodo de pago -->
+  </mat-card-content>
+</mat-card>

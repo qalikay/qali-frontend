@@ -1,0 +1,52 @@
+.admin-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.admin-kpi-card {
+  border-radius: 12px !important;
+  border: 1px solid #e8ecea;
+}
+
+.admin-kpi-card mat-card-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px !important;
+}
+
+.admin-kpi-card mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  padding: 8px;
+  border-radius: 10px;
+  background: #f3e5f5;
+  color: #6a1b9a;
+}
+
+.admin-kpi-valor {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #4a148c;
+  line-height: 1.2;
+}
+
+.admin-kpi-etiqueta {
+  display: block;
+  font-size: 0.75rem;
+  color: #78909c;
+  margin-top: 2px;
+}
+
+.admin-kpi-ventas mat-icon {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.admin-kpi-ventas .admin-kpi-valor {
+  color: #1b5e20;
+  font-size: 1rem;
+}

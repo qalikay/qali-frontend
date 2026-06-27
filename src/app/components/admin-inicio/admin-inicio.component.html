@@ -1,62 +1,115 @@
-<section class="panel-hero panel-admin">
-  <p class="panel-etiqueta">Panel de administracion</p>
-  <h1>Bienvenido, {{ auth.getUsername() }}</h1>
-  <p>Gestiona categorias, especialidades, clientes y el estado de las ordenes de la plataforma.</p>
-</section>
+<div class="admin-page">
+  <section class="panel-hero panel-admin admin-hero">
+    <div class="admin-hero-content">
+      <div class="admin-hero-texto">
+        <p class="panel-etiqueta">Panel de administracion</p>
+        <h1>Bienvenido, {{ auth.getUsername() }}</h1>
+        <p>Gestiona categorias, especialidades, clientes y el estado de las ordenes de la plataforma.</p>
+      </div>
+      <div class="admin-hero-badge">
+        <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
+        <span>Administrador</span>
+      </div>
+    </div>
+  </section>
 
-<section class="panel-acciones panel-admin">
-  <h2>Administracion</h2>
-  <div class="acciones-grid">
-    <mat-card class="accion-card">
-      <mat-card-header>
-        <mat-card-title>Categorias</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>Crear, editar y eliminar categorias de recetas e insumos.</mat-card-content>
-      <mat-card-actions>
-        <a mat-button color="primary" routerLink="/admin/categorias">Gestionar</a>
-      </mat-card-actions>
-    </mat-card>
+  <section class="admin-seccion admin-seccion-stats">
+    <app-admin-graficos-panel></app-admin-graficos-panel>
+  </section>
 
-    <mat-card class="accion-card">
-      <mat-card-header>
-        <mat-card-title>Especialidades</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>Administrar las especialidades de los expertos.</mat-card-content>
-      <mat-card-actions>
-        <a mat-button color="primary" routerLink="/admin/especialidades">Gestionar</a>
-      </mat-card-actions>
-    </mat-card>
+  <section class="admin-seccion admin-seccion-gestion">
+    <header class="admin-seccion-header">
+      <mat-icon fontSet="material-icons-outlined">tune</mat-icon>
+      <div>
+        <h2>Gestion de la plataforma</h2>
+        <p>Accesos rapidos a las tareas de administracion</p>
+      </div>
+    </header>
 
-    <mat-card class="accion-card">
-      <mat-card-header>
-        <mat-card-title>Clientes</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>Ver el listado de clientes registrados en la plataforma.</mat-card-content>
-      <mat-card-actions>
-        <a mat-button color="primary" routerLink="/admin/clientes">Ver clientes</a>
-      </mat-card-actions>
-    </mat-card>
+    <div class="admin-acciones-grid">
+      <mat-card class="accion-card admin-accion-card mat-elevation-z1">
+        <mat-card-header>
+          <div mat-card-avatar class="admin-card-icon admin-icon-categorias">
+            <mat-icon fontSet="material-icons-outlined">category</mat-icon>
+          </div>
+          <mat-card-title>Categorias</mat-card-title>
+          <mat-card-subtitle>Recetas e insumos</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>Crear, editar y eliminar categorias del catalogo.</mat-card-content>
+        <mat-card-actions align="end">
+          <a mat-stroked-button color="primary" routerLink="/admin/categorias">
+            <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
+            Gestionar
+          </a>
+        </mat-card-actions>
+      </mat-card>
 
-    <mat-card class="accion-card">
-      <mat-card-header>
-        <mat-card-title>Ordenes</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>Consultar y actualizar el estado de las ordenes de compra.</mat-card-content>
-      <mat-card-actions>
-        <a mat-button color="primary" routerLink="/admin/ordenes">Gestionar ordenes</a>
-      </mat-card-actions>
-    </mat-card>
+      <mat-card class="accion-card admin-accion-card mat-elevation-z1">
+        <mat-card-header>
+          <div mat-card-avatar class="admin-card-icon admin-icon-especialidades">
+            <mat-icon fontSet="material-icons-outlined">workspace_premium</mat-icon>
+          </div>
+          <mat-card-title>Especialidades</mat-card-title>
+          <mat-card-subtitle>Perfil de expertos</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>Administrar las especialidades de los expertos certificados.</mat-card-content>
+        <mat-card-actions align="end">
+          <a mat-stroked-button color="primary" routerLink="/admin/especialidades">
+            <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
+            Gestionar
+          </a>
+        </mat-card-actions>
+      </mat-card>
 
-    <mat-card class="accion-card">
-      <mat-card-header>
-        <mat-card-title>Catalogo publico</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>Revisa recetas, insumos y expertos como los ve un visitante.</mat-card-content>
-      <mat-card-actions>
-        <a mat-button routerLink="/recetas">Recetas</a>
-        <a mat-button routerLink="/insumos">Insumos</a>
-        <a mat-button routerLink="/expertos">Expertos</a>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-</section>
+      <mat-card class="accion-card admin-accion-card mat-elevation-z1">
+        <mat-card-header>
+          <div mat-card-avatar class="admin-card-icon admin-icon-clientes">
+            <mat-icon fontSet="material-icons-outlined">groups</mat-icon>
+          </div>
+          <mat-card-title>Clientes</mat-card-title>
+          <mat-card-subtitle>Usuarios registrados</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>Ver el listado de clientes registrados en la plataforma.</mat-card-content>
+        <mat-card-actions align="end">
+          <a mat-stroked-button color="primary" routerLink="/admin/clientes">
+            <mat-icon fontSet="material-icons-outlined">visibility</mat-icon>
+            Ver clientes
+          </a>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="accion-card admin-accion-card mat-elevation-z1">
+        <mat-card-header>
+          <div mat-card-avatar class="admin-card-icon admin-icon-ordenes">
+            <mat-icon fontSet="material-icons-outlined">shopping_cart</mat-icon>
+          </div>
+          <mat-card-title>Ordenes</mat-card-title>
+          <mat-card-subtitle>Compras y pagos</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>Consultar y actualizar el estado de las ordenes de compra.</mat-card-content>
+        <mat-card-actions align="end">
+          <a mat-stroked-button color="primary" routerLink="/admin/ordenes">
+            <mat-icon fontSet="material-icons-outlined">receipt_long</mat-icon>
+            Gestionar ordenes
+          </a>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="accion-card admin-accion-card admin-accion-catalogo mat-elevation-z1">
+        <mat-card-header>
+          <div mat-card-avatar class="admin-card-icon admin-icon-catalogo">
+            <mat-icon fontSet="material-icons-outlined">public</mat-icon>
+          </div>
+          <mat-card-title>Catalogo publico</mat-card-title>
+          <mat-card-subtitle>Vista de visitante</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>Revisa recetas, insumos y expertos como los ve un visitante.</mat-card-content>
+        <mat-card-actions>
+          <a mat-button color="primary" routerLink="/recetas">Recetas</a>
+          <a mat-button color="primary" routerLink="/insumos">Insumos</a>
+          <a mat-button color="primary" routerLink="/expertos">Expertos</a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </section>
+</div>

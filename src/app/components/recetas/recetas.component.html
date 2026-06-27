@@ -1,79 +1,121 @@
-<div class="page-header">
-  <h2>Recetas publicadas</h2>
-  <p>Catalogo publico de recetas de medicina natural</p>
+<div class="catalogo-page">
+  <header class="page-header page-header-catalogo">
+    <div class="page-header-icon">
+      <mat-icon fontSet="material-icons-outlined">menu_book</mat-icon>
+    </div>
+    <div>
+      <h2>Recetas publicadas</h2>
+      <p>Catalogo publico de recetas de medicina natural</p>
+    </div>
+  </header>
+
+  <mat-card class="filtros-card mat-elevation-z1">
+    <mat-card-content>
+      <div class="filtros-bar">
+        <mat-form-field appearance="outline" class="filtro-input">
+          <mat-label>Buscar por titulo</mat-label>
+          <mat-icon matPrefix fontSet="material-icons-outlined">search</mat-icon>
+          <input matInput [(ngModel)]="filtroQ" (keyup.enter)="cargar()" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="filtro-select">
+          <mat-label>Categoria</mat-label>
+          <mat-select [(ngModel)]="filtroCategoria" (selectionChange)="cargar()">
+            <mat-option [value]="null">Todas</mat-option>
+            @for (cat of categorias; track cat.id) {
+              <mat-option [value]="cat.id">{{ cat.nombre }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <div class="filtros-acciones">
+          <button mat-raised-button color="primary" (click)="cargar()">
+            <mat-icon fontSet="material-icons-outlined">search</mat-icon>
+            Buscar
+          </button>
+          <button mat-stroked-button (click)="limpiarFiltros()">
+            <mat-icon fontSet="material-icons-outlined">clear</mat-icon>
+            Limpiar
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  @if (auth.esExperto()) {
+    <div class="acciones-experto">
+      <a mat-raised-button color="primary" routerLink="/experto/receta-nuevo">
+        <mat-icon fontSet="material-icons-outlined">add</mat-icon>
+        Nueva receta
+      </a>
+      <a mat-stroked-button routerLink="/experto/recetas">Mis recetas</a>
+    </div>
+  }
+
+  @if (cargando) {
+    <div class="loading-center">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  }
+
+  @if (mensaje) {
+    <p class="error-msg">{{ mensaje }}</p>
+  }
+
+  @if (!cargando && recetas.length === 0 && !mensaje) {
+    <mat-card class="estado-vacio mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">menu_book</mat-icon>
+        <p>No hay recetas publicadas.</p>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (!cargando && recetas.length > 0) {
+    <mat-card class="tabla-card mat-elevation-z1">
+      <div class="tabla-scroll">
+        <table mat-table [dataSource]="recetas" class="tabla-datos">
+          <ng-container matColumnDef="titulo">
+            <th mat-header-cell *matHeaderCellDef>Titulo</th>
+            <td mat-cell *matCellDef="let r">
+              <span class="celda-principal">{{ r.titulo }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="categoria">
+            <th mat-header-cell *matHeaderCellDef>Categoria</th>
+            <td mat-cell *matCellDef="let r">
+              <span class="chip-categoria">{{ r.categoria?.nombre }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="precio">
+            <th mat-header-cell *matHeaderCellDef>Precio</th>
+            <td mat-cell *matCellDef="let r" class="celda-precio">
+              {{ r.precio | currency: 'PEN':'symbol':'1.2-2' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="experto">
+            <th mat-header-cell *matHeaderCellDef>Experto</th>
+            <td mat-cell *matCellDef="let r">{{ r.experto?.nombres }} {{ r.experto?.apellidos }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="accion">
+            <th mat-header-cell *matHeaderCellDef>Accion</th>
+            <td mat-cell *matCellDef="let r">
+              <a mat-stroked-button color="primary" class="btn-ver" [routerLink]="['/recetas', r.id]">
+                <mat-icon fontSet="material-icons-outlined">visibility</mat-icon>
+                Ver
+              </a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnas" class="tabla-fila"></tr>
+        </table>
+      </div>
+      <div class="tabla-pie">
+        <span>{{ recetas.length }} receta(s) encontrada(s)</span>
+      </div>
+    </mat-card>
+  }
 </div>
-
-<div class="acciones-superiores filtros-bar">
-  <mat-form-field appearance="outline" class="filtro-input">
-    <mat-label>Buscar por titulo</mat-label>
-    <input matInput [(ngModel)]="filtroQ" (keyup.enter)="cargar()" />
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="filtro-select">
-    <mat-label>Categoria</mat-label>
-    <mat-select [(ngModel)]="filtroCategoria" (selectionChange)="cargar()">
-      <mat-option [value]="null">Todas</mat-option>
-      @for (cat of categorias; track cat.id) {
-        <mat-option [value]="cat.id">{{ cat.nombre }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-  <button mat-raised-button color="primary" (click)="cargar()">Buscar</button>
-  <button mat-button (click)="limpiarFiltros()">Limpiar</button>
-</div>
-
-@if (auth.esExperto()) {
-  <div class="acciones-superiores">
-    <a mat-raised-button color="primary" routerLink="/experto/receta-nuevo">Nueva receta</a>
-    <a mat-button routerLink="/experto/recetas">Mis recetas</a>
-  </div>
-}
-
-@if (cargando) {
-  <div class="loading-center">
-    <mat-spinner diameter="40"></mat-spinner>
-  </div>
-}
-
-@if (mensaje) {
-  <p class="error-msg">{{ mensaje }}</p>
-}
-
-@if (!cargando && recetas.length === 0 && !mensaje) {
-  <p class="info-msg">No hay recetas publicadas.</p>
-}
-
-@if (!cargando && recetas.length > 0) {
-  <div class="tabla-scroll">
-  <table mat-table [dataSource]="recetas" class="tabla-datos">
-    <ng-container matColumnDef="titulo">
-      <th mat-header-cell *matHeaderCellDef>Titulo</th>
-      <td mat-cell *matCellDef="let r">{{ r.titulo }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="categoria">
-      <th mat-header-cell *matHeaderCellDef>Categoria</th>
-      <td mat-cell *matCellDef="let r">{{ r.categoria?.nombre }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="precio">
-      <th mat-header-cell *matHeaderCellDef>Precio</th>
-      <td mat-cell *matCellDef="let r">{{ r.precio | currency: 'PEN':'symbol':'1.2-2' }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="experto">
-      <th mat-header-cell *matHeaderCellDef>Experto</th>
-      <td mat-cell *matCellDef="let r">{{ r.experto?.nombres }} {{ r.experto?.apellidos }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="accion">
-      <th mat-header-cell *matHeaderCellDef>Accion</th>
-      <td mat-cell *matCellDef="let r">
-        <a mat-button color="primary" [routerLink]="['/recetas', r.id]">Ver</a>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-    <tr mat-row *matRowDef="let row; columns: columnas"></tr>
-  </table>
-  </div>
-}

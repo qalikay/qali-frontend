@@ -1,1 +1,181 @@
-/* Estilos del panel admin: los compartidos estan en styles.css global */
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.admin-hero {
+  border-radius: 12px;
+  margin-bottom: 0;
+}
+
+.admin-hero-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.admin-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.admin-hero-badge mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.admin-seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-seccion-stats {
+  padding: 20px 22px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #e1bee7;
+  box-shadow: 0 2px 10px rgba(106, 27, 154, 0.08);
+}
+
+.admin-seccion-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-seccion-header mat-icon {
+  font-size: 26px;
+  width: 26px;
+  height: 26px;
+  color: #6a1b9a;
+}
+
+.admin-seccion-header h2 {
+  margin: 0 0 2px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #4a148c;
+}
+
+.admin-seccion-header p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #78909c;
+}
+
+.admin-acciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.admin-accion-card {
+  border-radius: 12px !important;
+  border: 1px solid #ece4f0 !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-accion-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(106, 27, 154, 0.12) !important;
+}
+
+.admin-accion-card mat-card-header {
+  align-items: center;
+  padding: 16px 16px 0;
+}
+
+.admin-accion-card mat-card-title {
+  color: #4a148c !important;
+  font-size: 1rem !important;
+  margin-bottom: 0 !important;
+}
+
+.admin-accion-card mat-card-subtitle {
+  font-size: 0.75rem !important;
+  color: #9575cd !important;
+}
+
+.admin-accion-card mat-card-content {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #607d8b;
+  min-height: 44px;
+}
+
+.admin-accion-card mat-card-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 18px;
+}
+
+.admin-accion-card mat-card-actions mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.admin-accion-catalogo {
+  grid-column: 1 / -1;
+}
+
+.admin-card-icon {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 11px;
+}
+
+.admin-card-icon mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+  color: #fff;
+}
+
+.admin-icon-categorias {
+  background: linear-gradient(135deg, #6a1b9a, #8e24aa);
+}
+
+.admin-icon-especialidades {
+  background: linear-gradient(135deg, #512da8, #7e57c2);
+}
+
+.admin-icon-clientes {
+  background: linear-gradient(135deg, #1565c0, #42a5f5);
+}
+
+.admin-icon-ordenes {
+  background: linear-gradient(135deg, #2e7d32, #66bb6a);
+}
+
+.admin-icon-catalogo {
+  background: linear-gradient(135deg, #4a148c, #ab47bc);
+}
+
+@media (max-width: 640px) {
+  .admin-hero-badge {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .admin-seccion-stats {
+    padding: 16px;
+  }
+}

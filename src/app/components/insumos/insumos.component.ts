@@ -6,6 +6,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
 
@@ -14,6 +16,7 @@ import { CategoriaService } from '../../services/categoria.service';
 import { AuthService } from '../../services/auth.service';
 import { Insumo } from '../../models/insumo.model';
 import { Categoria } from '../../models/categoria.model';
+import { InsumosGraficosPanelComponent } from './graficos/insumos-graficos-panel/insumos-graficos-panel.component';
 
 const TIPOS_INSUMO = ['HIERBA', 'ACEITE', 'EXTRACTO', 'POLVO', 'OTRO'];
 
@@ -22,7 +25,8 @@ const TIPOS_INSUMO = ['HIERBA', 'ACEITE', 'EXTRACTO', 'POLVO', 'OTRO'];
   standalone: true,
   imports: [
     RouterLink, MatButtonModule, MatProgressSpinnerModule, MatTableModule,
-    MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule, CurrencyPipe,
+    MatFormFieldModule, MatSelectModule, MatInputModule, MatIconModule, MatCardModule,
+    FormsModule, CurrencyPipe, InsumosGraficosPanelComponent,
   ],
   templateUrl: './insumos.component.html',
   styleUrl: './insumos.component.css',

@@ -1,1 +1,43 @@
-.filtro-select { min-width: 220px; }
+.catalogo-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.celda-experto {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar-iniciales {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2e7d32, #43a047);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.chip-experiencia {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 14px;
+  background: #f1f8e9;
+  color: #33691e;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.chip-experiencia mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}

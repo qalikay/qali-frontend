@@ -1,0 +1,39 @@
+<!-- PARTE 1 - Integrante 1: Contenedor de graficos del panel admin -->
+<div class="admin-graficos-seccion">
+  <header class="admin-graficos-titulo">
+    <mat-icon fontSet="material-icons-outlined">analytics</mat-icon>
+    <div>
+      <h3>Estadisticas de la plataforma</h3>
+      <p>Resumen visual de categorias, usuarios, contenido y ordenes</p>
+    </div>
+    <button
+      mat-stroked-button
+      class="btn-refrescar"
+      [disabled]="cargando"
+      (click)="cargarDatos()"
+    >
+      <mat-icon fontSet="material-icons-outlined">refresh</mat-icon>
+      Actualizar
+    </button>
+  </header>
+
+  @if (cargando) {
+    <div class="admin-graficos-cargando">
+      <mat-spinner diameter="32"></mat-spinner>
+      <span>Cargando estadisticas...</span>
+    </div>
+  } @else if (mensaje) {
+    <p class="error-msg">{{ mensaje }}</p>
+  } @else {
+    @if (avisoOrdenes) {
+      <p class="info-msg">{{ avisoOrdenes }}</p>
+    }
+
+    <app-admin-kpi-resumen [datos]="datos"></app-admin-kpi-resumen>
+
+    <div class="admin-graficos-grid">
+      <app-admin-grafico-plataforma [datos]="datos"></app-admin-grafico-plataforma>
+      <app-admin-grafico-ordenes [datos]="datos"></app-admin-grafico-ordenes>
+    </div>
+  }
+</div>

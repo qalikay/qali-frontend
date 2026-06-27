@@ -1,46 +1,98 @@
-<div class="page-header">
-  <h2>Expertos certificados</h2>
-  <p>Directorio de especialistas en medicina natural andina</p>
+<div class="catalogo-page">
+  <header class="page-header page-header-catalogo">
+    <div class="page-header-icon page-header-icon-expertos">
+      <mat-icon fontSet="material-icons-outlined">groups</mat-icon>
+    </div>
+    <div>
+      <h2>Expertos certificados</h2>
+      <p>Directorio de especialistas en medicina natural andina</p>
+    </div>
+  </header>
+
+  <mat-card class="filtros-card mat-elevation-z1">
+    <mat-card-content>
+      <div class="filtros-bar filtros-bar-compacto">
+        <mat-form-field appearance="outline" class="filtro-select">
+          <mat-label>Especialidad</mat-label>
+          <mat-icon matPrefix fontSet="material-icons-outlined">filter_list</mat-icon>
+          <mat-select [(ngModel)]="filtroEspecialidad" (selectionChange)="cargar()">
+            <mat-option [value]="null">Todas las especialidades</mat-option>
+            @for (esp of especialidades; track esp.id) {
+              <mat-option [value]="esp.id">{{ esp.nombre }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  @if (cargando) {
+    <div class="loading-center">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  }
+
+  @if (mensaje) {
+    <p class="error-msg">{{ mensaje }}</p>
+  }
+
+  @if (!cargando && expertos.length === 0 && !mensaje) {
+    <mat-card class="estado-vacio mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">groups</mat-icon>
+        <p>No hay expertos registrados.</p>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (!cargando && expertos.length > 0) {
+    <mat-card class="tabla-card mat-elevation-z1">
+      <div class="tabla-scroll">
+        <table mat-table [dataSource]="expertos" class="tabla-datos">
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let e">
+              <div class="celda-experto">
+                <span class="avatar-iniciales">{{ e.nombres?.charAt(0) }}{{ e.apellidos?.charAt(0) }}</span>
+                <span class="celda-principal">{{ e.nombres }} {{ e.apellidos }}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="especialidad">
+            <th mat-header-cell *matHeaderCellDef>Especialidad</th>
+            <td mat-cell *matCellDef="let e">
+              <span class="chip-categoria">{{ e.especialidad?.nombre || '-' }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="experiencia">
+            <th mat-header-cell *matHeaderCellDef>Experiencia</th>
+            <td mat-cell *matCellDef="let e">
+              <span class="chip-experiencia">
+                <mat-icon fontSet="material-icons-outlined">workspace_premium</mat-icon>
+                {{ e.anosExperiencia ?? '-' }} anos
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="accion">
+            <th mat-header-cell *matHeaderCellDef>Accion</th>
+            <td mat-cell *matCellDef="let e">
+              <a mat-stroked-button color="primary" class="btn-ver" [routerLink]="['/expertos', e.id]">
+                <mat-icon fontSet="material-icons-outlined">person</mat-icon>
+                Ver perfil
+              </a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnas" class="tabla-fila"></tr>
+        </table>
+      </div>
+      <div class="tabla-pie">
+        <span>{{ expertos.length }} experto(s) encontrado(s)</span>
+      </div>
+    </mat-card>
+  }
 </div>
-
-<div class="acciones-superiores">
-  <mat-form-field appearance="outline" class="filtro-select">
-    <mat-label>Especialidad</mat-label>
-    <mat-select [(ngModel)]="filtroEspecialidad" (selectionChange)="cargar()">
-      <mat-option [value]="null">Todas</mat-option>
-      @for (esp of especialidades; track esp.id) {
-        <mat-option [value]="esp.id">{{ esp.nombre }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-</div>
-
-@if (cargando) { <div class="loading-center"><mat-spinner diameter="40"></mat-spinner></div> }
-@if (mensaje) { <p class="error-msg">{{ mensaje }}</p> }
-
-@if (!cargando && expertos.length > 0) {
-  <div class="tabla-scroll">
-  <table mat-table [dataSource]="expertos" class="tabla-datos">
-    <ng-container matColumnDef="nombre">
-      <th mat-header-cell *matHeaderCellDef>Nombre</th>
-      <td mat-cell *matCellDef="let e">{{ e.nombres }} {{ e.apellidos }}</td>
-    </ng-container>
-    <ng-container matColumnDef="especialidad">
-      <th mat-header-cell *matHeaderCellDef>Especialidad</th>
-      <td mat-cell *matCellDef="let e">{{ e.especialidad?.nombre || '-' }}</td>
-    </ng-container>
-    <ng-container matColumnDef="experiencia">
-      <th mat-header-cell *matHeaderCellDef>Experiencia</th>
-      <td mat-cell *matCellDef="let e">{{ e.anosExperiencia ?? '-' }} anos</td>
-    </ng-container>
-    <ng-container matColumnDef="accion">
-      <th mat-header-cell *matHeaderCellDef>Accion</th>
-      <td mat-cell *matCellDef="let e">
-        <a mat-button color="primary" [routerLink]="['/expertos', e.id]">Ver perfil</a>
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-    <tr mat-row *matRowDef="let row; columns: columnas"></tr>
-  </table>
-  </div>
-}

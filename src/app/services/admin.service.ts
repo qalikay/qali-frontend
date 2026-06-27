@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { Cliente } from '../models/cliente.model';
+import { Orden } from '../models/orden.model';
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
@@ -13,5 +14,9 @@ export class AdminService {
 
   listarClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${this.apiUrl}/clientes`);
+  }
+
+  listarOrdenes(): Observable<Orden[]> {
+    return this.http.get<Orden[]>(`${this.apiUrl}/admin/ordenes`);
   }
 }

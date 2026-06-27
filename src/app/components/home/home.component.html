@@ -1,4 +1,8 @@
 <section class="hero">
+  <div class="hero-badge">
+    <mat-icon fontSet="material-icons-outlined">eco</mat-icon>
+    Medicina natural andina
+  </div>
   <h1>QaliKay</h1>
   <p class="hero-eslogan">Sabiduria andina, bienestar moderno</p>
   <p class="hero-texto">
@@ -6,75 +10,120 @@
     natural. Explora recetas tradicionales, insumos naturales y consulta con especialistas.
   </p>
   <div class="hero-botones">
-    <a mat-raised-button color="accent" routerLink="/recetas">Explorar recetas</a>
-    <a mat-stroked-button class="btn-hero-outline" routerLink="/insumos">Ver insumos</a>
-    <a mat-stroked-button class="btn-hero-outline" routerLink="/expertos">Ver expertos</a>
+    <a mat-raised-button color="accent" routerLink="/recetas">
+      <mat-icon fontSet="material-icons-outlined">menu_book</mat-icon>
+      Explorar recetas
+    </a>
+    <a mat-stroked-button class="btn-hero-outline" routerLink="/insumos">
+      <mat-icon fontSet="material-icons-outlined">local_florist</mat-icon>
+      Ver insumos
+    </a>
+    <a mat-stroked-button class="btn-hero-outline" routerLink="/expertos">
+      <mat-icon fontSet="material-icons-outlined">groups</mat-icon>
+      Ver expertos
+    </a>
     @if (!auth.estaLogueado()) {
-      <a mat-stroked-button class="btn-hero-outline" routerLink="/register">Crear cuenta</a>
+      <a mat-stroked-button class="btn-hero-outline" routerLink="/register">
+        <mat-icon fontSet="material-icons-outlined">person_add</mat-icon>
+        Crear cuenta
+      </a>
     } @else {
-      <a mat-stroked-button class="btn-hero-outline" [routerLink]="auth.getRutaInicio()">Ir a mi panel</a>
+      <a mat-stroked-button class="btn-hero-outline" [routerLink]="auth.getRutaInicio()">
+        <mat-icon fontSet="material-icons-outlined">dashboard</mat-icon>
+        Ir a mi panel
+      </a>
     }
   </div>
 </section>
 
 <section class="info-seccion">
-  <h2>Que puedes hacer aqui</h2>
+  <div class="info-seccion-header">
+    <h2>Que puedes hacer aqui</h2>
+    <p>Explora el catalogo o crea tu cuenta segun tu rol</p>
+  </div>
   <div class="info-cards">
     <mat-card class="info-card mat-elevation-z2">
       <mat-card-header>
+        <div mat-card-avatar class="card-icon card-icon-recetas">
+          <mat-icon fontSet="material-icons-outlined">menu_book</mat-icon>
+        </div>
         <mat-card-title>Recetas</mat-card-title>
         <mat-card-subtitle>Para todos</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         Infusiones, jarabes, pomadas y preparaciones andinas publicadas por expertos.
       </mat-card-content>
-      <mat-card-actions>
-        <a mat-button color="primary" routerLink="/recetas">Ir a recetas</a>
+      <mat-card-actions align="end">
+        <a mat-button color="primary" routerLink="/recetas">
+          Ir a recetas
+          <mat-icon iconPositionEnd fontSet="material-icons-outlined">arrow_forward</mat-icon>
+        </a>
       </mat-card-actions>
     </mat-card>
 
     <mat-card class="info-card mat-elevation-z2">
       <mat-card-header>
+        <div mat-card-avatar class="card-icon card-icon-insumos">
+          <mat-icon fontSet="material-icons-outlined">local_florist</mat-icon>
+        </div>
         <mat-card-title>Insumos</mat-card-title>
         <mat-card-subtitle>Para todos</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         Plantas medicinales, aceites y productos naturales disponibles en la tienda.
       </mat-card-content>
-      <mat-card-actions>
-        <a mat-button color="primary" routerLink="/insumos">Ir a insumos</a>
+      <mat-card-actions align="end">
+        <a mat-button color="primary" routerLink="/insumos">
+          Ir a insumos
+          <mat-icon iconPositionEnd fontSet="material-icons-outlined">arrow_forward</mat-icon>
+        </a>
       </mat-card-actions>
     </mat-card>
 
     @if (!auth.estaLogueado()) {
       <mat-card class="info-card mat-elevation-z2">
         <mat-card-header>
+          <div mat-card-avatar class="card-icon card-icon-cliente">
+            <mat-icon fontSet="material-icons-outlined">person</mat-icon>
+          </div>
           <mat-card-title>Soy cliente</mat-card-title>
           <mat-card-subtitle>Busco orientacion</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           Registrate para consultar expertos, comprar insumos y dejar reseñas.
         </mat-card-content>
-        <mat-card-actions>
-          <a mat-button color="primary" routerLink="/register/cliente">Registrarme</a>
+        <mat-card-actions align="end">
+          <a mat-button color="primary" routerLink="/register/cliente">
+            Registrarme
+            <mat-icon iconPositionEnd fontSet="material-icons-outlined">arrow_forward</mat-icon>
+          </a>
         </mat-card-actions>
       </mat-card>
 
       <mat-card class="info-card mat-elevation-z2">
         <mat-card-header>
+          <div mat-card-avatar class="card-icon card-icon-experto">
+            <mat-icon fontSet="material-icons-outlined">school</mat-icon>
+          </div>
           <mat-card-title>Soy experto</mat-card-title>
           <mat-card-subtitle>Comparto conocimiento</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           Publica recetas e insumos, y atiende consultas de clientes interesados.
         </mat-card-content>
-        <mat-card-actions>
-          <a mat-button color="accent" routerLink="/register/experto">Registrarme</a>
+        <mat-card-actions align="end">
+          <a mat-button color="accent" routerLink="/register/experto">
+            Registrarme
+            <mat-icon iconPositionEnd fontSet="material-icons-outlined">arrow_forward</mat-icon>
+          </a>
         </mat-card-actions>
       </mat-card>
     } @else {
-      <mat-card class="info-card mat-elevation-z2">
+      <mat-card class="info-card mat-elevation-z2 info-card-panel">
         <mat-card-header>
+          <div mat-card-avatar class="card-icon card-icon-panel">
+            <mat-icon fontSet="material-icons-outlined">dashboard</mat-icon>
+          </div>
           <mat-card-title>Mi panel</mat-card-title>
           <mat-card-subtitle>Sesion activa como {{ auth.getRolEtiqueta() }}</mat-card-subtitle>
         </mat-card-header>
@@ -87,8 +136,11 @@
             Accede a las funciones de tu cuenta desde el panel principal.
           }
         </mat-card-content>
-        <mat-card-actions>
-          <a mat-raised-button color="primary" [routerLink]="auth.getRutaInicio()">Ir a mi panel</a>
+        <mat-card-actions align="end">
+          <a mat-raised-button color="primary" [routerLink]="auth.getRutaInicio()">
+            Ir a mi panel
+            <mat-icon iconPositionEnd fontSet="material-icons-outlined">arrow_forward</mat-icon>
+          </a>
         </mat-card-actions>
       </mat-card>
     }
