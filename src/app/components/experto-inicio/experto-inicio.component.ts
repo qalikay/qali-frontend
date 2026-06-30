@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
 
 import { AuthService } from '../../services/auth.service';
+import { ExpertoResumenActividadComponent } from './widgets/experto-resumen-actividad/experto-resumen-actividad.component';
 
 @Component({
   selector: 'app-experto-inicio',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatButtonModule],
+  imports: [ExpertoResumenActividadComponent],
   templateUrl: './experto-inicio.component.html',
   styleUrl: './experto-inicio.component.css',
 })
