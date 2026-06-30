@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
 
 import { AuthService } from '../../services/auth.service';
+import { ClienteAccesosDestacadosComponent } from './widgets/cliente-accesos-destacados/cliente-accesos-destacados.component';
 
 @Component({
   selector: 'app-cliente-inicio',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatButtonModule],
+  imports: [ClienteAccesosDestacadosComponent],
   templateUrl: './cliente-inicio.component.html',
   styleUrl: './cliente-inicio.component.css',
 })
