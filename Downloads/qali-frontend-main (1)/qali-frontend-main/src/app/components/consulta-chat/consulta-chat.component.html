@@ -1,0 +1,54 @@
+@if (cargando) {
+  <div class="loading-center"><mat-spinner diameter="40"></mat-spinner></div>
+}
+
+@if (mensaje) {
+  <p class="error-msg">{{ mensaje }}</p>
+}
+
+@if (!cargando && consulta) {
+  <div class="page-header">
+    <h2>{{ consulta.asunto }}</h2>
+    <p>
+      Estado: <strong>{{ consulta.estado }}</strong>
+      @if (auth.esCliente()) {
+        — Experto: {{ consulta.experto?.nombres }} {{ consulta.experto?.apellidos }}
+      } @else {
+        — Cliente: {{ consulta.cliente?.nombres }} {{ consulta.cliente?.apellidos }}
+      }
+    </p>
+  </div>
+
+  <div class="acciones-superiores">
+    <a mat-button [routerLink]="volverRuta()">Volver</a>
+    @if (consulta.estado !== 'CERRADA') {
+      <button mat-stroked-button color="warn" (click)="cerrar()">Cerrar consulta</button>
+    }
+  </div>
+
+  <mat-card class="page-card chat-card">
+    <mat-card-content>
+      <div class="chat-mensajes">
+        @for (m of consulta.mensajes; track m.id) {
+          <div class="chat-burbuja" [class.propio]="m.remitente === auth.getUsername()">
+            <span class="chat-remitente">{{ m.remitente }}</span>
+            <p>{{ m.contenido }}</p>
+            <span class="chat-fecha">{{ m.fechaEnvio | date: 'short' }}</span>
+          </div>
+        }
+      </div>
+
+      @if (consulta.estado !== 'CERRADA') {
+        <form [formGroup]="form" (ngSubmit)="enviarMensaje()" class="chat-form">
+          <mat-form-field appearance="outline" class="chat-input">
+            <mat-label>Escribe un mensaje</mat-label>
+            <textarea matInput formControlName="contenido" rows="2" required></textarea>
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Enviar</button>
+        </form>
+      } @else {
+        <p class="info-msg">Esta consulta esta cerrada.</p>
+      }
+    </mat-card-content>
+  </mat-card>
+}

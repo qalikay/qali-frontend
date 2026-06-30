@@ -1,0 +1,38 @@
+<div class="page-header centro">
+  <h2>Ingresar</h2>
+  <p>Accede con tu cuenta de QaliKay</p>
+</div>
+
+<mat-card class="page-card form-card">
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="login()" class="form-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="username" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Contrasena</mat-label>
+        <input matInput type="password" formControlName="password" required />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        Ingresar
+      </button>
+    </form>
+
+    @if (mensaje) {
+      <p class="error-msg">{{ mensaje }}</p>
+    }
+
+    <div class="demo-box">
+      <strong>Demo:</strong>
+      Cliente: <code>cliente</code> / <code>cliente123</code> &nbsp;|&nbsp;
+      Experto: <code>experto</code> / <code>experto123</code>
+    </div>
+
+    <p class="link-footer">
+      No tienes cuenta? <a routerLink="/register">Registrate aqui</a>
+    </p>
+  </mat-card-content>
+</mat-card>

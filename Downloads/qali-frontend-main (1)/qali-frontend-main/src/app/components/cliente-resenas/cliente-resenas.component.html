@@ -1,0 +1,50 @@
+<div class="page-header">
+  <h2>Mis resenas</h2>
+  <p>Opiniones que has dejado en recetas e insumos</p>
+</div>
+
+<div class="acciones-superiores">
+  <a mat-button routerLink="/cliente/inicio">Volver al panel</a>
+</div>
+
+@if (cargando) { <div class="loading-center"><mat-spinner diameter="40"></mat-spinner></div> }
+@if (mensaje) { <p class="error-msg">{{ mensaje }}</p> }
+
+@if (!cargando && resenas.length === 0 && !mensaje) {
+  <p class="info-msg">Aun no has dejado resenas. Puedes hacerlo desde el detalle de una receta o insumo.</p>
+}
+
+@if (!cargando && resenas.length > 0) {
+  <div class="tabla-scroll">
+  <table mat-table [dataSource]="resenas" class="tabla-datos">
+    <ng-container matColumnDef="calificacion">
+      <th mat-header-cell *matHeaderCellDef>Estrellas</th>
+      <td mat-cell *matCellDef="let r">{{ r.calificacion }}/5</td>
+    </ng-container>
+    <ng-container matColumnDef="comentario">
+      <th mat-header-cell *matHeaderCellDef>Comentario</th>
+      <td mat-cell *matCellDef="let r">{{ r.comentario || '-' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="tipo">
+      <th mat-header-cell *matHeaderCellDef>Tipo</th>
+      <td mat-cell *matCellDef="let r">{{ r.tipoItem }}</td>
+    </ng-container>
+    <ng-container matColumnDef="item">
+      <th mat-header-cell *matHeaderCellDef>Item ID</th>
+      <td mat-cell *matCellDef="let r">{{ r.itemId }}</td>
+    </ng-container>
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef>Fecha</th>
+      <td mat-cell *matCellDef="let r">{{ r.fechaCreacion | date: 'short' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="accion">
+      <th mat-header-cell *matHeaderCellDef>Accion</th>
+      <td mat-cell *matCellDef="let r">
+        <button mat-button color="warn" (click)="eliminar(r.id)">Eliminar</button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+  </table>
+  </div>
+}

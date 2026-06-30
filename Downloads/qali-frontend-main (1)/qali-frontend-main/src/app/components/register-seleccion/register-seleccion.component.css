@@ -1,0 +1,20 @@
+.seleccion-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.seleccion-card {
+  padding: 8px;
+}
+
+.seleccion-card mat-card-content {
+  min-height: 72px;
+  color: #546e7a;
+  line-height: 1.5;
+}
+
+.centro {
+  text-align: center;
+}

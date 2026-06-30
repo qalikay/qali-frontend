@@ -1,0 +1,35 @@
+<!-- PARTE 1 - Integrante 1: Contenedor y layout de la seccion de graficos -->
+<section class="graficos-seccion">
+  <header class="graficos-seccion-titulo">
+    <div>
+      <h3>Estadisticas del catalogo</h3>
+      <p>Vista resumida de los insumos segun los filtros aplicados</p>
+    </div>
+    <!-- TODO Integrante 1: agregar boton colapsar, icono o badge con total -->
+  </header>
+
+  <mat-divider></mat-divider>
+
+  @if (cargando) {
+    <div class="graficos-cargando">
+      <mat-spinner diameter="32"></mat-spinner>
+      <span>Cargando estadisticas...</span>
+    </div>
+  } @else if (insumos.length === 0) {
+    <mat-card class="graficos-vacio mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">analytics</mat-icon>
+        <p>Aplica filtros o espera a que carguen insumos para ver las estadisticas.</p>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <app-insumos-kpi-resumen [insumos]="insumos"></app-insumos-kpi-resumen>
+
+    <div class="graficos-grid">
+      <app-insumos-grafico-categorias [insumos]="insumos"></app-insumos-grafico-categorias>
+      <app-insumos-grafico-distribucion [insumos]="insumos"></app-insumos-grafico-distribucion>
+    </div>
+  }
+
+  <!-- TODO Integrante 1: mejorar layout responsive, espaciado y estado vacio/cargando -->
+</section>

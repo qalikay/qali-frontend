@@ -1,0 +1,54 @@
+<!-- PARTE 2 - Integrante 2: KPIs del panel admin -->
+<div class="admin-kpi-grid">
+  <mat-card class="admin-kpi-card mat-elevation-z1">
+    <mat-card-content>
+      <mat-icon fontSet="material-icons-outlined">category</mat-icon>
+      <div>
+        <span class="admin-kpi-valor">{{ kpi.categorias }}</span>
+        <span class="admin-kpi-etiqueta">Categorias</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="admin-kpi-card mat-elevation-z1">
+    <mat-card-content>
+      <mat-icon fontSet="material-icons-outlined">groups</mat-icon>
+      <div>
+        <span class="admin-kpi-valor">{{ kpi.clientes }}</span>
+        <span class="admin-kpi-etiqueta">Clientes</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="admin-kpi-card mat-elevation-z1">
+    <mat-card-content>
+      <mat-icon fontSet="material-icons-outlined">school</mat-icon>
+      <div>
+        <span class="admin-kpi-valor">{{ kpi.expertos }}</span>
+        <span class="admin-kpi-etiqueta">Expertos</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="admin-kpi-card mat-elevation-z1">
+    <mat-card-content>
+      <mat-icon fontSet="material-icons-outlined">shopping_cart</mat-icon>
+      <div>
+        <span class="admin-kpi-valor">{{ kpi.ordenes }}</span>
+        <span class="admin-kpi-etiqueta">Ordenes</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="admin-kpi-card admin-kpi-ventas mat-elevation-z1">
+    <mat-card-content>
+      <mat-icon fontSet="material-icons-outlined">payments</mat-icon>
+      <div>
+        <span class="admin-kpi-valor">{{ kpi.ventasTotales | currency: 'PEN':'symbol':'1.2-2' }}</span>
+        <span class="admin-kpi-etiqueta">Ventas pagadas</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- TODO Integrante 2: agregar KPI de recetas/insumos o mejorar diseno con tema admin morado -->

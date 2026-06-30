@@ -1,0 +1,68 @@
+<!-- PARTE 4 - Integrante 4: Graficos por tipo y por estado -->
+<div class="distribucion-grid">
+  <mat-card class="grafico-card mat-elevation-z1">
+    <mat-card-header>
+      <mat-icon mat-card-avatar fontSet="material-icons-outlined">category</mat-icon>
+      <mat-card-title>Insumos por tipo</mat-card-title>
+      <mat-card-subtitle>HIERBA, ACEITE, EXTRACTO, etc.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      @if (itemsTipo.length === 0) {
+        <p class="grafico-vacio">Sin datos.</p>
+      } @else {
+        <div class="mini-barras">
+          @for (item of itemsTipo; track item.etiqueta) {
+            <div class="mini-barra">
+              <div class="mini-barra-top">
+                <span class="chip-tipo">{{ item.etiqueta }}</span>
+                <span>{{ item.cantidad }}</span>
+              </div>
+              <div class="mini-barra-track">
+                <div class="mini-barra-fill tipo" [style.width.%]="item.porcentaje"></div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="grafico-card mat-elevation-z1">
+    <mat-card-header>
+      <mat-icon mat-card-avatar fontSet="material-icons-outlined">donut_large</mat-icon>
+      <mat-card-title>Insumos por estado</mat-card-title>
+      <mat-card-subtitle>Disponible vs agotado</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      @if (itemsEstado.length === 0) {
+        <p class="grafico-vacio">Sin datos.</p>
+      } @else {
+        <div class="estado-visual">
+          @for (item of itemsEstado; track item.etiqueta) {
+            <div class="estado-item">
+              <div
+                class="estado-anillo"
+                [class.disponible]="item.etiqueta === 'DISPONIBLE'"
+                [class.agotado]="item.etiqueta === 'AGOTADO'"
+              >
+                <span>{{ item.porcentaje }}%</span>
+              </div>
+              <div class="estado-info">
+                <span
+                  class="estado-chip"
+                  [class.disponible]="item.etiqueta === 'DISPONIBLE'"
+                  [class.agotado]="item.etiqueta === 'AGOTADO'"
+                >
+                  {{ item.etiqueta }}
+                </span>
+                <span class="estado-cantidad">{{ item.cantidad }} producto(s)</span>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- TODO Integrante 4: agregar grafico de stock bajo o leyenda interactiva -->
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,31 @@
+@if (cargando) { <div class="loading-center"><mat-spinner diameter="40"></mat-spinner></div> }
+@if (mensaje) { <p class="error-msg">{{ mensaje }}</p> }
+
+@if (!cargando && experto) {
+  <div class="page-header">
+    <h2>{{ experto.nombres }} {{ experto.apellidos }}</h2>
+    <p>{{ experto.especialidad?.nombre }} — {{ experto.anosExperiencia }} anos de experiencia</p>
+  </div>
+
+  <mat-card class="page-card">
+    <mat-card-content>
+      <div class="detalle-seccion">
+        <h3>Trayectoria</h3>
+        <p>{{ experto.trayectoria || 'Sin descripcion.' }}</p>
+      </div>
+      <div class="detalle-seccion">
+        <h3>Contacto</h3>
+        <p>{{ experto.telefono || 'No disponible' }}</p>
+      </div>
+      @if (auth.esCliente()) {
+        <div class="acciones-superiores">
+          <a mat-raised-button color="primary" [routerLink]="['/cliente/consulta-nueva']" [queryParams]="{ expertoId: experto.id }">
+            Consultar a este experto
+          </a>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <p class="link-footer"><a routerLink="/expertos">Volver al directorio</a></p>
+}

@@ -1,0 +1,18 @@
+.app-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
+  background: #fff;
+  border-top: 1px solid #e0e6e4;
+  font-size: 0.8rem;
+  color: #90a4ae;
+}
+
+.app-footer span + span::before {
+  content: '·';
+  margin-right: 8px;
+  color: #cfd8dc;
+}

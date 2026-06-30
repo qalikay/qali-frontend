@@ -1,0 +1,67 @@
+<div class="page-header">
+  <h2>Mis recetas</h2>
+  <p>Gestiona tus recetas: crear en borrador, editar y publicar al catalogo</p>
+</div>
+
+<div class="acciones-superiores">
+  <a mat-raised-button color="primary" routerLink="/experto/receta-nuevo">Nueva receta</a>
+  <a mat-button routerLink="/experto/inicio">Volver al panel</a>
+</div>
+
+@if (cargando) {
+  <div class="loading-center">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+}
+
+@if (mensaje) {
+  <p class="error-msg">{{ mensaje }}</p>
+}
+
+@if (!cargando && recetas.length === 0 && !mensaje) {
+  <p class="info-msg">Aun no tienes recetas. Crea la primera con el boton "Nueva receta".</p>
+}
+
+@if (!cargando && recetas.length > 0) {
+  <div class="tabla-scroll">
+  <table mat-table [dataSource]="recetas" class="tabla-datos">
+    <ng-container matColumnDef="titulo">
+      <th mat-header-cell *matHeaderCellDef>Titulo</th>
+      <td mat-cell *matCellDef="let r">{{ r.titulo }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="categoria">
+      <th mat-header-cell *matHeaderCellDef>Categoria</th>
+      <td mat-cell *matCellDef="let r">{{ r.categoria?.nombre || '-' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let r">
+        <span class="estado-chip" [class.publicada]="r.estado === 'PUBLICADA'">{{ r.estado }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="precio">
+      <th mat-header-cell *matHeaderCellDef>Precio</th>
+      <td mat-cell *matCellDef="let r">{{ r.precio | currency: 'PEN':'symbol':'1.2-2' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let r">
+        <a mat-button color="primary" [routerLink]="['/experto/receta-nuevo', r.id]">Editar</a>
+        @if (r.estado !== 'PUBLICADA') {
+          <button mat-button color="accent" (click)="publicar(r.id)">Publicar</button>
+        } @else {
+          <button mat-button (click)="archivar(r.id)">Archivar</button>
+        }
+        <button mat-button color="warn" (click)="eliminar(r.id)">Eliminar</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+  </table>
+  </div>
+}

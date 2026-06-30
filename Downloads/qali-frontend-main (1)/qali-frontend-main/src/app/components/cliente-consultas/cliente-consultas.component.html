@@ -1,0 +1,47 @@
+<div class="page-header">
+  <h2>Mis consultas</h2>
+  <p>Conversaciones con expertos en medicina natural</p>
+</div>
+
+<div class="acciones-superiores">
+  <a mat-raised-button color="primary" routerLink="/cliente/consulta-nueva">Nueva consulta</a>
+  <a mat-button routerLink="/cliente/inicio">Volver al panel</a>
+</div>
+
+@if (cargando) { <div class="loading-center"><mat-spinner diameter="40"></mat-spinner></div> }
+@if (mensaje) { <p class="error-msg">{{ mensaje }}</p> }
+
+@if (!cargando && consultas.length === 0 && !mensaje) {
+  <p class="info-msg">No tienes consultas. Puedes iniciar una desde un experto o con "Nueva consulta".</p>
+}
+
+@if (!cargando && consultas.length > 0) {
+  <div class="tabla-scroll">
+  <table mat-table [dataSource]="consultas" class="tabla-datos">
+    <ng-container matColumnDef="asunto">
+      <th mat-header-cell *matHeaderCellDef>Asunto</th>
+      <td mat-cell *matCellDef="let c">{{ c.asunto }}</td>
+    </ng-container>
+    <ng-container matColumnDef="experto">
+      <th mat-header-cell *matHeaderCellDef>Experto</th>
+      <td mat-cell *matCellDef="let c">{{ c.experto?.nombres }} {{ c.experto?.apellidos }}</td>
+    </ng-container>
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let c">{{ c.estado }}</td>
+    </ng-container>
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef>Fecha</th>
+      <td mat-cell *matCellDef="let c">{{ c.fechaCreacion | date: 'short' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="accion">
+      <th mat-header-cell *matHeaderCellDef>Accion</th>
+      <td mat-cell *matCellDef="let c">
+        <a mat-button color="primary" [routerLink]="['/consultas', c.id]">Abrir</a>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+  </table>
+  </div>
+}

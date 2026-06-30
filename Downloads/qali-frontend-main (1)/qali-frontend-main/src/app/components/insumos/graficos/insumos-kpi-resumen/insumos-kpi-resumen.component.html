@@ -1,0 +1,54 @@
+<!-- PARTE 2 - Integrante 2: Tarjetas KPI del catalogo de insumos -->
+<section class="kpi-seccion">
+  <div class="kpi-seccion-header">
+    <mat-icon fontSet="material-icons-outlined">insights</mat-icon>
+    <div>
+      <h3>Resumen del catalogo</h3>
+      <p>Indicadores calculados a partir de los insumos cargados</p>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <mat-card class="kpi-card kpi-total mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">inventory_2</mat-icon>
+        <div>
+          <span class="kpi-valor">{{ kpi.total }}</span>
+          <span class="kpi-etiqueta">Total insumos</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card kpi-disponible mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">check_circle</mat-icon>
+        <div>
+          <span class="kpi-valor">{{ kpi.disponibles }}</span>
+          <span class="kpi-etiqueta">Disponibles</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card kpi-agotado mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">remove_shopping_cart</mat-icon>
+        <div>
+          <span class="kpi-valor">{{ kpi.agotados }}</span>
+          <span class="kpi-etiqueta">Agotados</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card kpi-precio mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">payments</mat-icon>
+        <div>
+          <span class="kpi-valor">{{ kpi.precioPromedio | currency: 'PEN':'symbol':'1.2-2' }}</span>
+          <span class="kpi-etiqueta">Precio promedio</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- TODO Integrante 2: agregar quinta tarjeta (ej. stock total) o mejorar diseno de KPIs -->
+</section>

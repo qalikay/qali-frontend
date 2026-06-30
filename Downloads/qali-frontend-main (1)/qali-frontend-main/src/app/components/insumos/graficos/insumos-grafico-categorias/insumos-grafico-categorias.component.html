@@ -1,0 +1,33 @@
+<!-- PARTE 3 - Integrante 3: Grafico de barras por categoria -->
+<mat-card class="grafico-card mat-elevation-z1">
+  <mat-card-header>
+    <mat-icon mat-card-avatar fontSet="material-icons-outlined">bar_chart</mat-icon>
+    <mat-card-title>Insumos por categoria</mat-card-title>
+    <mat-card-subtitle>Distribucion del catalogo segun categoria</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    @if (items.length === 0) {
+      <p class="grafico-vacio">Sin datos para mostrar.</p>
+    } @else {
+      <div class="grafico-barras">
+        @for (item of items; track item.etiqueta) {
+          <div class="barra-fila">
+            <div class="barra-etiqueta">
+              <span>{{ item.etiqueta }}</span>
+              <span class="barra-cantidad">{{ item.cantidad }}</span>
+            </div>
+            <mat-progress-bar
+              mode="determinate"
+              color="primary"
+              [value]="item.porcentaje"
+            ></mat-progress-bar>
+            <span class="barra-porcentaje">{{ item.porcentaje }}%</span>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- TODO Integrante 3: mejorar colores por categoria, tooltips o animacion -->
+  </mat-card-content>
+</mat-card>

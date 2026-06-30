@@ -1,0 +1,36 @@
+<div class="page-header centro">
+  <h2>Crear cuenta</h2>
+  <p>Elige el tipo de cuenta que deseas registrar en QaliKay</p>
+</div>
+
+<div class="seleccion-cards">
+  <mat-card class="seleccion-card">
+    <mat-card-header>
+      <mat-card-title>Cliente</mat-card-title>
+      <mat-card-subtitle>Busco recetas, insumos y orientacion</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      Podras explorar el catalogo, hacer consultas a expertos y realizar compras.
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-raised-button color="primary" routerLink="/register/cliente">Registrarme como cliente</a>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="seleccion-card">
+    <mat-card-header>
+      <mat-card-title>Experto</mat-card-title>
+      <mat-card-subtitle>Comparto conocimiento en medicina natural</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      Podras publicar recetas e insumos, y atender consultas de clientes.
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-raised-button color="accent" routerLink="/register/experto">Registrarme como experto</a>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<p class="link-footer centro">
+  Ya tienes cuenta? <a routerLink="/login">Ingresar</a>
+</p>

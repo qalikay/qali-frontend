@@ -1,0 +1,59 @@
+<div class="page-header">
+  <h2>Categorias</h2>
+  <p>Administrar categorias de recetas e insumos (US06)</p>
+</div>
+
+<div class="acciones-superiores">
+  <a mat-button routerLink="/admin/inicio">Volver al panel</a>
+</div>
+
+<mat-card class="page-card form-card">
+  <mat-card-content>
+    <h3>{{ editandoId ? 'Editar categoria' : 'Nueva categoria' }}</h3>
+    <div class="form-fila">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput [(ngModel)]="form.nombre" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Descripcion</mat-label>
+        <input matInput [(ngModel)]="form.descripcion" />
+      </mat-form-field>
+    </div>
+    <div class="form-acciones">
+      <button mat-raised-button color="primary" (click)="guardar()">
+        {{ editandoId ? 'Actualizar' : 'Crear' }}
+      </button>
+      @if (editandoId) {
+        <button mat-button (click)="cancelar()">Cancelar</button>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>
+
+@if (cargando) { <div class="loading-center"><mat-spinner diameter="40"></mat-spinner></div> }
+@if (mensaje) { <p class="error-msg">{{ mensaje }}</p> }
+
+@if (!cargando && categorias.length > 0) {
+  <div class="tabla-scroll">
+  <table mat-table [dataSource]="categorias" class="tabla-datos">
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let c">{{ c.nombre }}</td>
+    </ng-container>
+    <ng-container matColumnDef="descripcion">
+      <th mat-header-cell *matHeaderCellDef>Descripcion</th>
+      <td mat-cell *matCellDef="let c">{{ c.descripcion || '-' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let c">
+        <button mat-button color="primary" (click)="editar(c)">Editar</button>
+        <button mat-button color="warn" (click)="eliminar(c.id)">Eliminar</button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+  </table>
+  </div>
+}

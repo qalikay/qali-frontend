@@ -1,0 +1,68 @@
+
+<section class="Kpi-detalle-seccion">
+ <div class="kpi-seccion-header">
+    <mat-icon fontSet="material-icons-outlined">insights</mat-icon>
+    <div>
+      <h3>Resumen del catálogo</h3>
+      <p>Indicadores calculados a partir de las recetas cargadas</p>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <mat-card class="kpi-card kpi-total mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">menu_book</mat-icon>
+        <div>
+          <span class="kpi-valor">{{ kpi?.total || 0 }}</span>
+          <span class="kpi-etiqueta">Total recetas</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card kpi-categorias mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">category</mat-icon>
+        <div>
+          <span class="kpi-valor">{{ kpi?.categoriasdistintas || 0 }}</span>
+          <span class="kpi-etiqueta">Categorías distintas</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card kpi-promedio mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">payments</mat-icon>
+        <div>
+          <span class="kpi-valor">{{ (kpi?.precioPromedio || 0) | currency: 'PEN':'symbol':'1.2-2' }}</span>
+          <span class="kpi-etiqueta">Precio promedio</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card kpi-maximo mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">trending_up</mat-icon>
+        <div>
+          <span class="kpi-valor">{{ (kpi?.precioMaximo || 0) | currency: 'PEN':'symbol':'1.2-2' }}</span>
+          <span class="kpi-etiqueta">Precio máximo</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

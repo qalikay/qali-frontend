@@ -1,0 +1,72 @@
+.grafico-card {
+  border-radius: 12px !important;
+  border: 1px solid #e8ecea;
+  height: 100%;
+}
+
+.grafico-card mat-card-header {
+  padding: 16px 16px 0;
+}
+
+.grafico-card mat-card-title {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: #1b5e20;
+}
+
+.grafico-card mat-card-subtitle {
+  font-size: 0.8rem !important;
+}
+
+.grafico-card mat-card-content {
+  padding: 12px 16px 18px !important;
+}
+
+.grafico-barras {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.barra-fila {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 10px;
+  align-items: center;
+}
+
+.barra-etiqueta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #455a64;
+  grid-column: 1 / -1;
+}
+
+.barra-cantidad {
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.barra-fila mat-progress-bar {
+  grid-column: 1;
+  height: 10px;
+  border-radius: 5px;
+}
+
+.barra-porcentaje {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #78909c;
+  min-width: 36px;
+  text-align: right;
+}
+
+.grafico-vacio {
+  margin: 0;
+  padding: 24px 0;
+  text-align: center;
+  color: #90a4ae;
+  font-size: 0.9rem;
+}

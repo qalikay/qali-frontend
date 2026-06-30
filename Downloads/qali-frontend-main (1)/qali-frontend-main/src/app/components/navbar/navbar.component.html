@@ -1,0 +1,72 @@
+<mat-toolbar color="primary" class="toolbar">
+  <a mat-button class="logo" routerLink="/home">
+    <mat-icon class="logo-icon" fontSet="material-icons-outlined">spa</mat-icon>
+    <span>QaliKay</span>
+  </a>
+
+  <nav class="nav-links">
+    <a
+      mat-button
+      class="nav-link"
+      routerLink="/home"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon fontSet="material-icons-outlined">home</mat-icon>
+      <span class="nav-label">Inicio</span>
+    </a>
+    <a mat-button class="nav-link" routerLink="/recetas" routerLinkActive="active">
+      <mat-icon fontSet="material-icons-outlined">menu_book</mat-icon>
+      <span class="nav-label">Recetas</span>
+    </a>
+    <a mat-button class="nav-link" routerLink="/insumos" routerLinkActive="active">
+      <mat-icon fontSet="material-icons-outlined">local_florist</mat-icon>
+      <span class="nav-label">Insumos</span>
+    </a>
+    <a mat-button class="nav-link" routerLink="/expertos" routerLinkActive="active">
+      <mat-icon fontSet="material-icons-outlined">groups</mat-icon>
+      <span class="nav-label">Expertos</span>
+    </a>
+
+    @if (auth.estaLogueado()) {
+      <a mat-button class="nav-link nav-link-panel" [routerLink]="auth.getRutaInicio()" routerLinkActive="active">
+        <mat-icon fontSet="material-icons-outlined">dashboard</mat-icon>
+        <span class="nav-label">Mi panel</span>
+      </a>
+    }
+  </nav>
+
+  <span class="spacer"></span>
+
+  <div class="toolbar-actions">
+    @if (auth.estaLogueado()) {
+      <span class="usuario">
+        <mat-icon class="usuario-icon" fontSet="material-icons-outlined">account_circle</mat-icon>
+        <span class="usuario-nombre">{{ auth.getUsername() }}</span>
+        <span class="rol-chip">{{ auth.getRolEtiqueta() }}</span>
+      </span>
+      @if (auth.esCliente()) {
+        <a mat-button class="nav-link nav-link-compact" routerLink="/cliente/perfil">Perfil</a>
+      }
+      @if (auth.esExperto()) {
+        <a mat-button class="nav-link nav-link-compact" routerLink="/experto/perfil">Perfil</a>
+      }
+      @if (auth.esAdmin()) {
+        <a mat-button class="nav-link nav-link-compact" routerLink="/admin/inicio">Admin</a>
+      }
+      <button mat-stroked-button class="btn-salir" (click)="logout()">
+        <mat-icon fontSet="material-icons-outlined">logout</mat-icon>
+        <span class="btn-label">Salir</span>
+      </button>
+    } @else {
+      <a mat-button class="nav-link nav-link-compact" routerLink="/login">
+        <mat-icon fontSet="material-icons-outlined">login</mat-icon>
+        <span class="nav-label">Ingresar</span>
+      </a>
+      <a mat-raised-button color="accent" class="btn-registro" routerLink="/register">
+        <mat-icon fontSet="material-icons-outlined">person_add</mat-icon>
+        <span class="btn-label">Registrarse</span>
+      </a>
+    }
+  </div>
+</mat-toolbar>

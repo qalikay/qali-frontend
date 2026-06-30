@@ -1,0 +1,89 @@
+<a mat-button routerLink="/recetas">&larr; Volver a recetas</a>
+
+@if (cargando) {
+  <div class="loading-center">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+}
+
+@if (mensaje) {
+  <p class="error-msg">{{ mensaje }}</p>
+}
+
+@if (receta) {
+  <mat-card class="page-card" style="margin-top: 16px">
+    <mat-card-header>
+      <mat-card-title>{{ receta.titulo }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ receta.categoria?.nombre }} &middot;
+        {{ receta.precio | currency: 'PEN':'symbol':'1.2-2' }} &middot;
+        {{ receta.minutosPreparacion }} min
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <p>{{ receta.descripcion }}</p>
+
+      <div class="detalle-seccion">
+        <h3>Ingredientes</h3>
+        <p>{{ receta.ingredientes }}</p>
+      </div>
+
+      <div class="detalle-seccion">
+        <h3>Preparacion</h3>
+        <p>{{ receta.preparacion }}</p>
+      </div>
+
+      @if (receta.advertencias) {
+        <div class="detalle-seccion">
+          <h3>Advertencias</h3>
+          <p>{{ receta.advertencias }}</p>
+        </div>
+      }
+
+      <p class="link-footer">
+        Experto: {{ receta.experto?.nombres }} {{ receta.experto?.apellidos }}
+      </p>
+
+      @if (auth.esCliente()) {
+        <div class="acciones-superiores">
+          <a mat-raised-button color="primary" [routerLink]="['/cliente/orden-nueva']" [queryParams]="{ tipo: 'RECETA', id: receta.id }">
+            Comprar receta
+          </a>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="page-card" style="margin-top: 16px">
+    <mat-card-header>
+      <mat-card-title>Resenas</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (resenas.length === 0) {
+        <p>Sin resenas aun.</p>
+      }
+      @for (r of resenas; track r.id) {
+        <div class="detalle-seccion">
+          <p><strong>{{ r.calificacion }}/5</strong> — {{ r.cliente?.nombres }} ({{ r.fechaCreacion | date: 'short' }})</p>
+          <p>{{ r.comentario }}</p>
+        </div>
+      }
+      @if (auth.esCliente()) {
+        <form [formGroup]="formResena" (ngSubmit)="publicarResena()" class="form-container" style="margin-top: 12px">
+          <mat-form-field appearance="outline">
+            <mat-label>Calificacion (1-5)</mat-label>
+            <input matInput type="number" formControlName="calificacion" min="1" max="5" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Comentario</mat-label>
+            <textarea matInput formControlName="comentario" rows="2"></textarea>
+          </mat-form-field>
+          <button mat-raised-button color="accent" type="submit" [disabled]="formResena.invalid">Dejar resena</button>
+        </form>
+      }
+    </mat-card-content>
+  </mat-card>
+}
