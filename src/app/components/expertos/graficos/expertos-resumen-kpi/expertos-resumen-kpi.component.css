@@ -1,0 +1,99 @@
+.kpi-seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.kpi-seccion-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kpi-seccion-header mat-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  color: #2e7d32;
+}
+
+.kpi-seccion-header h3 {
+  margin: 0 0 2px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1b5e20;
+}
+
+.kpi-seccion-header p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #78909c;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.kpi-card {
+  border-radius: 12px !important;
+  border: 1px solid #e8ecea;
+}
+
+.kpi-card mat-card-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px !important;
+}
+
+.kpi-card mat-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  padding: 8px;
+  border-radius: 10px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  flex-shrink: 0;
+}
+
+.kpi-valor {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1b5e20;
+  line-height: 1.2;
+}
+
+.kpi-valor-texto {
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.kpi-etiqueta {
+  display: block;
+  font-size: 0.78rem;
+  color: #78909c;
+  margin-top: 2px;
+}
+
+.kpi-especialidades mat-icon {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.kpi-promedio mat-icon {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+.kpi-destacado mat-icon {
+  background: #fce4ec;
+  color: #ad1457;
+}

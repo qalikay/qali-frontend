@@ -1,0 +1,56 @@
+<!-- Integrante 2 - Parte B: Grafico de expertos por especialidad -->
+<div class="grafico-especialidad-grid">
+  <mat-card class="grafico-card mat-elevation-z1">
+    <mat-card-header>
+      <mat-icon mat-card-avatar fontSet="material-icons-outlined">bar_chart</mat-icon>
+      <mat-card-title>Anos de experiencia por experto</mat-card-title>
+      <mat-card-subtitle>Comparativa segun especialidad</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      @if (barras.length === 0) {
+        <p class="grafico-vacio">Sin datos.</p>
+      } @else {
+        <div class="barras-lista">
+          @for (item of barras; track item.experto) {
+            <div class="barra-item">
+              <div class="barra-top">
+                <span class="barra-experto">{{ item.experto }}</span>
+                <span class="barra-especialidad">{{ item.especialidad }}</span>
+              </div>
+              <div class="barra-track">
+                <mat-progress-bar
+                  mode="determinate"
+                  [value]="item.porcentaje"
+                  class="barra-progreso"
+                ></mat-progress-bar>
+                <span class="barra-valor">{{ item.anosExperiencia }} anos</span>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="grafico-card mat-elevation-z1">
+    <mat-card-header>
+      <mat-icon mat-card-avatar fontSet="material-icons-outlined">local_offer</mat-icon>
+      <mat-card-title>Expertos por especialidad</mat-card-title>
+      <mat-card-subtitle>Cantidad agrupada por especialidad</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      @if (chips.length === 0) {
+        <p class="grafico-vacio">Sin datos.</p>
+      } @else {
+        <mat-chip-set class="chips-especialidad">
+          @for (item of chips; track item.nombre) {
+            <mat-chip class="chip-especialidad">
+              {{ item.nombre }}
+              <span class="chip-cantidad">{{ item.cantidad }}</span>
+            </mat-chip>
+          }
+        </mat-chip-set>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

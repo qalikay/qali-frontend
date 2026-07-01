@@ -1,0 +1,52 @@
+<!-- Integrante 2 - Parte A: Tarjetas KPI del directorio de expertos -->
+<section class="kpi-seccion">
+  <div class="kpi-seccion-header">
+    <mat-icon fontSet="material-icons-outlined">insights</mat-icon>
+    <div>
+      <h3>Resumen del directorio</h3>
+      <p>Indicadores calculados a partir de los expertos cargados</p>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <mat-card class="kpi-card kpi-total mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">groups</mat-icon>
+        <div>
+          <span class="kpi-valor">{{ kpi.total }}</span>
+          <span class="kpi-etiqueta">Total expertos</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card kpi-especialidades mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">category</mat-icon>
+        <div>
+          <span class="kpi-valor">{{ kpi.especialidadesDistintas }}</span>
+          <span class="kpi-etiqueta">Especialidades distintas</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card kpi-promedio mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">workspace_premium</mat-icon>
+        <div>
+          <span class="kpi-valor">{{ kpi.promedioAnosExperiencia }}</span>
+          <span class="kpi-etiqueta">Promedio anos de experiencia</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card kpi-destacado mat-elevation-z1">
+      <mat-card-content>
+        <mat-icon fontSet="material-icons-outlined">military_tech</mat-icon>
+        <div>
+          <span class="kpi-valor kpi-valor-texto">{{ kpi.expertoMasExperiencia }}</span>
+          <span class="kpi-etiqueta">Mayor experiencia</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>

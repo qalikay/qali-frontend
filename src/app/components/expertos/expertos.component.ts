@@ -14,13 +14,15 @@ import { EspecialidadService } from '../../services/especialidad.service';
 import { Experto } from '../../models/experto.model';
 import { Especialidad } from '../../models/especialidad.model';
 import { AuthService } from '../../services/auth.service';
-
+import { ExpertosResumenKpiComponent } from './graficos/expertos-resumen-kpi/expertos-resumen-kpi.component';
+import { ExpertosGraficoEspecialidadComponent } from './graficos/expertos-grafico-especialidad/expertos-grafico-especialidad.component';
 @Component({
   selector: 'app-expertos',
   standalone: true,
   imports: [
     RouterLink, MatButtonModule, MatTableModule, MatProgressSpinnerModule,
     MatFormFieldModule, MatSelectModule, MatIconModule, MatCardModule, FormsModule,
+    ExpertosResumenKpiComponent, ExpertosGraficoEspecialidadComponent,
   ],
   templateUrl: './expertos.component.html',
   styleUrl: './expertos.component.css',

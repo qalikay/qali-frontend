@@ -36,6 +36,11 @@
     <p class="error-msg">{{ mensaje }}</p>
   }
 
+  @if (!cargando && expertos.length > 0) {
+    <app-expertos-resumen-kpi [expertos]="expertos"></app-expertos-resumen-kpi>
+    <app-expertos-grafico-especialidad [expertos]="expertos"></app-expertos-grafico-especialidad>
+  }
+
   @if (!cargando && expertos.length === 0 && !mensaje) {
     <mat-card class="estado-vacio mat-elevation-z1">
       <mat-card-content>
